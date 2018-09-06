@@ -63,7 +63,6 @@ namespace AspnetCoreSPATemplate
                 if (env.IsDevelopment())
                 {
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
-                    //spa.UseAngularCliServer(npmScript: "start");
                 }
             });
         }
