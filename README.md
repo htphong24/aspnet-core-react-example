@@ -14,6 +14,6 @@ Fire up the AspNetCore app from Visual Studio and browse to `http://locahost:500
 
 ### For the candidate
 
-1. Fork the repo
+1. Clone the repo and publish it to your Github account.
 2. Make the changes
 3. Notify the admin the URL to your repo once finished
