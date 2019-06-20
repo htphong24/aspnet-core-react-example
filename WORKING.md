@@ -1,3 +1,9 @@
+## Build
+
+To publish the app, go to AspnetCoreSPA folder and run this command
+
+`dotnet publish AspnetCoreSPATemplate.csproj -o ../Publish`
+
 ## Assumptions
 
 The page is an Single Page App uses ASP.NET core and React. It loads data from a CSV files through API and display how many records are loaded. 
