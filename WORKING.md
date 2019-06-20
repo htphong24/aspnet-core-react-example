@@ -15,31 +15,30 @@ We can also click on page number to navigate between pages. The list, number of 
 
 ### Front-end:
 
-    + **components**: contains Pagination and ContactRow components for the React App. Separate ContactRow into a component is not necessary and can be simplified but this can be useful if we need to change layout of each row to something else (e.g. a card)
-    + App.js: main component of the app
-    + constant.js: contains constants
++ **components**: contains Pagination and ContactRow components for the React App. Separate ContactRow into a component is not necessary and an be simplified but this can be useful if we need to change layout of each row to something else (e.g. a card)
++ App.js: main component of the app
++ constant.js: contains constants
 
 ### Back-end: 
-    + **Common** contains interfaces
-    + **Controllers**: contains actions along with their API, which repositories will be used is also injected here
-    + **Models**: contains models
-    + **Repositories**: contains repositories which implement interfaces in Common folder
-    + **Util**: contains file loader utility to load data from CSV file
++ **Common** contains interfaces
++ **Controllers**: contains actions along with their API, which repositories will be used is also injected here
++ **Models**: contains models
++ **Repositories**: contains repositories which implement interfaces in Common folder
++ **Util**: contains file loader utility to load data from CSV file
 
 
 ## Additional nice to haves or features that you might suggest but do not have time to complete.
 
-    + I am currently loading all data from CSV file to front-end, however if the file grows (e.g. millions of rows) then it should be paginated right from back-end to only load necessary data.
-    + The page can add a form to add new contact to the list and make each column sortable.
-    + Editable rows is also a nice feature to have but it propably takes much time to do.
++ I am currently loading all data from CSV file to front-end, however if the file grows (e.g. millions of rows) then it should be paginated ight from back-end to only load necessary data.
++ The page can add a form to add new contact to the list and make each column sortable.
++ Editable rows is also a nice feature to have but it propably takes much time to do.
 
 ## Time summary:
 
-    + Preparation: 2 hour
-    + Coding: 8 hours (including tests)
-    + Styling: 30 minutes
-    + Building and testing: 1 hour
-    Grand total: 11.5 hours
-
-    Note that research time is not counted here, this took me almost 2 days to understand Javascript Services (its tutorial is outdated) and do a few examples of React.js
++ Preparation: 2 hour
++ Coding: 8 hours (including tests)
++ Styling: 30 minutes
++ Building and testing: 1 hour
+Grand total: 11.5 hours
+Note that research time is not counted here, this took me almost 2 days to understand Javascript Services (its tutorial is outdated) and do a ew examples of React.js
 
