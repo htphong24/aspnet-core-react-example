@@ -13,6 +13,7 @@ namespace AspnetCoreSPATemplate.Repositories
         {
             return await Task.Run(() =>
             {
+                // Load test data
                 return LoadContacts();
             });
         }
@@ -21,6 +22,7 @@ namespace AspnetCoreSPATemplate.Repositories
         {
             return await Task.Run(() =>
             {
+                // Load test data
                 return LoadContacts()
                         .Where(c => c.First.Contains(filter)
                                  || c.Last.Contains(filter)

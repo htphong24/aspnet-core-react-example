@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import './App.css';
 
 import { PAGE_LIMIT, API_BASE_URL } from './constants';

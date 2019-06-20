@@ -17,8 +17,6 @@ namespace AspnetCoreSPATemplate.Controllers
             = new CsvContactRepository();
 
         [Route("contacts")]
-        // The ResponseCache attribute is used here to prevent browsers from caching the response. 
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<ActionResult> Contacts()
         {
             List<Contact> response = await _contactRepo.GetAllContacts();
@@ -26,8 +24,6 @@ namespace AspnetCoreSPATemplate.Controllers
         }
 
         [Route("contacts/search/{filter}")]
-        // The ResponseCache attribute is used here to prevent browsers from caching the response. 
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<ActionResult> Search(string filter = "")
         {
             List<Contact> response = await _contactRepo.GetContacts(filter);

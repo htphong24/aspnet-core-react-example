@@ -18,7 +18,7 @@ namespace AspnetCoreSPATemplate.Util
 
         public string LoadFile()
         {
-            using (var reader = new StreamReader(_filePath))
+            using (StreamReader reader = new StreamReader(_filePath))
             {
                 return reader.ReadToEnd();
             }
