@@ -39,6 +39,8 @@ We can also click on page number to navigate between pages. The list, number of 
 + Coding: 8 hours (including tests)
 + Styling: 30 minutes
 + Building and testing: 1 hour
+
 Grand total: 11.5 hours
+
 Note that research time is not counted here, this took me almost 2 days to understand Javascript Services (its tutorial is outdated) and do a ew examples of React.js
 
