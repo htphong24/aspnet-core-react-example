@@ -1,7 +1,7 @@
 ## Assumptions
 
-The page is an Single Page App uses ASP.NET core and React. It loads data from an CSV files through API and display how many records are loaded. 
-We can also click on page number to navigate between pages. The list, number of contacts/pages and pagination will get refreshed as user types in search bar. Here is an screen-shot.
+The page is an Single Page App uses ASP.NET core and React. It loads data from a CSV files through API and display how many records are loaded. 
+We can also click on page number to navigate between pages. The list, number of contacts/pages and pagination will get refreshed as user types in search bar. Here is a screen-shot.
 
 ![App Screenshot](screenshot.gif)
 
