@@ -66,8 +66,8 @@ namespace AspnetCoreSPATemplate.Repositories
 
         private Contact ParseContactString(string contactData, int id)
         {
-            var elements = contactData.Split(',');
-            var contact = new Contact()
+            string[] elements = contactData.Split(',');
+            Contact contact = new Contact()
             {
                 Id = id,
                 First = elements[0],

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
 
-import { PAGE_LIMIT } from './constants';
+import { PAGE_LIMIT, API_BASE_URL } from './constants';
 import Pagination from './components/Pagination';
 import ContactRow from './components/ContactRow';
 
@@ -71,8 +71,8 @@ class App extends Component {
 
   loadContacts() {
     let contactUrl = this.state.filter === ""
-      ? "http://localhost:5000/contacts"
-      : "http://localhost:5000/contacts/search/" + this.state.filter;
+      ? API_BASE_URL + "/contacts"
+      : API_BASE_URL + "/contacts/search/" + this.state.filter;
     request({
       url: contactUrl,
       method: 'GET'
