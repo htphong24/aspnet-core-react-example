@@ -6,6 +6,8 @@
   "scripts": {
     "start:js": "react-scripts start",
     "build": "webpack",
+    "build:js": "react-scripts build",
+    "build": "webpack && npx npm-run-all -p build:js",
     "watch": "webpack -w",
     "compress": "webpack -p",
     "dev": "webpack-dev-server && npx npm-run-all -p start:js",
