@@ -7,9 +7,9 @@ We can also click on page number to navigate between pages. The list, number of 
 
 ## Additional tools or notes
 
-    + [React-Pagination](https://www.npmjs.com/package/react-pagination)
-    + [Datatables](https://mdbootstrap.com/docs/jquery/tables/scroll)
-    + Other references: [Build Custom Pagination with React](https://scotch.io/tutorials/build-custom-pagination-with-react), [Setting A React Project From Scratch Using Babel And Webpack](https://blog.bitsrc.io/setting-a-react-project-from-scratch-using-babel-and-webpack-5f26a525535d)
++ [React-Pagination](https://www.npmjs.com/package/react-pagination)
++ [Datatables](https://mdbootstrap.com/docs/jquery/tables/scroll)
++ Other references: [Build Custom Pagination with React](https://scotch.io/tutorials/build-custom-pagination-with-react), [Setting A React roject From Scratch Using Babel And Webpack](https://blog.bitsrc.io/etting-a-react-project-from-scratch-using-babel-and-webpack-5f26a525535d)
 
 ## Design decisions
 
