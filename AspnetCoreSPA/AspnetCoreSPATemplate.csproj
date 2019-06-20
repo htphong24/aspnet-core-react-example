@@ -51,4 +51,8 @@
     </ItemGroup>
   </Target>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="xcopy &quot;$(SolutionDir)AspnetCoreSPA\SampleData.csv&quot; &quot;$(TargetDir)&quot; /Y" />
+  </Target>
+
 </Project>
