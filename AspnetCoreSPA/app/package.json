@@ -4,17 +4,46 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:js": "react-scripts start",
     "build": "webpack",
     "watch": "webpack -w",
     "compress": "webpack -p",
-    "dev": "webpack-dev-server",
+    "dev": "webpack-dev-server && npx npm-run-all -p start:js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "html-webpack-plugin": "^2.29.0",
-    "webpack": "^3.1.0",
-    "webpack-dev-server": "^2.5.1"
+    "npm-run-all": "^4.1.5",
+    "webpack": "^3.12.0",
+    "webpack-dev-server": "^2.11.5"
+  },
+  "dependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "bootstrap": "^4.3.1",
+    "css-loader": "^3.0.0",
+    "jquery": "^3.4.1",
+    "npm-run-all": "^4.1.5",
+    "popper": "^1.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-pagination": "^1.0.0",
+    "react-scripts": "^3.0.1",
+    "webpack-cli": "^3.3.4"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env",
+      "@babel/react"
+    ],
+    "plugins": [
+      "@babel/plugin-proposal-class-properties"
+    ]
   }
 }
