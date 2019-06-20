@@ -210,7 +210,7 @@ class App extends Component {
             </div>
 
             <div className="d-flex flex-row py-4 align-items-center">
-              {totalContacts && (<Pagination totalRecords={totalContacts} pageLimit={PAGE_LIMIT} pageNeighbours={1} onPageChanged={this.onPageChanged} />)}
+              <Pagination totalRecords={totalContacts} pageLimit={PAGE_LIMIT} pageNeighbours={1} onPageChanged={this.onPageChanged} />
             </div>
           </div>
 
