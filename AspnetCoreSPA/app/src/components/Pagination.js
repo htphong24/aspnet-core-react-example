@@ -161,14 +161,17 @@ class Pagination extends Component {
     this.gotoPage(1);
   } // End of componentDidMount
 
+  // When user types in search bar
   componentWillReceiveProps(nextProps) {
     this.pageLimit = typeof nextProps.pageLimit === 'number' ? nextProps.pageLimit : 30;
-    this.totalRecords = typeof nextProps.totalRecords === 'number' ? nextProps.totalRecords : 0;
+    this.totalRecords = typeof nextProps.totalRecords === 'number' ? nextProps.totalRecords : 1;
     this.pageNeighbours = typeof nextProps.pageNeighbours === 'number'
       ? Math.max(0, Math.min(nextProps.pageNeighbours, 2))
       : 0;
+
     this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
-  }
+    this.totalPages = this.totalPages === 0 ? 1 : this.totalPages;
+  } // End of componentWillReceiveProps
 
   render() {
     // The pagination control will not be rendered if the totalRecords prop was not passed in correctly 

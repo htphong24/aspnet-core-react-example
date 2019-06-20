@@ -71,8 +71,8 @@ class App extends Component {
 
   loadContacts() {
     let contactUrl = this.state.filter === ""
-      ? API_BASE_URL + "/contacts"
-      : API_BASE_URL + "/contacts/search/" + this.state.filter;
+      ? API_BASE_URL + "/contacts"                              // on load
+      : API_BASE_URL + "/contacts/search/" + this.state.filter; // on search
     request({
       url: contactUrl,
       method: 'GET'
@@ -83,7 +83,9 @@ class App extends Component {
           const newCurrentPage = 1;
           const offset = (newCurrentPage - 1) * PAGE_LIMIT;
           const newCurrentContacts = this.state.allContacts.slice(offset, offset + PAGE_LIMIT);
-          const newTotalPages = Math.ceil(this.state.allContacts.length / PAGE_LIMIT);
+          const newTotalPages = Math.ceil(this.state.allContacts.length / PAGE_LIMIT) === 0
+            ? 1
+            : Math.ceil(this.state.allContacts.length / PAGE_LIMIT);
           this.setState({
             currentContacts: newCurrentContacts,
             currentPage: newCurrentPage,
@@ -154,7 +156,8 @@ class App extends Component {
     // <Pagination> control and then <ContactRow> for each contact in the current page
     const { allContacts, currentContacts, currentPage, totalPages } = this.state;
     const totalContacts = allContacts.length;
-    if (totalContacts === 0) return null;
+    
+    //if (totalContacts === 0) return null;
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     
     // Notice that we passed the onPageChanged() method we defined earlier to the onPageChanged prop of 
