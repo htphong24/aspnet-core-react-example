@@ -44,17 +44,15 @@ namespace AspnetCoreSPATemplate.Repositories
 
         private List<Contact> ParseDataString(string csvData)
         {
-            var contacts = new List<Contact>();
-            var lines = csvData.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            List<Contact> contacts = new List<Contact>();
+            string[] lines = csvData.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
-            int id = 0;
-
-            foreach (string line in lines)
+            // skip the first row (header)
+            for (int i = 1; i < lines.Length; i++)
             {
                 try
                 {
-                    id++;
-                    contacts.Add(ParseContactString(line, id));
+                    contacts.Add(ParseContactString(lines[i], i));
                 }
                 catch (Exception)
                 {
@@ -62,6 +60,7 @@ namespace AspnetCoreSPATemplate.Repositories
                     // log.Write($"Unable to parse record: {line}")
                 }
             }
+
             return contacts;
         }
 
