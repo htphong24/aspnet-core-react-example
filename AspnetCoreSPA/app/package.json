@@ -4,28 +4,26 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:js": "react-scripts start",
-    "build:js": "react-scripts build",
-    "build": "webpack && npx npm-run-all -p build:js",
+    "build": "webpack && react-scripts build",
     "watch": "webpack -w",
     "compress": "webpack -p",
-    "dev": "webpack-dev-server && npx npm-run-all -p start:js",
+    "dev": "webpack-dev-server && react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "html-webpack-plugin": "^2.29.0",
+    "html-webpack-plugin": "3.2.0",
     "npm-run-all": "^4.1.5",
-    "webpack": "^3.12.0",
-    "webpack-dev-server": "^2.11.5"
+    "webpack": "4.29.6",
+    "webpack-dev-server": "3.2.1"
   },
   "dependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-class-properties": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "8.0.5",
     "bootstrap": "^4.3.1",
     "css-loader": "^3.0.0",
     "jquery": "^3.4.1",
@@ -37,7 +35,7 @@
     "react-pagination": "^1.0.0",
     "react-scripts": "^3.0.1",
     "style-loader": "^0.23.1",
-    "webpack-cli": "^3.3.4"
+    "webpack-cli": "3.2.1"
   },
   "babel": {
     "presets": [
@@ -46,6 +44,18 @@
     ],
     "plugins": [
       "@babel/plugin-proposal-class-properties"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
     ]
   }
 }
