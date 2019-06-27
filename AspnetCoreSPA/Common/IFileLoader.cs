@@ -8,6 +8,6 @@ namespace AspnetCoreSPATemplate.Common
 {
     public interface IFileLoader
     {
-        string LoadFile();
+        Task<string> LoadFile();
     }
 }

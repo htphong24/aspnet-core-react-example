@@ -30,7 +30,7 @@ namespace AspnetCoreSPATemplate.Repositories
         public async Task<List<Contact>> GetAllContacts()
         {
             // Load data from csv file
-            string fileData = FileLoader.LoadFile();
+            string fileData = await FileLoader.LoadFile();
 
             return await Task.Run(() => 
             {
@@ -41,7 +41,7 @@ namespace AspnetCoreSPATemplate.Repositories
         public async Task<List<Contact>> GetContacts(string filter)
         {
             // Load data from csv file
-            string fileData = FileLoader.LoadFile(); 
+            string fileData = await FileLoader.LoadFile(); 
 
             return await Task.Run(() =>
             {
