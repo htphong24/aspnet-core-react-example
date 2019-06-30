@@ -9,7 +9,7 @@ namespace AspnetCoreSPATemplate.Repositories
 {
     public class TestContactRepository : IContactRepository
     {
-        public async Task<List<Contact>> GetAllContacts()
+        public async Task<IList<Contact>> GetAllContacts()
         {
             return await Task.Run(() =>
             {
@@ -18,7 +18,7 @@ namespace AspnetCoreSPATemplate.Repositories
             });
         }
 
-        public async Task<List<Contact>> GetContacts(string filter)
+        public async Task<IList<Contact>> GetContacts(string filter)
         {
             return await Task.Run(() =>
             {

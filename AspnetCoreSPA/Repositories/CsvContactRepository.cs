@@ -27,18 +27,18 @@ namespace AspnetCoreSPATemplate.Repositories
             FileLoader = new CSVFileLoader(FilePath);
         }
 
-        public async Task<List<Contact>> GetAllContacts()
+        public async Task<IList<Contact>> GetAllContacts()
         {
             // Load data from csv file
             string fileData = await FileLoader.LoadFile();
 
             return await Task.Run(() => 
             {
-                return ParseDataString(fileData); ;
+                return ParseDataString(fileData);
             });
         }
 
-        public async Task<List<Contact>> GetContacts(string filter)
+        public async Task<IList<Contact>> GetContacts(string filter)
         {
             // Load data from csv file
             string fileData = await FileLoader.LoadFile(); 

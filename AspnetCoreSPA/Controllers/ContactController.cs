@@ -12,21 +12,24 @@ namespace AspnetCoreSPATemplate.Controllers
     //[Route("api/[controller]")]
     public class ContactController : Controller
     {
-        private readonly IContactRepository _contactRepo
-            //= new TestContactRepository();
-            = new CsvContactRepository();
+        private readonly IContactRepository _contactRepo;
+
+        public ContactController(IContactRepository contactRepo)
+        {
+            _contactRepo = contactRepo;
+        }
 
         [Route("contacts")]
         public async Task<ActionResult> Contacts()
         {
-            List<Contact> response = await _contactRepo.GetAllContacts();
+            IList<Contact> response = await _contactRepo.GetAllContacts();
             return Json(response);
         }
 
         [Route("contacts/search/{filter}")]
         public async Task<ActionResult> Search(string filter = "")
         {
-            List<Contact> response = await _contactRepo.GetContacts(filter);
+            IList<Contact> response = await _contactRepo.GetContacts(filter);
             return Json(response);
         }
     }
