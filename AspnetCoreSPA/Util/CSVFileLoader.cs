@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Util
 {
-    public class CSVFileLoader : IFileLoader
+    public class CsvFileLoader : IFileLoader
     {
         private string _filePath;
 
-        public CSVFileLoader(string filePath)
+        public CsvFileLoader(string filePath)
         {
             _filePath = filePath;
         }

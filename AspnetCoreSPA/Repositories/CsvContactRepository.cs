@@ -24,7 +24,7 @@ namespace AspnetCoreSPATemplate.Repositories
             // Since they're properties so user can still change them later on if
             // they don't like the implementation.
             FilePath = AppDomain.CurrentDomain.BaseDirectory + "SampleData.csv";
-            FileLoader = new CSVFileLoader(FilePath);
+            FileLoader = new CsvFileLoader(FilePath);
         }
 
         public async Task<IList<Contact>> GetAllContactsAsync()
