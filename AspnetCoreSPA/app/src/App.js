@@ -5,6 +5,7 @@ import { PAGE_LIMIT, API_BASE_URL } from './constants';
 import Pagination from './components/Pagination';
 import ContactRow from './components/ContactRow';
 
+/*
 const testContactsData = [
   { id: 1,  first: 'F1',  last: 'L1',  email: 'E1@abc.com',  phone1: '1000001'  },
   { id: 2,  first: 'F2',  last: 'L2',  email: 'E2@abc.com',  phone1: '1000002'  },
@@ -23,6 +24,7 @@ const testContactsData = [
   { id: 15, first: 'F15', last: 'L15', email: 'E15@abc.com', phone1: '10000015' },
   { id: 16, first: 'F16', last: 'L16', email: 'E16@abc.com', phone1: '10000016' },
 ];
+*/
 
 const request = (options) => {
   const headers = new Headers({

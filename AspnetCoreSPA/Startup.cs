@@ -3,6 +3,7 @@ using AspnetCoreSPATemplate.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -60,7 +61,8 @@ namespace AspnetCoreSPATemplate
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+                    //spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
+                    spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
         }

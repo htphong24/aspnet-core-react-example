@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const ContactRow = props => {
   const {
-    id = 0,
+    //id = 0,
     first = '',
     last = '',
     email = '',
@@ -22,7 +22,7 @@ const ContactRow = props => {
 
 ContactRow.propTypes = {
   contact: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    //id: PropTypes.number.isRequired,
     first: PropTypes.string.isRequired,
     last: PropTypes.string.isRequired, 
     email: PropTypes.string, 
