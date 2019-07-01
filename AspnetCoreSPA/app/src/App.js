@@ -66,8 +66,12 @@ class App extends Component {
     // Prevent the browser's default action of submitting the form.
     e.preventDefault();
     this.setState({
-      filter: e.target.value
-    }, () => { this.loadContacts(); });
+        filter: e.target.value
+      },
+      () => {
+        this.loadContacts();
+      }
+    );
   }
 
   loadContacts() {
