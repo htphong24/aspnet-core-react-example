@@ -22,14 +22,14 @@ namespace AspnetCoreSPATemplate.Controllers
         [Route("contacts")]
         public async Task<ActionResult> Contacts()
         {
-            IList<Contact> response = await _contactRepo.GetAllContacts();
+            IList<Contact> response = await _contactRepo.GetAllContactsAsync();
             return Json(response);
         }
 
         [Route("contacts/search/{filter}")]
         public async Task<ActionResult> Search(string filter = "")
         {
-            IList<Contact> response = await _contactRepo.GetContacts(filter);
+            IList<Contact> response = await _contactRepo.GetContactsAsync(filter);
             return Json(response);
         }
     }

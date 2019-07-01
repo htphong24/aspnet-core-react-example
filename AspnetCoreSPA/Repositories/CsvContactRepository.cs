@@ -27,7 +27,7 @@ namespace AspnetCoreSPATemplate.Repositories
             FileLoader = new CSVFileLoader(FilePath);
         }
 
-        public async Task<IList<Contact>> GetAllContacts()
+        public async Task<IList<Contact>> GetAllContactsAsync()
         {
             // Load data from csv file
             string fileData = await FileLoader.LoadFile();
@@ -38,7 +38,7 @@ namespace AspnetCoreSPATemplate.Repositories
             });
         }
 
-        public async Task<IList<Contact>> GetContacts(string filter)
+        public async Task<IList<Contact>> GetContactsAsync(string filter)
         {
             // Load data from csv file
             string fileData = await FileLoader.LoadFile(); 
@@ -62,12 +62,17 @@ namespace AspnetCoreSPATemplate.Repositories
                 StringSplitOptions.None        // possible to contain empty string
             );
 
+            string[] columnNames = lines[0].Split(',');
+            Dictionary<string, int> header = columnNames
+                                                .Select((column, index) => new { column, index })
+                                                .ToDictionary(a => a.column, a => a.index);
+
             // skip the first row (header)
             for (int i = 1; i < lines.Length; i++)
             {
                 try
                 {
-                    contacts.Add(ParseContactString(lines[i], i));
+                    contacts.Add(ParseContactString(lines[i], i, header));
                 }
                 catch (Exception)
                 {
@@ -79,7 +84,7 @@ namespace AspnetCoreSPATemplate.Repositories
             return contacts;
         }
 
-        private Contact ParseContactString(string contactData, int id)
+        private Contact ParseContactString(string contactData, int id, Dictionary<string, int> header)
         {
             string[] elements = contactData.Split(',');
 
@@ -87,10 +92,10 @@ namespace AspnetCoreSPATemplate.Repositories
             Contact contact = new Contact()
             {
                 Id = id,
-                First = elements[0],
-                Last = elements[1],
-                Email = elements[9],
-                Phone1 = elements[7]
+                First = elements[header["first_name"]],
+                Last = elements[header["last_name"]],
+                Email = elements[header["email"]],
+                Phone1 = elements[header["phone1"]]
             };
 
             return contact;

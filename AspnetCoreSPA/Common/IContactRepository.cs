@@ -12,13 +12,13 @@ namespace AspnetCoreSPATemplate.Common
         /// Get all contacts without filtering
         /// </summary>
         /// <returns></returns>
-        Task<IList<Contact>> GetAllContacts();
+        Task<IList<Contact>> GetAllContactsAsync();
 
         /// <summary>
         /// Gets list of contacts based on keyword typed in search bar
         /// </summary>
         /// <param name="filter">Search keyword</param>
         /// <returns></returns>
-        Task<IList<Contact>> GetContacts(string filter);
+        Task<IList<Contact>> GetContactsAsync(string filter);
     }
 }
