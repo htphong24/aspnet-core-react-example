@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Util
+namespace AspnetCoreSPATemplate.Utils
 {
     public interface IFileLoader
     {

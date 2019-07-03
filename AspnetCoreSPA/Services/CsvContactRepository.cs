@@ -1,5 +1,5 @@
 ﻿using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Util;
+using AspnetCoreSPATemplate.Utils;
 using AspnetCoreSPATemplate.Models;
 using System;
 using System.Collections.Generic;
