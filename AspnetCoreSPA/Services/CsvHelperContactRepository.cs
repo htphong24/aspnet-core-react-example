@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.IO;
 using CsvHelper;
 
-namespace AspnetCoreSPATemplate.Repositories
+namespace AspnetCoreSPATemplate.Services
 {
     public class CsvHelperContactRepository : IContactRepository
     {

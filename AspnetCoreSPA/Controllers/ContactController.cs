@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Models;
 using Microsoft.AspNetCore.Mvc;
+using AspnetCoreSPATemplate.Utils;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
     //[Route("api/[controller]")]
-    public class ContactController : Controller
+    public class ContactController : BaseController
     {
         private readonly IContactRepository _contactRepo;
 
@@ -28,6 +29,7 @@ namespace AspnetCoreSPATemplate.Controllers
         [Route("contacts/search/{filter}")]
         public async Task<ActionResult> Search(string filter = "")
         {
+            SearchRequest request = ApiDeserializer.Deserialize(typeof(SearchRequest), this.Context.Request) as SearchRequest;
             IList<Contact> response = await _contactRepo.GetContactsAsync(filter);
             return Json(response);
         }
