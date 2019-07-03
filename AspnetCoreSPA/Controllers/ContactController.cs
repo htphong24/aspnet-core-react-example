@@ -2,9 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Common;
+using AspnetCoreSPATemplate.Services;
 using AspnetCoreSPATemplate.Models;
-using AspnetCoreSPATemplate.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Controllers

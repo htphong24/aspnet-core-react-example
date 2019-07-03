@@ -43,7 +43,7 @@ class Pagination extends Component {
       pageLimit,
       totalPages,
       pageNeighbours,
-      currentPage: 1 // We need this state property to internally keep track of the currently active pag
+      currentPage: 1 // We need this state property to internally keep track of the currently active page
     };
   } // End of constructor
 

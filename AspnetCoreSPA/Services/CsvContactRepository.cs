@@ -1,4 +1,4 @@
-﻿using AspnetCoreSPATemplate.Common;
+﻿using AspnetCoreSPATemplate.Services;
 using AspnetCoreSPATemplate.Util;
 using AspnetCoreSPATemplate.Models;
 using System;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Repositories
+namespace AspnetCoreSPATemplate.Services
 {
     public class CsvContactRepository : IContactRepository
     {

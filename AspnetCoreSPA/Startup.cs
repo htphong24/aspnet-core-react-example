@@ -1,4 +1,4 @@
-using AspnetCoreSPATemplate.Common;
+using AspnetCoreSPATemplate.Services;
 using AspnetCoreSPATemplate.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
