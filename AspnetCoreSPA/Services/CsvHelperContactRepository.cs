@@ -1,4 +1,4 @@
-﻿using AspnetCoreSPATemplate.Services;
+﻿using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Util;
 using AspnetCoreSPATemplate.Models;
 using System;
