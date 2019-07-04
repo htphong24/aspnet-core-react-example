@@ -9,28 +9,29 @@ using AspnetCoreSPATemplate.Utils;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
-    //[Route("api/[controller]")]
-    public class ContactController : BaseController
+    [Route("api/v1/[controller]")]
+    public class ContactsController : BaseController
     {
         private readonly IContactRepository _contactRepo;
 
-        public ContactController(IContactRepository contactRepo)
+        public ContactsController(IContactRepository contactRepo)
         {
             _contactRepo = contactRepo;
         }
 
-        [Route("contacts")]
+        [HttpGet]
         public async Task<ActionResult> Contacts()
         {
             IList<Contact> response = await _contactRepo.GetAllContactsAsync();
             return Json(response);
         }
 
-        [Route("contacts/search/{filter}")]
-        public async Task<ActionResult> Search(string filter = "")
+        [HttpGet("search")]
+        public async Task<ActionResult> Search([FromQuery]SearchRequest request)
         {
-            SearchRequest request = ApiDeserializer.Deserialize(typeof(SearchRequest), this.Context.Request) as SearchRequest;
-            IList<Contact> response = await _contactRepo.GetContactsAsync(filter);
+            //SearchRequest request = ApiDeserializer.Deserialize(typeof(SearchRequest), this.Context.Request) as SearchRequest;
+            //SearchResponse rs = await _contactRepo(this.ServiceContext).RunAsync(request);
+            IList<Contact> response = await _contactRepo.GetContactsAsync(request.Query);
             return Json(response);
         }
     }

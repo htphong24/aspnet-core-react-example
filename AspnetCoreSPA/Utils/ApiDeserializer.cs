@@ -1,10 +1,12 @@
 ﻿using AspnetCoreSPATemplate.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
@@ -41,7 +43,7 @@ namespace AspnetCoreSPATemplate.Utils
             }
 
             // The InputStream was already parsed by the controller let's reset the inputstream position to 0
-            contextRequest.Body.Position = 0;
+            //contextRequest.Body.Position = 0;
 
             if (contentType == ApiActionResult.XML_CONTENT_TYPE)
             {
@@ -50,8 +52,8 @@ namespace AspnetCoreSPATemplate.Utils
             }
             else
             {
-                using (StreamReader streamReader = new StreamReader(contextRequest.Body))
-                using (JsonReader jsonReader = new JsonTextReader(streamReader))
+                using (TextReader textReader = new HttpRequestStreamReader(contextRequest.Body, Encoding.UTF8))
+                using (JsonReader jsonReader = new JsonTextReader(textReader))
                 {
                     JsonSerializer serializer = new JsonSerializer()
                     {

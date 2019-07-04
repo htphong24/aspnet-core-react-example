@@ -17,7 +17,9 @@ namespace AspnetCoreSPATemplate.Utils
         {
             return string.IsNullOrWhiteSpace(value)
                 ? string.Empty
-                : value.Substring(0, maxLength);
+                : value.Length <= maxLength 
+                    ? value
+                    : value.Substring(0, maxLength);
         }
     }
 }

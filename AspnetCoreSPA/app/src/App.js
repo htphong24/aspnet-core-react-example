@@ -76,8 +76,8 @@ class App extends Component {
 
   loadContacts() {
     let contactUrl = this.state.filter === ""
-      ? API_BASE_URL + "/contacts"                              // on load
-      : API_BASE_URL + "/contacts/search/" + this.state.filter; // on search
+      ? API_BASE_URL + "contacts"                              // on load
+      : API_BASE_URL + "contacts/search?q=" + this.state.filter; // on search
     request({
       url: contactUrl,
       method: 'GET'

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
+    [BindProperties(SupportsGet = true)]
     public abstract class ListRequest : RequestBase
     {
         public ListRequest()
@@ -18,12 +20,12 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <summary>
         /// Starting page of results
         /// </summary>
-        public virtual int PageNumber { get; set; }
+        public int PageNumber { get; set; }
 
         /// <summary>
         /// Number of rows per single page of results
         /// </summary>
-        public virtual int RowsPerPage { get; set; }
+        public int RowsPerPage { get; set; }
 
         /// <summary>
         /// Indicates if a page count is needed in the response or not
@@ -31,7 +33,7 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <remarks>
         /// Set this to false if you do not need the page count.  This will save 1 SQL call.
         /// </remarks>
-        public virtual bool IsPageCountRequired { get; set; }
+        public bool IsPageCountRequired { get; set; }
 
         /// <summary>
         /// Indicates if a a page need to list all (return all) records.
@@ -39,21 +41,21 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <remarks>
         ///  Default is false for paging. Set true if needed.
         /// </remarks>
-        public virtual bool ReturnAllRecords { get; set; }
+        public bool ReturnAllRecords { get; set; }
 
         /// <summary>
         /// Sort field to be used for results.
         /// </summary>
-        public virtual string SortBy { get; set; }
+        public string SortBy { get; set; }
 
         /// <summary>
         /// Number of records to retrieve
         /// </summary>
-        public virtual int TakeCount => this.RowsPerPage <= 0 ? 10 : this.RowsPerPage;
+        public int TakeCount => this.RowsPerPage <= 0 ? 10 : this.RowsPerPage;
 
         /// <summary>
         /// Number of records to skip
         /// </summary>
-        public virtual int SkipCount => ((this.PageNumber <= 0 ? 1 : this.PageNumber) - 1) * this.TakeCount;
+        public int SkipCount => ((this.PageNumber <= 0 ? 1 : this.PageNumber) - 1) * this.TakeCount;
     }
 }
