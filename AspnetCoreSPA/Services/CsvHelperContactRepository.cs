@@ -32,7 +32,7 @@ namespace AspnetCoreSPATemplate.Services
                                       .Skip(request.SkipCount)
                                       .Take(request.TakeCount)
                                       .ToList();
-            return Task.FromResult<IList<Contact>>(result);
+            return Task.FromResult(result);
         }
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
@@ -41,7 +41,7 @@ namespace AspnetCoreSPATemplate.Services
                                 .Skip(request.SkipCount)
                                 .Take(request.TakeCount)
                                 .Count();
-            return Task.FromResult<int>((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
+            return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
         public Task<IList<Contact>> SearchAsync(ContactSearchRequest request)
@@ -54,7 +54,7 @@ namespace AspnetCoreSPATemplate.Services
                                       .Skip(request.SkipCount)
                                       .Take(request.TakeCount)
                                       .ToList();
-            return Task.FromResult<IList<Contact>>(result);
+            return Task.FromResult(result);
         }
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
