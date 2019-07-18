@@ -26,20 +26,48 @@ namespace AspnetCoreSPATemplate.Services
             FilePath = AppDomain.CurrentDomain.BaseDirectory + "SampleData.csv";
         }
 
-        public async Task<IList<Contact>> GetAllContactsAsync()
+        public Task<IList<Contact>> ListAsync(ContactListRequest request)
         {
-            return await Task.Run(() => ParseContactDataAsync(FilePath));
+            IList<Contact> result = ParseContactDataAsync(FilePath)
+                                      .Skip(request.SkipCount)
+                                      .Take(request.TakeCount)
+                                      .ToList();
+            return Task.FromResult<IList<Contact>>(result);
         }
 
-        public async Task<IList<Contact>> GetContactsAsync(string filter)
+        public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            return await Task.Run(() => ParseContactDataAsync(FilePath)
-                                          .Where(c => c.First.Contains(filter)
-                                                   || c.Last.Contains(filter)
-                                                   || c.Email.Contains(filter)
-                                                   || c.Phone1.Contains(filter))
-                                          .ToList()
-            );
+            int recordCount = ParseContactDataAsync(FilePath)
+                                .Skip(request.SkipCount)
+                                .Take(request.TakeCount)
+                                .Count();
+            return Task.FromResult<int>((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
+        }
+
+        public Task<IList<Contact>> SearchAsync(ContactSearchRequest request)
+        {
+            IList<Contact> result = ParseContactDataAsync(FilePath)
+                                      .Where(c => c.First.Contains(request.Query)
+                                               || c.Last.Contains(request.Query)
+                                               || c.Email.Contains(request.Query)
+                                               || c.Phone1.Contains(request.Query))
+                                      .Skip(request.SkipCount)
+                                      .Take(request.TakeCount)
+                                      .ToList();
+            return Task.FromResult<IList<Contact>>(result);
+        }
+
+        public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
+        {
+            int recordCount = ParseContactDataAsync(FilePath)
+                                .Where(c => c.First.Contains(request.Query)
+                                         || c.Last.Contains(request.Query)
+                                         || c.Email.Contains(request.Query)
+                                         || c.Phone1.Contains(request.Query))
+                                .Skip(request.SkipCount)
+                                .Take(request.TakeCount)
+                                .Count();
+            return Task.FromResult(recordCount);
         }
 
         private IList<Contact> ParseContactDataAsync(string filePath)

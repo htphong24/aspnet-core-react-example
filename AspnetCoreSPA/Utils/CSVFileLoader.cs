@@ -16,11 +16,11 @@ namespace AspnetCoreSPATemplate.Utils
             _filePath = filePath;
         }
 
-        public async Task<string> LoadFile()
+        public Task<string> LoadFile()
         {
             using (StreamReader reader = new StreamReader(_filePath))
             {
-                return await reader.ReadToEndAsync();
+                return reader.ReadToEndAsync();
             }
         }
     }

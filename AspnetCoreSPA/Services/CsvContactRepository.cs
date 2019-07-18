@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    public class CsvContactRepository : IContactRepository
+    public class CsvContactRepository : IContactRepository//, ServiceBase
     {
         /// <summary>
         /// CSV file path (full path)
@@ -27,31 +27,25 @@ namespace AspnetCoreSPATemplate.Services
             FileLoader = new CsvFileLoader(FilePath);
         }
 
-        public async Task<IList<Contact>> GetAllContactsAsync()
+        public Task<IList<Contact>> GetAllContactsAsync()
         {
             // Load data from csv file
-            string fileData = await FileLoader.LoadFile();
+            string fileData = FileLoader.LoadFile().Result;
 
-            return await Task.Run(() => 
-            {
-                return ParseDataString(fileData);
-            });
+            return Task.FromResult<IList<Contact>>(ParseDataString(fileData));
         }
 
-        public async Task<IList<Contact>> GetContactsAsync(string filter)
+        public Task<IList<Contact>> GetContactsAsync(string filter)
         {
             // Load data from csv file
-            string fileData = await FileLoader.LoadFile(); 
+            string fileData = FileLoader.LoadFile().Result;
 
-            return await Task.Run(() =>
-            {
-                return ParseDataString(fileData)
-                        .Where(c => c.First.Contains(filter)
-                                 || c.Last.Contains(filter)
-                                 || c.Email.Contains(filter)
-                                 || c.Phone1.Contains(filter))
-                        .ToList(); ;
-            });
+            return Task.FromResult<IList<Contact>>(ParseDataString(fileData)
+                                                    .Where(c => c.First.Contains(filter)
+                                                             || c.Last.Contains(filter)
+                                                             || c.Email.Contains(filter)
+                                                             || c.Phone1.Contains(filter))
+                                                    .ToList());
         }
 
         private List<Contact> ParseDataString(string csvData)

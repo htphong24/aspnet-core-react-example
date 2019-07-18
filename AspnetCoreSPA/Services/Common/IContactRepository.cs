@@ -9,16 +9,27 @@ namespace AspnetCoreSPATemplate.Services.Common
     public interface IContactRepository
     {
         /// <summary>
-        /// Get all contacts without filtering
+        /// Returns list of contacts
         /// </summary>
         /// <returns></returns>
-        Task<IList<Contact>> GetAllContactsAsync();
+        Task<IList<Contact>> ListAsync(ContactListRequest request);
 
         /// <summary>
-        /// Gets list of contacts based on keyword typed in search bar
+        /// Returns page count of list of contacts
         /// </summary>
-        /// <param name="filter">Search keyword</param>
         /// <returns></returns>
-        Task<IList<Contact>> GetContactsAsync(string filter);
+        Task<int> ListPageCountAsync(ContactListRequest request);
+
+        /// <summary>
+        /// Returns search result of contacts
+        /// </summary>
+        /// <returns></returns>
+        Task<IList<Contact>> SearchAsync(ContactSearchRequest request);
+
+        /// <summary>
+        /// Returns record count of search result of contacts
+        /// </summary>
+        /// <returns></returns>
+        Task<int> SearchRecordCountAsync(ContactSearchRequest request);
     }
 }

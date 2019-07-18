@@ -94,7 +94,7 @@ namespace AspnetCoreSPATemplate.Utils
         /// <remarks>
         /// If <c>data</c> is an <see cref="Exception"/>, the exception will be encapsulated in <see cref="ApiError"/>.
         /// </remarks>
-        public ApiActionResult(object data, HttpRequest contextRequest)
+        public ApiActionResult(HttpRequest contextRequest, object data)
             : this()
         {
             if (data is Exception)

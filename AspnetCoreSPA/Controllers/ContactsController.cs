@@ -6,6 +6,7 @@ using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Models;
 using Microsoft.AspNetCore.Mvc;
 using AspnetCoreSPATemplate.Utils;
+using AspnetCoreSPATemplate.Services;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -20,19 +21,17 @@ namespace AspnetCoreSPATemplate.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Contacts()
+        public Task<ActionResult> List([FromQuery]ContactListRequest request)
         {
-            IList<Contact> response = await _contactRepo.GetAllContactsAsync();
-            return Json(response);
+            Task<ContactListResponse> response = (new ContactListService(this.Context, _contactRepo)).RunAsync(request);
+            return Task.FromResult<ActionResult>(new ApiActionResult(this.Context.Request, response));
         }
 
         [HttpGet("search")]
-        public async Task<ActionResult> Search([FromQuery]SearchRequest request)
+        public Task<ActionResult> Search([FromQuery]ContactSearchRequest request)
         {
-            //SearchRequest request = ApiDeserializer.Deserialize(typeof(SearchRequest), this.Context.Request) as SearchRequest;
-            //SearchResponse rs = await _contactRepo(this.ServiceContext).RunAsync(request);
-            IList<Contact> response = await _contactRepo.GetContactsAsync(request.Query);
-            return Json(response);
+            Task<ContactSearchResponse> response = (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
+            return Task.FromResult<ActionResult>(new ApiActionResult(this.Context.Request, response));
         }
     }
 }

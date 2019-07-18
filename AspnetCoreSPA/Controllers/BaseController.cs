@@ -1,4 +1,5 @@
 ﻿using AspnetCoreSPATemplate.Services;
+using AspnetCoreSPATemplate.Services.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
