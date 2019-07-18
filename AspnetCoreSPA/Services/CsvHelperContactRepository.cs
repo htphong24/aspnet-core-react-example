@@ -26,9 +26,9 @@ namespace AspnetCoreSPATemplate.Services
             FilePath = AppDomain.CurrentDomain.BaseDirectory + "SampleData.csv";
         }
 
-        public Task<IList<Contact>> ListAsync(ContactListRequest request)
+        public Task<List<Contact>> ListAsync(ContactListRequest request)
         {
-            IList<Contact> result = ParseContactDataAsync(FilePath)
+            List<Contact> result = ParseContactDataAsync(FilePath)
                                       .Skip(request.SkipCount)
                                       .Take(request.TakeCount)
                                       .ToList();
@@ -37,16 +37,13 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            int recordCount = ParseContactDataAsync(FilePath)
-                                .Skip(request.SkipCount)
-                                .Take(request.TakeCount)
-                                .Count();
+            int recordCount = ParseContactDataAsync(FilePath).Count();
             return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
-        public Task<IList<Contact>> SearchAsync(ContactSearchRequest request)
+        public Task<List<Contact>> SearchAsync(ContactSearchRequest request)
         {
-            IList<Contact> result = ParseContactDataAsync(FilePath)
+            List<Contact> result = ParseContactDataAsync(FilePath)
                                       .Where(c => c.First.Contains(request.Query)
                                                || c.Last.Contains(request.Query)
                                                || c.Email.Contains(request.Query)
@@ -64,13 +61,11 @@ namespace AspnetCoreSPATemplate.Services
                                          || c.Last.Contains(request.Query)
                                          || c.Email.Contains(request.Query)
                                          || c.Phone1.Contains(request.Query))
-                                .Skip(request.SkipCount)
-                                .Take(request.TakeCount)
                                 .Count();
             return Task.FromResult(recordCount);
         }
 
-        private IList<Contact> ParseContactDataAsync(string filePath)
+        private List<Contact> ParseContactDataAsync(string filePath)
         {
             List<Contact> contacts = new List<Contact>();
 

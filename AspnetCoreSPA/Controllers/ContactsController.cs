@@ -21,17 +21,17 @@ namespace AspnetCoreSPATemplate.Controllers
         }
 
         [HttpGet]
-        public Task<ActionResult> List([FromQuery]ContactListRequest request)
+        public async Task<ActionResult> List([FromQuery]ContactListRequest request)
         {
-            Task<ContactListResponse> response = (new ContactListService(this.Context, _contactRepo)).RunAsync(request);
-            return Task.FromResult<ActionResult>(new ApiActionResult(this.Context.Request, response));
+            ContactListResponse response = await (new ContactListService(this.Context, _contactRepo)).RunAsync(request);
+            return new ApiActionResult(this.Context.Request, response);
         }
 
         [HttpGet("search")]
-        public Task<ActionResult> Search([FromQuery]ContactSearchRequest request)
+        public async Task<ActionResult> Search([FromQuery]ContactSearchRequest request)
         {
-            Task<ContactSearchResponse> response = (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
-            return Task.FromResult<ActionResult>(new ApiActionResult(this.Context.Request, response));
+            ContactSearchResponse response = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
+            return new ApiActionResult(this.Context.Request, response);
         }
     }
 }

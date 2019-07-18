@@ -42,8 +42,10 @@ namespace AspnetCoreSPATemplate.Utils
         /// <summary>
         /// Basic constructor
         /// </summary>
-        public ApiActionResult()
+        public ApiActionResult(HttpRequest contextRequest)
         {
+            _contextRequest = contextRequest;
+
             JsonSerializerSettings = new JsonSerializerSettings()
             {
                 NullValueHandling = NullValueHandling.Ignore,
@@ -95,7 +97,7 @@ namespace AspnetCoreSPATemplate.Utils
         /// If <c>data</c> is an <see cref="Exception"/>, the exception will be encapsulated in <see cref="ApiError"/>.
         /// </remarks>
         public ApiActionResult(HttpRequest contextRequest, object data)
-            : this()
+            : this(contextRequest)
         {
             if (data is Exception)
             {
@@ -105,7 +107,6 @@ namespace AspnetCoreSPATemplate.Utils
             {
                 this.Data = data;
             }
-            _contextRequest = contextRequest;
         }
 
         /// <summary>
