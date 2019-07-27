@@ -31,5 +31,12 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// </summary>
         /// <returns></returns>
         Task<int> SearchRecordCountAsync(ContactSearchRequest request);
+
+        /// <summary>
+        /// Creates a new contact
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task CreateAsync(ContactCreateRequest request);
     }
 }

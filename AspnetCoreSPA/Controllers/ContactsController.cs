@@ -20,6 +20,7 @@ namespace AspnetCoreSPATemplate.Controllers
             _contactRepo = contactRepo;
         }
 
+        // http://localhost:5000/api/v1/contacts
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]ContactListRequest request)
         {
@@ -27,10 +28,18 @@ namespace AspnetCoreSPATemplate.Controllers
             return new ApiActionResult(this.Context.Request, response);
         }
 
+        // http://localhost:5000/api/v1/contacts/search?q=abc
         [HttpGet("search")]
         public async Task<ActionResult> Search([FromQuery]ContactSearchRequest request)
         {
             ContactSearchResponse response = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
+            return new ApiActionResult(this.Context.Request, response);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create([FromBody]ContactCreateRequest request)
+        {
+            ContactCreateResponse response = await (new ContactCreateService(this.Context, _contactRepo)).RunAsync(request);
             return new ApiActionResult(this.Context.Request, response);
         }
     }

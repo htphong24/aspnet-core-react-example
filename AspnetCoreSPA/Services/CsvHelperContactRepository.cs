@@ -65,6 +65,18 @@ namespace AspnetCoreSPATemplate.Services
             return Task.FromResult(recordCount);
         }
 
+        public Task CreateAsync(ContactCreateRequest request)
+        {
+            return Task.Run(() =>
+            {
+                using (StreamWriter writer = new StreamWriter(path: FilePath, append: true))
+                using (CsvWriter csv = new CsvWriter(writer))
+                {
+                    csv.WriteRecord(request.Contact);
+                }
+            });
+        }
+
         private List<Contact> ParseContactDataAsync(string filePath)
         {
             List<Contact> contacts = new List<Contact>();
@@ -76,7 +88,6 @@ namespace AspnetCoreSPATemplate.Services
                 {
                     csv.Configuration.Delimiter = ",";
                     //csv.Configuration.MissingFieldFound = null;
-                    int i = 0;
 
                     // Read the first row (i.e. header)
                     csv.Read();
@@ -86,7 +97,6 @@ namespace AspnetCoreSPATemplate.Services
                     {
                         Contact contact = new Contact
                         {
-                            Id = i++,
                             First = csv.GetField("first_name"),
                             Last = csv.GetField("last_name"),
                             Email = csv.GetField("email"),
