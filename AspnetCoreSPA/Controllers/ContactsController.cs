@@ -7,6 +7,9 @@ using AspnetCoreSPATemplate.Models;
 using Microsoft.AspNetCore.Mvc;
 using AspnetCoreSPATemplate.Utils;
 using AspnetCoreSPATemplate.Services;
+using System.Web.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -36,6 +39,7 @@ namespace AspnetCoreSPATemplate.Controllers
             return new ApiActionResult(this.Context.Request, response);
         }
 
+        // http://localhost:5000/api/v1/contacts
         [HttpPost]
         public async Task<ActionResult> Create([FromBody]ContactCreateRequest request)
         {

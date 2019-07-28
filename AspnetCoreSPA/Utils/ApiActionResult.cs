@@ -123,14 +123,25 @@ namespace AspnetCoreSPATemplate.Utils
 
             HttpResponse response = context.HttpContext.Response;
             response.ContentType = this.ContentType;
+
+            // StatusCodes:
+            // - Status200OK
+            // - Status201Created
+            // - Status204
+            // - Status400BadRequest
+            // - Status400NotFound
+            // - Status500InternalServerError 
+
             if (Data == null)
             {
                 // NO Content
-                response.StatusCode = 204;
+                response.StatusCode = StatusCodes.Status204NoContent;
             }
             else
             {
-                response.StatusCode = (this.Data is ApiError) ? 500 : 200;
+                response.StatusCode = (this.Data is ApiError) 
+                                        ? StatusCodes.Status500InternalServerError 
+                                        : StatusCodes.Status200OK;
                 using (StreamWriter sw = new StreamWriter(response.Body))
                 {
                     if (this.ContentType == XML_CONTENT_TYPE)
