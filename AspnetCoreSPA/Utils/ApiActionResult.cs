@@ -52,6 +52,7 @@ namespace AspnetCoreSPATemplate.Utils
                 ContractResolver = new CustomDateTimeFormatResolver(),
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             };
+
             this.JsonFormatting = Newtonsoft.Json.Formatting.None;
             this.ContentEncoding = Encoding.UTF8;
 
@@ -130,21 +131,26 @@ namespace AspnetCoreSPATemplate.Utils
             else
             {
                 response.StatusCode = (this.Data is ApiError) ? 500 : 200;
-
-                if (this.ContentType == XML_CONTENT_TYPE)
+                using (StreamWriter sw = new StreamWriter(response.Body))
                 {
-                    XmlTextWriter writer = new XmlTextWriter(new StreamWriter(response.Body));
-                    writer.Formatting = System.Xml.Formatting.Indented;
-                    XmlSerializer serializer = new XmlSerializer(this.Data.GetType());
-                    serializer.Serialize(writer, this.Data);
-                }
-                else
-                {
-                    JsonTextWriter writer = new JsonTextWriter(new StreamWriter(response.Body));
-                    writer.Formatting = JsonFormatting;
-                    JsonSerializer serializer = JsonSerializer.Create(JsonSerializerSettings);
-                    serializer.Serialize(writer, Data);
-                    writer.Flush();
+                    if (this.ContentType == XML_CONTENT_TYPE)
+                    {
+                        using (XmlTextWriter writer = new XmlTextWriter(sw))
+                        {
+                            writer.Formatting = System.Xml.Formatting.Indented;
+                            XmlSerializer serializer = new XmlSerializer(this.Data.GetType());
+                            serializer.Serialize(writer, this.Data);
+                        }
+                    }
+                    else
+                    {
+                        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                        {
+                            writer.Formatting = JsonFormatting;
+                            JsonSerializer serializer = JsonSerializer.Create(JsonSerializerSettings);
+                            serializer.Serialize(writer, this.Data);
+                        }
+                    }
                 }
             }
         }
