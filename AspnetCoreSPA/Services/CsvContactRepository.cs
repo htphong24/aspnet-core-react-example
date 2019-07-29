@@ -29,12 +29,12 @@ namespace AspnetCoreSPATemplate.Services
             FileHandler = new CsvFileHandler(filePath: FilePath);
         }
 
-        public Task<List<Contact>> ListAsync(ContactListRequest request)
+        public Task<List<ContactModel>> ListAsync(ContactListRequest request)
         {
             // Load data from csv file
             string fileData = FileHandler.LoadFile().Result;
 
-            List<Contact> result = ParseDataString(csvData: fileData)
+            List<ContactModel> result = ParseDataString(csvData: fileData)
                                       .Skip(count: request.SkipCount)
                                       .Take(count: request.TakeCount)
                                       .ToList();
@@ -52,12 +52,12 @@ namespace AspnetCoreSPATemplate.Services
             return Task.FromResult(result: (recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
-        public Task<List<Contact>> SearchAsync(ContactSearchRequest request)
+        public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
             // Load data from csv file
             string fileData = FileHandler.LoadFile().Result;
 
-            List<Contact> result = ParseDataString(csvData: fileData)
+            List<ContactModel> result = ParseDataString(csvData: fileData)
                                       .Where(predicate: c => c.First.Contains(request.Query)
                                                           || c.Last.Contains(request.Query)
                                                           || c.Email.Contains(request.Query)
@@ -84,7 +84,7 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task CreateAsync(ContactCreateRequest request)
         {
-            Contact contact = request.Contact;
+            ContactModel contact = request.Contact;
             List<string> propList = new List<string>();
             return Task.Run(() =>
             {
@@ -100,9 +100,9 @@ namespace AspnetCoreSPATemplate.Services
             });
         }
 
-        private List<Contact> ParseDataString(string csvData)
+        private List<ContactModel> ParseDataString(string csvData)
         {
-            List<Contact> contacts = new List<Contact>();
+            List<ContactModel> contacts = new List<ContactModel>();
             string[] lines = csvData.Split(
                 separator: new[] { Environment.NewLine }, // split into lines based on NewLine character
                 options: StringSplitOptions.None        // possible to contain empty string
@@ -130,12 +130,12 @@ namespace AspnetCoreSPATemplate.Services
             return contacts;
         }
 
-        private Contact ParseContactString(string contactData, int id, Dictionary<string, int> header)
+        private ContactModel ParseContactString(string contactData, int id, Dictionary<string, int> header)
         {
             string[] elements = contactData.Split(separator: ',');
 
             // Only extract first, last, email and phone1 as per exercise's  requirement
-            Contact contact = new Contact()
+            ContactModel contact = new ContactModel()
             {
                 First = elements[header["first_name"]],
                 Last = elements[header["last_name"]],

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Models
 {
-    public class ContactMap : ClassMap<Contact>
+    public class ContactMap : ClassMap<ContactModel>
     {
         public ContactMap()
         {

@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Routing;
 namespace AspnetCoreSPATemplate.Controllers
 {
     [Route("api/v1/[controller]")]
+    [ApiController]
     public class ContactsController : BaseController
     {
         private readonly IContactRepository _contactRepo;

@@ -18,7 +18,7 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <summary>
         /// Results of the search
         /// </summary>
-        public List<Contact> Results { get; set; }
+        public List<ContactModel> Results { get; set; }
 
     }
 }

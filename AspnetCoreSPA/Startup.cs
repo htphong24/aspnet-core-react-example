@@ -22,9 +22,9 @@ namespace AspnetCoreSPATemplate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddTransient<IContactRepository, TestContactRepository>();
+            //services.AddTransient<IContactRepository, TestContactRepository>();
             //services.AddTransient<IContactRepository, CsvContactRepository>();
-            //services.AddTransient<IContactRepository, CsvHelperContactRepository>();
+            services.AddTransient<IContactRepository, CsvHelperContactRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

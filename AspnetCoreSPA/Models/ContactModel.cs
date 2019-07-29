@@ -1,15 +1,18 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Models
 {
-    public class Contact
+    public class ContactModel
     {
+        [Required]
         public string First { get; set; }
 
+        [Required]
         public string Last { get; set; }
 
         public string Company { get; }
@@ -26,6 +29,7 @@ namespace AspnetCoreSPATemplate.Models
 
         public string Phone2 { get; }
 
+        [EmailAddress]
         public string Email { get; set; }
 
         public string Web { get; }

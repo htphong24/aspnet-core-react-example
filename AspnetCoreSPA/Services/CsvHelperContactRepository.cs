@@ -26,9 +26,9 @@ namespace AspnetCoreSPATemplate.Services
             FilePath = AppDomain.CurrentDomain.BaseDirectory + "SampleData.csv";
         }
 
-        public Task<List<Contact>> ListAsync(ContactListRequest request)
+        public Task<List<ContactModel>> ListAsync(ContactListRequest request)
         {
-            List<Contact> result = ParseContactDataAsync(FilePath)
+            List<ContactModel> result = ParseContactData(FilePath)
                                       .Skip(request.SkipCount)
                                       .Take(request.TakeCount)
                                       .ToList();
@@ -37,13 +37,13 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            int recordCount = ParseContactDataAsync(FilePath).Count();
+            int recordCount = ParseContactData(FilePath).Count();
             return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
-        public Task<List<Contact>> SearchAsync(ContactSearchRequest request)
+        public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
-            List<Contact> result = ParseContactDataAsync(FilePath)
+            List<ContactModel> result = ParseContactData(FilePath)
                                       .Where(c => c.First.Contains(request.Query)
                                                || c.Last.Contains(request.Query)
                                                || c.Email.Contains(request.Query)
@@ -56,7 +56,7 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
-            int recordCount = ParseContactDataAsync(FilePath)
+            int recordCount = ParseContactData(FilePath)
                                 .Where(c => c.First.Contains(request.Query)
                                          || c.Last.Contains(request.Query)
                                          || c.Email.Contains(request.Query)
@@ -67,19 +67,34 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task CreateAsync(ContactCreateRequest request)
         {
-            return Task.Run(() =>
+            if (IsEmailInUse(request.Contact.Email))
             {
-                using (StreamWriter writer = new StreamWriter(path: FilePath, append: true))
-                using (CsvWriter csv = new CsvWriter(writer))
+                throw new Exception("Email is in use.");
+            }
+            else
+            {
+                return Task.Run(() =>
                 {
-                    csv.WriteRecord(request.Contact);
-                }
-            });
+                    using (StreamWriter writer = new StreamWriter(path: FilePath, append: true))
+                    using (CsvWriter csv = new CsvWriter(writer))
+                    {
+                        csv.WriteRecord(request.Contact);
+                    }
+                });
+            }
         }
 
-        private List<Contact> ParseContactDataAsync(string filePath)
+        public bool IsEmailInUse(string email)
         {
-            List<Contact> contacts = new List<Contact>();
+            int foundContacts = ParseContactData(FilePath)
+                                  .Where(c => c.Email == email)
+                                  .Count();
+            return foundContacts > 0;
+        }
+
+        private List<ContactModel> ParseContactData(string filePath)
+        {
+            List<ContactModel> contacts = new List<ContactModel>();
 
             // Load data from csv file
             using (StreamReader reader = new StreamReader(FilePath))
@@ -95,7 +110,7 @@ namespace AspnetCoreSPATemplate.Services
                     csv.ReadHeader();
                     while (csv.Read())
                     {
-                        Contact contact = new Contact
+                        ContactModel contact = new ContactModel
                         {
                             First = csv.GetField("first_name"),
                             Last = csv.GetField("last_name"),

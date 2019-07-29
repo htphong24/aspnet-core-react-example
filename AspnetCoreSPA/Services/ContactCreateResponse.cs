@@ -10,6 +10,6 @@ namespace AspnetCoreSPATemplate.Services.Common
 {
     public class ContactCreateResponse: ResponseBase
     {
-        public Contact Contact { get; set; }
+        public ContactModel Contact { get; set; }
     }
 }
