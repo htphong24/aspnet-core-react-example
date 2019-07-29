@@ -127,9 +127,9 @@ namespace AspnetCoreSPATemplate.Utils
             // StatusCodes:
             // - Status200OK
             // - Status201Created
-            // - Status204
+            // - Status204NoContent
             // - Status400BadRequest
-            // - Status400NotFound
+            // - Status404NotFound
             // - Status500InternalServerError 
 
             if (Data == null)
@@ -142,6 +142,7 @@ namespace AspnetCoreSPATemplate.Utils
                 response.StatusCode = (this.Data is ApiError) 
                                         ? StatusCodes.Status500InternalServerError 
                                         : StatusCodes.Status200OK;
+
                 using (StreamWriter sw = new StreamWriter(response.Body))
                 {
                     if (this.ContentType == XML_CONTENT_TYPE)
@@ -162,6 +163,7 @@ namespace AspnetCoreSPATemplate.Utils
                             serializer.Serialize(writer, this.Data);
                         }
                     }
+                    // No need to use writer.Flush() since it is enclosed by "using"
                 }
             }
         }

@@ -27,24 +27,47 @@ namespace AspnetCoreSPATemplate.Controllers
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]ContactListRequest request)
         {
-            ContactListResponse response = await (new ContactListService(this.Context, _contactRepo)).RunAsync(request);
-            return new ApiActionResult(this.Context.Request, response);
+            try
+            {
+                ContactListResponse response = await (new ContactListService(this.Context, _contactRepo)).RunAsync(request);
+                return new ApiActionResult(this.Context.Request, response);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+            
         }
 
         // http://localhost:5000/api/v1/contacts/search?q=abc
         [HttpGet("search")]
         public async Task<ActionResult> Search([FromQuery]ContactSearchRequest request)
         {
-            ContactSearchResponse response = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
-            return new ApiActionResult(this.Context.Request, response);
+            try
+            {
+                ContactSearchResponse response = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
+                return new ApiActionResult(this.Context.Request, response);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+            
         }
 
         // http://localhost:5000/api/v1/contacts
         [HttpPost]
         public async Task<ActionResult> Create([FromBody]ContactCreateRequest request)
         {
-            ContactCreateResponse response = await (new ContactCreateService(this.Context, _contactRepo)).RunAsync(request);
-            return new ApiActionResult(this.Context.Request, response);
+            try
+            {
+                ContactCreateResponse response = await (new ContactCreateService(this.Context, _contactRepo)).RunAsync(request);
+                return new ApiActionResult(this.Context.Request, response);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
         }
     }
 }
