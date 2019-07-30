@@ -14,11 +14,6 @@ namespace AspnetCoreSPATemplate.Services.Common
             : base()
         {
         }
-
-        /// <summary>
-        /// Number of matching records found
-        /// </summary>
-        public int RecordCount { get; set; }
-
+        
     }
 }

@@ -21,6 +21,12 @@ namespace AspnetCoreSPATemplate.Services.Common
         Task<int> ListPageCountAsync(ContactListRequest request);
 
         /// <summary>
+        /// Returns total records count of list of contacts
+        /// </summary>
+        /// <returns></returns>
+        Task<int> ListRecordCountAsync();
+
+        /// <summary>
         /// Returns search result of contacts
         /// </summary>
         /// <returns></returns>

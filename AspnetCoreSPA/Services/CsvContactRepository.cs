@@ -52,6 +52,14 @@ namespace AspnetCoreSPATemplate.Services
             return Task.FromResult(result: (recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
+        public Task<int> ListRecordCountAsync()
+        {
+            // Load data from csv file
+            string fileData = FileHandler.LoadFile().Result;
+
+            return Task.FromResult(ParseDataString(csvData: fileData).Count());
+        }
+
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
             // Load data from csv file

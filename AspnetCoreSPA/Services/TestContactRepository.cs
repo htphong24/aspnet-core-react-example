@@ -34,6 +34,11 @@ namespace AspnetCoreSPATemplate.Services
             return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
+        public Task<int> ListRecordCountAsync()
+        {
+            return Task.FromResult(_contacts.Count());
+        }
+
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
             List<ContactModel> result = _contacts

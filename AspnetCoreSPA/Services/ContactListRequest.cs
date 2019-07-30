@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
-    public class ContactListRequest : SearchRequest
+    public class ContactListRequest : ListRequest
     {
         public ContactListRequest()
             : base()
