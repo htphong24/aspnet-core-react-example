@@ -19,6 +19,8 @@ namespace AspnetCoreSPATemplate.Services
 
         public IFileHandler FileHandler { get; set; }
 
+        private List<ContactModel> _contacts;
+
         public CsvContactRepository()
         {
             // No need to expose FilePath and FileLoader in constructor's parameters
@@ -33,55 +35,72 @@ namespace AspnetCoreSPATemplate.Services
         {
             // Load data from csv file
             string fileData = FileHandler.LoadFile().Result;
+            _contacts = ParseDataString(fileData);
 
-            List<ContactModel> result = ParseDataString(csvData: fileData)
-                                      .Skip(count: request.SkipCount)
-                                      .Take(count: request.TakeCount)
-                                      .ToList();
+            List<ContactModel> result = _contacts
+                                          .Skip(count: request.SkipCount)
+                                          .Take(count: request.TakeCount)
+                                          .ToList();
 
             return Task.FromResult(result: result);
         }
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
+            if (_contacts == null)
+            {
+                // Load data from csv file
+                string fileData = FileHandler.LoadFile().Result;
+                _contacts = ParseDataString(fileData);
+            }
 
-            int recordCount = ParseDataString(csvData: fileData).Count();
+            int recordCount = _contacts.Count();
 
             return Task.FromResult(result: (recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
         public Task<int> ListRecordCountAsync()
         {
-            // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
+            if (_contacts == null)
+            {
+                // Load data from csv file
+                string fileData = FileHandler.LoadFile().Result;
+                _contacts = ParseDataString(fileData);
+            }
 
-            return Task.FromResult(ParseDataString(csvData: fileData).Count());
+            return Task.FromResult(_contacts.Count());
         }
 
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
-            // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
+            if (_contacts == null)
+            {
+                // Load data from csv file
+                string fileData = FileHandler.LoadFile().Result;
+                _contacts = ParseDataString(fileData);
+            }
 
-            List<ContactModel> result = ParseDataString(csvData: fileData)
-                                      .Where(predicate: c => c.First.Contains(request.Query)
-                                                          || c.Last.Contains(request.Query)
-                                                          || c.Email.Contains(request.Query)
-                                                          || c.Phone1.Contains(request.Query))
-                                      .Skip(count: request.SkipCount)
-                                      .Take(count: request.TakeCount)
-                                      .ToList();
+            List<ContactModel> result = _contacts
+                                          .Where(predicate: c => c.First.Contains(request.Query)
+                                                              || c.Last.Contains(request.Query)
+                                                              || c.Email.Contains(request.Query)
+                                                              || c.Phone1.Contains(request.Query))
+                                          .Skip(count: request.SkipCount)
+                                          .Take(count: request.TakeCount)
+                                          .ToList();
             return Task.FromResult(result: result);
         }
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
-            // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
+            if (_contacts == null)
+            {
+                // Load data from csv file
+                string fileData = FileHandler.LoadFile().Result;
+                _contacts = ParseDataString(fileData);
+            }
 
-            int recordCount = ParseDataString(csvData: fileData)
+            int recordCount = _contacts
                                 .Where(predicate: c => c.First.Contains(request.Query)
                                                     || c.Last.Contains(request.Query)
                                                     || c.Email.Contains(request.Query)

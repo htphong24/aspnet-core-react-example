@@ -17,6 +17,8 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary>
         public string FilePath { get; set; }
 
+        private List<ContactModel> _contacts;
+
         public CsvHelperContactRepository()
         {
             // No need to expose FilePath and FileLoader in constructor's parameters
@@ -28,40 +30,57 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<List<ContactModel>> ListAsync(ContactListRequest request)
         {
-            List<ContactModel> result = ParseContactData(FilePath)
-                                      .Skip(request.SkipCount)
-                                      .Take(request.TakeCount)
-                                      .ToList();
+            _contacts = ParseContactData(FilePath);
+            List<ContactModel> result = _contacts
+                                          .Skip(request.SkipCount)
+                                          .Take(request.TakeCount)
+                                          .ToList();
             return Task.FromResult(result);
         }
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            int recordCount = ParseContactData(FilePath).Count();
+            if (_contacts == null)
+            {
+                _contacts = ParseContactData(FilePath);
+            }
+            int recordCount = _contacts.Count();
             return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
         public Task<int> ListRecordCountAsync()
         {
-            return Task.FromResult(ParseContactData(FilePath).Count());
+            if (_contacts == null)
+            {
+                _contacts = ParseContactData(FilePath);
+            }
+            return Task.FromResult(_contacts.Count());
         }
 
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
-            List<ContactModel> result = ParseContactData(FilePath)
-                                      .Where(c => c.First.Contains(request.Query)
-                                               || c.Last.Contains(request.Query)
-                                               || c.Email.Contains(request.Query)
-                                               || c.Phone1.Contains(request.Query))
-                                      .Skip(request.SkipCount)
-                                      .Take(request.TakeCount)
-                                      .ToList();
+            if (_contacts == null)
+            {
+                _contacts = ParseContactData(FilePath);
+            }
+            List<ContactModel> result = _contacts
+                                          .Where(c => c.First.Contains(request.Query)
+                                                   || c.Last.Contains(request.Query)
+                                                   || c.Email.Contains(request.Query)
+                                                   || c.Phone1.Contains(request.Query))
+                                          .Skip(request.SkipCount)
+                                          .Take(request.TakeCount)
+                                          .ToList();
             return Task.FromResult(result);
         }
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
-            int recordCount = ParseContactData(FilePath)
+            if (_contacts == null)
+            {
+                _contacts = ParseContactData(FilePath);
+            }
+            int recordCount = _contacts
                                 .Where(c => c.First.Contains(request.Query)
                                          || c.Last.Contains(request.Query)
                                          || c.Email.Contains(request.Query)
@@ -91,7 +110,11 @@ namespace AspnetCoreSPATemplate.Services
 
         public bool IsEmailInUse(string email)
         {
-            int foundContacts = ParseContactData(FilePath)
+            if (_contacts == null)
+            {
+                _contacts = ParseContactData(FilePath);
+            }
+            int foundContacts = _contacts
                                   .Where(c => c.Email == email)
                                   .Count();
             return foundContacts > 0;

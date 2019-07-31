@@ -9,52 +9,67 @@ namespace AspnetCoreSPATemplate.Services
 {
     public class TestContactRepository : IContactRepository
     {
-        List<ContactModel> _contacts;
+        private List<ContactModel> _contacts;
 
         public TestContactRepository()
         {
             _contacts = new List<ContactModel>();
-            LoadContacts();
         }
 
         public Task<List<ContactModel>> ListAsync(ContactListRequest request)
         {
+            LoadContacts();
             List<ContactModel> result = _contacts
-                                      .Skip(request.SkipCount)
-                                      .Take(request.TakeCount)
-                                      .ToList();
+                                          .Skip(request.SkipCount)
+                                          .Take(request.TakeCount)
+                                          .ToList();
 
             return Task.FromResult(result);
         }
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
+            if (_contacts == null)
+            {
+                LoadContacts();
+            }
             int recordCount = _contacts.Count();
-
             return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
         public Task<int> ListRecordCountAsync()
         {
+            if (_contacts == null)
+            {
+                LoadContacts();
+            }
             return Task.FromResult(_contacts.Count());
         }
 
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
+            if (_contacts == null)
+            {
+                LoadContacts();
+            }
             List<ContactModel> result = _contacts
-                                      .Where(c => c.First.Contains(request.Query)
-                                               || c.Last.Contains(request.Query)
-                                               || c.Email.Contains(request.Query)
-                                               || c.Phone1.Contains(request.Query))
-                                      .Skip(request.SkipCount)
-                                      .Take(request.TakeCount)
-                                      .ToList();
+                                          .Where(c => c.First.Contains(request.Query)
+                                                   || c.Last.Contains(request.Query)
+                                                   || c.Email.Contains(request.Query)
+                                                   || c.Phone1.Contains(request.Query))
+                                          .Skip(request.SkipCount)
+                                          .Take(request.TakeCount)
+                                          .ToList();
 
             return Task.FromResult(result);
         }
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
+            if (_contacts == null)
+            {
+                LoadContacts();
+            }
             int recordCount = _contacts
                                 .Where(c => c.First.Contains(request.Query)
                                          || c.Last.Contains(request.Query)
