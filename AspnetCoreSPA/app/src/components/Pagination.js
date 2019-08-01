@@ -25,8 +25,6 @@ class Pagination extends Component {
 
   constructor(props) {
     super(props);
-    console.log("props - Pagination constructor");
-    console.log(props);
     let pageLimit = typeof props.pageLimit === 'number' ? props.pageLimit : 30;
     let totalRecords = typeof props.totalRecords === 'number' ? props.totalRecords : 0;
 
@@ -34,14 +32,14 @@ class Pagination extends Component {
     let pageNeighbours = typeof props.pageNeighbours === 'number'
       ? Math.max(0, Math.min(props.pageNeighbours, 2))
       : 0;
-    let totalPages = Math.ceil(props.totalRecords / props.pageLimit) === 0
+    let pageCount = Math.ceil(props.totalRecords / props.pageLimit) === 0
       ? 1
       : Math.ceil(props.totalRecords / props.pageLimit);
     
     this.state = {
       totalRecords,
       pageLimit,
-      totalPages,
+      pageCount,
       pageNeighbours,
       currentPage: 1 // We need this state property to internally keep track of the currently active page
     };
@@ -65,7 +63,7 @@ class Pagination extends Component {
    */
   fetchPageNumbers = () => {
 
-    const totalPages = this.state.totalPages;
+    const pageCount = this.state.pageCount;
     const currentPage = this.state.currentPage;
     const pageNeighbours = this.state.pageNeighbours;
 
@@ -77,14 +75,14 @@ class Pagination extends Component {
     const totalBlocks = totalNumbers + 2;
 
     /**
-     * If totalPages <= totalBlocks, we simply return a range of numbers from 1 to totalPages. 
-     * If totalPages > totalBlocks, we return the array of page numbers, with LEFT_PAGE and RIGHT_PAGE 
+     * If pageCount <= totalBlocks, we simply return a range of numbers from 1 to pageCount. 
+     * If pageCount > totalBlocks, we return the array of page numbers, with LEFT_PAGE and RIGHT_PAGE 
      * at points where we have pages spilling to the left and right respectively.
      */
-    if (totalPages > totalBlocks) {
+    if (pageCount > totalBlocks) {
 
       const startPage = Math.max(2, currentPage - pageNeighbours);
-      const endPage = Math.min(totalPages - 1, currentPage + pageNeighbours);
+      const endPage = Math.min(pageCount - 1, currentPage + pageNeighbours);
 
       let pages = range(startPage, endPage);
 
@@ -94,7 +92,7 @@ class Pagination extends Component {
        * spillOffset: number of hidden pages either to the left or to the right
        */
       const hasLeftSpill = startPage > 2;
-      const hasRightSpill = (totalPages - endPage) > 1;
+      const hasRightSpill = (pageCount - endPage) > 1;
       const spillOffset = totalNumbers - (pages.length + 1);
 
       switch (true) {
@@ -119,9 +117,9 @@ class Pagination extends Component {
           break;
         }
       }
-      return [1, ...pages, totalPages];
+      return [1, ...pages, pageCount];
     }
-    return range(1, totalPages);
+    return range(1, pageCount);
   } // End of fetch
 
   /**
@@ -130,13 +128,13 @@ class Pagination extends Component {
    */
   gotoPage = page => {
     const { onPageChanged = f => f } = this.props;
-    const currentPage = Math.max(0, Math.min(page, this.state.totalPages));
+    const currentPage = Math.max(0, Math.min(page, this.state.pageCount));
     const totalRecords = this.state.totalRecords;
 
     const paginationData = {
       totalRecords,
       pageLimit: this.state.pageLimit,
-      totalPages: this.state.totalPages,
+      pageCount: this.state.pageCount,
       currentPage
     };
 
@@ -144,7 +142,7 @@ class Pagination extends Component {
       {
         totalRecords,
         pageLimit: this.state.pageLimit,
-        totalPages: this.state.totalPages,
+        pageCount: this.state.pageCount,
         currentPage
       },
       () => onPageChanged(paginationData)
@@ -176,15 +174,13 @@ class Pagination extends Component {
   // Do not use this since componentWillReceiveProps is deprecated, use getDerivedStateFromProps instead
   /*
   componentWillReceiveProps(nextProps) {
-    console.log("nextProps - componentWillReceiveProps");
-    console.log(nextProps);
     this.totalRecords = typeof nextProps.totalRecords === 'number' ? nextProps.totalRecords : 1;
     this.pageLimit = typeof nextProps.pageLimit === 'number' ? nextProps.pageLimit : 30;
     this.pageNeighbours = typeof nextProps.pageNeighbours === 'number'
       ? Math.max(0, Math.min(nextProps.pageNeighbours, 2))
       : 0;
 
-    this.totalPages = Math.ceil(this.totalRecords / this.pageLimit) === 0
+    this.pageCount = Math.ceil(this.totalRecords / this.pageLimit) === 0
       ? 1
       : Math.ceil(this.totalRecords / this.pageLimit);
   } // End of componentWillReceiveProps
@@ -192,15 +188,13 @@ class Pagination extends Component {
 
   // When user types in search bar
   static getDerivedStateFromProps(nextProps, prevState) {
-    console.log("prevState - getDerivedStateFromProps");
-    console.log(prevState);
     if (nextProps.totalRecords !== prevState.totalRecords) {
       let totalRecords = typeof nextProps.totalRecords === 'number' ? nextProps.totalRecords : 1;
       let pageLimit = typeof prevState.pageLimit === 'number' ? nextProps.pageLimit : 30;
       let pageNeighbours = typeof nextProps.pageNeighbours === 'number'
         ? Math.max(0, Math.min(nextProps.pageNeighbours, 2))
         : 0;
-      let totalPages = Math.ceil(totalRecords / pageLimit) === 0
+      let pageCount = Math.ceil(totalRecords / pageLimit) === 0
         ? 1
         : Math.ceil(totalRecords / pageLimit);
 
@@ -208,7 +202,7 @@ class Pagination extends Component {
         totalRecords,
         pageLimit,
         pageNeighbours,
-        totalPages,
+        pageCount,
         currentPage: 1
       };
     }
@@ -218,7 +212,7 @@ class Pagination extends Component {
   render() {
     // The pagination control will not be rendered if the totalRecords prop was not passed in correctly 
     // to the Pagination component or in cases where there is only 1 page.
-    if (!this.state.totalRecords || this.state.totalPages === 1) return null;
+    if (!this.state.totalRecords || this.state.pageCount === 1) return null;
 
     const { currentPage } = this.state;
     const pages = this.fetchPageNumbers(); // generate page numbers
@@ -265,8 +259,6 @@ class Pagination extends Component {
 }
 
 Pagination.propTypes = {
-  totalRecords: PropTypes.number.isRequired,  // indicates the total number of records to be paginated. It is required.
-
   pageLimit: PropTypes.number,                // indicates the number of records to be shown per page. If not specified, 
                                               // it defaults to 30 as defined in the constructor()
 
