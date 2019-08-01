@@ -89,6 +89,7 @@ namespace AspnetCoreSPATemplate.Services
         {
             _contacts.Add(new ContactModel
             {
+                Id = 101,
                 First = "MF1",
                 Last = "ML1",
                 Email = "ME1@abc.com",
@@ -96,6 +97,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 102,
                 First = "MF2",
                 Last = "ML2",
                 Email = "ME2@abc.com",
@@ -103,6 +105,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 103,
                 First = "MF3",
                 Last = "ML3",
                 Email = "ME3@abc.com",
@@ -110,6 +113,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 104,
                 First = "MF4",
                 Last = "ML4",
                 Email = "ME4@abc.com",
@@ -117,6 +121,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 105,
                 First = "MF5",
                 Last = "ML5",
                 Email = "ME5@abc.com",
@@ -124,6 +129,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 106,
                 First = "MF6",
                 Last = "ML6",
                 Email = "ME6@abc.com",
@@ -131,6 +137,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 107,
                 First = "MF7",
                 Last = "ML7",
                 Email = "ME7@abc.com",
@@ -138,6 +145,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 108,
                 First = "MF8",
                 Last = "ML8",
                 Email = "ME8@abc.com",
@@ -145,6 +153,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 109,
                 First = "MF9",
                 Last = "ML9",
                 Email = "ME9@abc.com",
@@ -152,6 +161,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 110,
                 First = "MF10",
                 Last = "ML10",
                 Email = "ME10@abc.com",
@@ -159,6 +169,7 @@ namespace AspnetCoreSPATemplate.Services
             });
             _contacts.Add(new ContactModel
             {
+                Id = 111,
                 First = "MF11",
                 Last = "ML11",
                 Email = "ME3@abc.com",

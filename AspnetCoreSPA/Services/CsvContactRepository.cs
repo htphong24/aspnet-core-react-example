@@ -164,6 +164,7 @@ namespace AspnetCoreSPATemplate.Services
             // Only extract first, last, email and phone1 as per exercise's  requirement
             ContactModel contact = new ContactModel()
             {
+                Id = int.Parse(elements[header["id"]]),
                 First = elements[header["first_name"]],
                 Last = elements[header["last_name"]],
                 Email = elements[header["email"]],

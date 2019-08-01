@@ -140,6 +140,7 @@ namespace AspnetCoreSPATemplate.Services
                     {
                         ContactModel contact = new ContactModel
                         {
+                            Id = int.Parse(csv.GetField("id")),
                             First = csv.GetField("first_name"),
                             Last = csv.GetField("last_name"),
                             Email = csv.GetField("email"),

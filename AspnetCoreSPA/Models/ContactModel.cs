@@ -9,6 +9,8 @@ namespace AspnetCoreSPATemplate.Models
 {
     public class ContactModel
     {
+        public int Id { get; set; }
+
         [Required]
         public string First { get; set; }
 
