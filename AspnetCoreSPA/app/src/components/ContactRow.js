@@ -12,11 +12,15 @@ const ContactRow = props => {
 
   return (
     <tr>
-      <td>{Id}</td>
-      <td>{First}</td>
-      <td>{Last}</td>
-      <td>{Email}</td>
-      <td>{Phone1}</td>
+      <td className="my-col-10">
+        <i className="fas fa-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;
+        <i className="fas fa-trash"></i>
+      </td>
+      <td className="my-col-5">{Id}</td>
+      <td className="my-col-20">{First}</td>
+      <td className="my-col-20">{Last}</td>
+      <td className="my-col-25">{Email}</td>
+      <td className="my-col-15">{Phone1}</td>
     </tr>
   )
 }

@@ -41,11 +41,11 @@ class App extends Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
   }
 
-  handleSearchChange(e) {
+  handleSearchChange = evt => {
     // Prevent the browser's default action of submitting the form.
-    e.preventDefault();
+    evt.preventDefault();
     this.setState({
-      filter: e.target.value,
+      filter: evt.target.value,
       currentPage: 1
       },
       () => {
@@ -54,7 +54,7 @@ class App extends Component {
     );
   }
 
-  loadContacts() {
+  loadContacts = () => {
     let contactUrl = this.state.filter === ""
       ? API_BASE_URL + "contacts?PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_LIMIT // on load
       : API_BASE_URL + "contacts/search?q=" + this.state.filter + "&PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_LIMIT // on search
@@ -81,7 +81,7 @@ class App extends Component {
     });
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.loadContacts();
   }
 
@@ -94,14 +94,16 @@ class App extends Component {
     }, () => this.loadContacts());
   }
 
+  onAdd = evt => {
+    evt.preventDefault();
+    // TODO: retrieve first, last, email, phone and call ajax
+  }
+
   render() {
-    console.log("RENDER this.state");
-    console.log(this.state);
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
     
-    //if (recordCount === 0) return null;
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     
     // Notice that we passed the onPageChanged() method we defined earlier to the onPageChanged prop of 
@@ -110,27 +112,50 @@ class App extends Component {
     return (
       <div className="container mb-5">
 
+        <br />
         <h1 className="text-center">My Contact Management</h1>
         <br/>
 
-        <form className="form-inline md-form form-sm mt-0">
-          <i className="fas fa-search" aria-hidden="true"></i>
-          <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search" onChange={this.handleSearchChange}/>
+        <form className="form md-form form-sm mt-0">
+          <div className="form-group row">
+            <div className="col-sm-3">
+              <input type="text" className="form-control" id="txtFirst" placeholder="First Name"/>
+            </div>
+            <div className="col-sm-3">
+              <input type="text" className="form-control" id="txtLast" placeholder="Last Name" />
+            </div>
+            <div className="col-sm-3">
+              <input type="email" className="form-control" id="txtEmail" placeholder="Email" />
+            </div>
+            <div className="col-sm-2">
+              <input type="text" className="form-control" id="txtPhone1" placeholder="Phone 1" />
+            </div>
+            <div className="col-sm-1">
+              <button type="submit" className="btn btn-primary" onClick={this.onAdd}>Add</button>
+            </div>
+          </div>
+        </form>
+        <div className="alert my-alert-error" role="alert"></div>
+        <br/>
+
+        <form className="form md-form form-sm mt-0">
+          <input className="form-control" type="text" placeholder="Search" aria-label="Search" onChange={this.handleSearchChange}/>
         </form>
 
         <div className="row d-flex flex-row py-5">
 
           <h4>Contact List</h4>
 
-          <div className="table-wrapper-scroll-y my-custom-scrollbar">
+          <div className="my-custom-scrollbar">
             <table className="table table-bordered table-striped mb-0">
               <thead>
                 <tr>
-                  <th scope="col">Id</th>
-                  <th scope="col">First</th>
-                  <th scope="col">Last</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone1</th>
+                  <th scope="col" className="my-col-10">Actions</th>
+                  <th scope="col" className="my-col-5">Id</th>
+                  <th scope="col" className="my-col-20">First</th>
+                  <th scope="col" className="my-col-20">Last</th>
+                  <th scope="col" className="my-col-25">Email</th>
+                  <th scope="col" className="my-col-15">Phone1</th>
                 </tr>
               </thead>
               <tbody>
