@@ -45,7 +45,8 @@ class App extends Component {
     // Prevent the browser's default action of submitting the form.
     e.preventDefault();
     this.setState({
-        filter: e.target.value
+      filter: e.target.value,
+      currentPage: 1
       },
       () => {
         this.loadContacts();
@@ -93,23 +94,9 @@ class App extends Component {
     }, () => this.loadContacts());
   }
 
-  /*
-  Let's say we have a fictitious API endpoint /api/contacts?page={current_page}&limit={page_limit}. 
-  The following snippet shows how we can fetch contacts on demand from the API using the axios HTTP package:
-
-  onPageChanged = data => {
-    const { currentPage, totalPages, pageLimit } = data;
-
-    axios.get(`/api/contacts?page=${currentPage}&limit=${pageLimit}`)
-      .then(response => {
-        const currentContacts = response.data.contacts;
-        this.setState({ currentPage, currentContacts, totalPages });
-      });
-  }
-  */
-
   render() {
-    
+    console.log("RENDER this.state");
+    console.log(this.state);
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
