@@ -7,6 +7,7 @@ import './App.css';
 import { PAGE_LIMIT, API_BASE_URL } from './constants';
 import Pagination from './components/Pagination';
 import ContactRow from './components/ContactRow';
+import ContactAddForm from './components/ContactAdd';
 
 const request = (options) => {
   const headers = new Headers({
@@ -39,9 +40,8 @@ class App extends Component {
       filter: ""           // search keyword
     };
 
-    // When a user submits a comment, we will need to refresh the list of comments to 
-    // include the new one.
     this.handleSearchChange = this.handleSearchChange.bind(this);
+    //this.onAdd = this.onAdd.bind(this);
   }
 
   handleSearchChange = evt => {
@@ -97,95 +97,69 @@ class App extends Component {
     }, () => this.loadContacts());
   }
 
-  onAdd = evt => {
-    evt.preventDefault();
+  //onAdd = evt => {
+  //  evt.preventDefault();
+    //this.props.form.validateFields((err, values) => {
+    //  if (!err) {
+    //    console.log('Received values of form: ', values);
+    //  }
+    //});
     // TODO: retrieve first, last, email, phone and call ajax
-  }
+  //}
 
   render() {
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
-    
+    console.log("this.props.form");
+    console.log(this.props);
+
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
-    
+    const MyContactAddForm = Form.create()(ContactAddForm);
     // Notice that we passed the onPageChanged() method we defined earlier to the onPageChanged prop of 
     // <Pagination> control. This is very important for capturing page changes from the Pagination component
     // Also notice that we are displaying 5 contacts per page
     return (
       <div className="container">
-
         <h1 className="text-center">My Contact Management</h1>
+        <Input.Search placeholder="Search" onChange={this.handleSearchChange} />
+        <Row>
+          <MyContactAddForm onAdd={this.props.onAdd} />
+        </Row>
 
-        
-
-          <Input.Search placeholder="Search" onChange={this.handleSearchChange} />
-
-          <Row>
-            <Form>
-              <Col span={2}>
-              </Col>
-              <Col span={2}>
-                <Form.Item >
-                  <Button type="primary" htmlType="submit" className="btn btn-primary">Add</Button>
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item>
-                  <Input placeholder="First Name" />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item>
-                  <Input placeholder="Last Name" />
-                </Form.Item>
-              </Col>
-              <Col span={8}>
-                <Form.Item>
-                  <Input placeholder="Email" />
-                </Form.Item>
-              </Col>
-              <Col span={4}>
-                <Form.Item>
-                  <Input placeholder="Phone 1" />
-                </Form.Item>
-              </Col>
-            </Form>
+        <div className="my-custom-scrollbar">
+          <Row className="my-row-header">
+            <Col span={2}>Actions</Col>
+            <Col span={2}>Id</Col>
+            <Col span={4}>First</Col>
+            <Col span={4}>Last</Col>
+            <Col span={8}>Email</Col>
+            <Col span={4}>Phone1</Col>
           </Row>
-
-          <div className="my-custom-scrollbar">
-            <Row className="my-row-header">
-              <Col span={2}>Actions</Col>
-              <Col span={2}>Id</Col>
-              <Col span={4}>First</Col>
-              <Col span={4}>Last</Col>
-              <Col span={8}>Email</Col>
-              <Col span={4}>Phone1</Col>
-            </Row>
-            {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} />)}
-          </div>
-
-          <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
-            <div className="d-flex flex-row align-items-center">
-
-              <h5 className={headerClass}>
-                <strong className="text-secondary">{recordCount}</strong> Contacts found
-              </h5>
-
-              {currentPage && (
-                <span className="current-page d-inline-block h-100 pl-4 text-secondary">
-                  Page <span className="font-weight-bold">{currentPage}</span> / <span className="font-weight-bold">{pageCount}</span>
-                </span>
-              )}
-
-            </div>
-
-            <div className="d-flex flex-row py-4 align-items-center">
-              <Pagination totalRecords={recordCount} pageLimit={PAGE_LIMIT} pageNeighbours={1} onPageChanged={this.onPageChanged} />
-            </div>
-          </div>
-
+          {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} />)}
         </div>
+
+        <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
+          <div className="d-flex flex-row align-items-center">
+
+            <h5 className={headerClass}>
+              <strong className="text-secondary">{recordCount}</strong> Contacts found
+            </h5>
+
+            {currentPage && (
+              <span className="current-page d-inline-block h-100 pl-4 text-secondary">
+                Page <span className="font-weight-bold">{currentPage}</span> / <span className="font-weight-bold">{pageCount}</span>
+              </span>
+            )}
+
+          </div>
+
+          <div className="d-flex flex-row py-4 align-items-center">
+            <Pagination totalRecords={recordCount} pageLimit={PAGE_LIMIT} pageNeighbours={1} onPageChanged={this.onPageChanged} />
+          </div>
+        </div>
+
+      </div>
     );
 
   }
