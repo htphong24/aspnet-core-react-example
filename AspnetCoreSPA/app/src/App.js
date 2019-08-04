@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import 'antd/dist/antd.css';
+import { Form, Icon, Input, Button, Row, Col } from 'antd';
+
 import './App.css';
 
 import { PAGE_LIMIT, API_BASE_URL } from './constants';
@@ -110,58 +113,56 @@ class App extends Component {
     // <Pagination> control. This is very important for capturing page changes from the Pagination component
     // Also notice that we are displaying 5 contacts per page
     return (
-      <div className="container mb-5">
+      <div className="container">
 
-        <br />
         <h1 className="text-center">My Contact Management</h1>
-        <br/>
 
-        <form className="form md-form form-sm mt-0">
-          <div className="form-group row">
-            <div className="col-sm-3">
-              <input type="text" className="form-control" id="txtFirst" placeholder="First Name"/>
-            </div>
-            <div className="col-sm-3">
-              <input type="text" className="form-control" id="txtLast" placeholder="Last Name" />
-            </div>
-            <div className="col-sm-3">
-              <input type="email" className="form-control" id="txtEmail" placeholder="Email" />
-            </div>
-            <div className="col-sm-2">
-              <input type="text" className="form-control" id="txtPhone1" placeholder="Phone 1" />
-            </div>
-            <div className="col-sm-1">
-              <button type="submit" className="btn btn-primary" onClick={this.onAdd}>Add</button>
-            </div>
-          </div>
-        </form>
-        <div className="alert my-alert-error" role="alert"></div>
-        <br/>
+        
 
-        <form className="form md-form form-sm mt-0">
-          <input className="form-control" type="text" placeholder="Search" aria-label="Search" onChange={this.handleSearchChange}/>
-        </form>
+          <Input.Search placeholder="Search" onChange={this.handleSearchChange} />
 
-        <div className="row d-flex flex-row py-5">
-
-          <h4>Contact List</h4>
+          <Row>
+            <Form>
+              <Col span={2}>
+              </Col>
+              <Col span={2}>
+                <Form.Item >
+                  <Button type="primary" htmlType="submit" className="btn btn-primary">Add</Button>
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item>
+                  <Input placeholder="First Name" />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item>
+                  <Input placeholder="Last Name" />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Form.Item>
+                  <Input placeholder="Email" />
+                </Form.Item>
+              </Col>
+              <Col span={4}>
+                <Form.Item>
+                  <Input placeholder="Phone 1" />
+                </Form.Item>
+              </Col>
+            </Form>
+          </Row>
 
           <div className="my-custom-scrollbar">
-            <table className="table table-bordered table-striped mb-0">
-              <thead>
-                <tr>
-                  <th scope="col" className="my-col-10">Actions</th>
-                  <th scope="col" className="my-col-5">Id</th>
-                  <th scope="col" className="my-col-20">First</th>
-                  <th scope="col" className="my-col-20">Last</th>
-                  <th scope="col" className="my-col-25">Email</th>
-                  <th scope="col" className="my-col-15">Phone1</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} />)}
-              </tbody>
-            </table>
+            <Row className="my-row-header">
+              <Col span={2}>Actions</Col>
+              <Col span={2}>Id</Col>
+              <Col span={4}>First</Col>
+              <Col span={4}>Last</Col>
+              <Col span={8}>Email</Col>
+              <Col span={4}>Phone1</Col>
+            </Row>
+            {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} />)}
           </div>
 
           <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
@@ -185,7 +186,6 @@ class App extends Component {
           </div>
 
         </div>
-      </div>
     );
 
   }

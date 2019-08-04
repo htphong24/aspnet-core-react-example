@@ -1,8 +1,34 @@
-﻿.my-custom-scrollbar {
+﻿.container .ant-form {
+    margin: 10px 0;
+}
+
+.container .ant-form .ant-form-item {
+    width: 100%;
+}
+
+.container .ant-form .ant-form-item-control-wrapper {
+    display: block;
+}
+
+.my-custom-scrollbar {
     position: relative;
     width: 100%;
     height: 400px;
     overflow: auto;
+}
+
+.my-custom-scrollbar .ant-input-search {
+    width: 200px;
+    margin: 15px 0;
+}
+
+.my-custom-scrollbar .ant-col {
+    padding: 5px 10px;
+    border: 1px solid #d9d9d9;
+}
+
+.my-custom-scrollbar .my-row-header {
+    font-weight: bold;
 }
 
 .table-wrapper-scroll-y {

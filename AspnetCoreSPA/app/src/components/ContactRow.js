@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
+import 'antd/dist/antd.css';
+import { Form, Icon, Input, Button, Row, Col } from 'antd';
 
 const ContactRow = props => {
   const {
@@ -11,17 +13,17 @@ const ContactRow = props => {
   } = props.contact || {};
 
   return (
-    <tr>
-      <td className="my-col-10">
+    <Row>
+      <Col span={2}>
         <i className="fas fa-edit"></i>&nbsp;&nbsp;&nbsp;&nbsp;
         <i className="fas fa-trash"></i>
-      </td>
-      <td className="my-col-5">{Id}</td>
-      <td className="my-col-20">{First}</td>
-      <td className="my-col-20">{Last}</td>
-      <td className="my-col-25">{Email}</td>
-      <td className="my-col-15">{Phone1}</td>
-    </tr>
+      </Col>
+      <Col span={2}>{Id}</Col>
+      <Col span={4}>{First}</Col>
+      <Col span={4}>{Last}</Col>
+      <Col span={8}>{Email}</Col>
+      <Col span={4}>{Phone1}</Col>
+    </Row>
   )
 }
 
