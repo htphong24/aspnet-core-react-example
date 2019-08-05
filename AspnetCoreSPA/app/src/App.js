@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Form, Icon, Input, Button, Row, Col } from 'antd';
+import { Form, Icon, Input, Row, Col, Pagination } from 'antd';
 
 import './App.css';
 
-import { PAGE_LIMIT, API_BASE_URL } from './constants';
-import Pagination from './components/Pagination';
+import { PAGE_SIZE, API_BASE_URL } from './constants';
+//import Pagination from './components/Pagination';
 import ContactRow from './components/ContactRow';
 import ContactAddForm from './components/ContactAdd';
 
@@ -59,8 +59,8 @@ class App extends Component {
 
   loadContacts = () => {
     let contactUrl = this.state.filter === ""
-      ? API_BASE_URL + "contacts?PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_LIMIT // on load
-      : API_BASE_URL + "contacts/search?q=" + this.state.filter + "&PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_LIMIT // on search
+      ? API_BASE_URL + "contacts?PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_SIZE // on load
+      : API_BASE_URL + "contacts/search?q=" + this.state.filter + "&PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_SIZE // on search
     request({
       url: contactUrl,
       method: 'GET'
@@ -91,9 +91,10 @@ class App extends Component {
   // This will be called each time we navigate to a new page from the pagination control. This method will be 
   // passed to the onPageChanged prop of the Pagination component.
   onPageChanged = data => {
-    console.log()
+    console.log("onPageChanged data");
+    console.log(data);
     this.setState({
-      currentPage: data.currentPage
+      currentPage: data
     }, () => this.loadContacts());
   }
 
@@ -111,14 +112,9 @@ class App extends Component {
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
-    console.log("this.props.form");
-    console.log(this.props);
-
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     const MyContactAddForm = Form.create()(ContactAddForm);
-    // Notice that we passed the onPageChanged() method we defined earlier to the onPageChanged prop of 
-    // <Pagination> control. This is very important for capturing page changes from the Pagination component
-    // Also notice that we are displaying 5 contacts per page
+
     return (
       <div className="container">
         <h1 className="text-center">My Contact Management</h1>
@@ -155,7 +151,7 @@ class App extends Component {
           </div>
 
           <div className="d-flex flex-row py-4 align-items-center">
-            <Pagination totalRecords={recordCount} pageLimit={PAGE_LIMIT} pageNeighbours={1} onPageChanged={this.onPageChanged} />
+            <Pagination total={recordCount} pageSize={PAGE_SIZE} onChange={this.onPageChanged} />
           </div>
         </div>
 
