@@ -41,7 +41,7 @@ class App extends Component {
     };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    //this.onAdd = this.onAdd.bind(this);
+    //this.handleFormAdd = this.handleFormAdd.bind(this);
   }
 
   handleSearchChange = evt => {
@@ -89,14 +89,14 @@ class App extends Component {
   }
 
   // This will be called each time we navigate to a new page from the pagination control. This method will be 
-  // passed to the onPageChanged prop of the Pagination component.
-  onPageChanged = data => {
+  // passed to the handlePageChanged prop of the Pagination component.
+  handlePageChanged = data => {
     this.setState({
       currentPage: data
     }, () => this.loadContacts());
   }
 
-  //onAdd = evt => {
+  //handleFormAdd = evt => {
   //  evt.preventDefault();
     //this.props.form.validateFields((err, values) => {
     //  if (!err) {
@@ -118,7 +118,7 @@ class App extends Component {
         <h1 className="text-center">My Contact Management</h1>
         <Input.Search placeholder="Search" onChange={this.handleSearchChange} />
         <Row>
-          <MyContactAddForm onAdd={this.props.onAdd} />
+          <MyContactAddForm />
         </Row>
 
         <div className="my-custom-scrollbar">
@@ -149,7 +149,7 @@ class App extends Component {
           </div>
 
           <div className="d-flex flex-row align-items-center">
-            <Pagination total={recordCount} pageSize={PAGE_SIZE} current={currentPage} onChange={this.onPageChanged} />
+            <Pagination total={recordCount} pageSize={PAGE_SIZE} current={currentPage} onChange={this.handlePageChanged} />
           </div>
         </div>
 

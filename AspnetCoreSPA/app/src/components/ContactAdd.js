@@ -9,11 +9,25 @@ class ContactAddForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
+  handleSubmit = evt => {
+    evt.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const addRequest = Object.assign({}, values);
+        const submitRequest = Object.assign({}, values); // clone target values
+        //TODO: submitRequest.fname, submitRequest.lname, submitRequest.email, submitRequest.phone1
+        //contactAdd(submitRequest)
+        //  .then(response => {
+        //    this.props.history.push("/");
+        //  }).catch(error => {
+        //    if (error.status === 401) {
+        //      this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
+        //    } else {
+        //      notification.error({
+        //        message: 'Polling App',
+        //        description: error.message || 'Ooops! Something went wrong. Please try again!'
+        //      });
+        //    }
+        //  });
       }
     });
   }
@@ -22,8 +36,7 @@ class ContactAddForm extends Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <Col span={2}>
-        </Col>
+        <Col span={2}></Col>
         <Col span={2}>
           <Form.Item >
             <Button type="primary" htmlType="submit" className="btn btn-primary">Add</Button>
