@@ -91,8 +91,6 @@ class App extends Component {
   // This will be called each time we navigate to a new page from the pagination control. This method will be 
   // passed to the onPageChanged prop of the Pagination component.
   onPageChanged = data => {
-    console.log("onPageChanged data");
-    console.log(data);
     this.setState({
       currentPage: data
     }, () => this.loadContacts());
@@ -114,7 +112,6 @@ class App extends Component {
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     const MyContactAddForm = Form.create()(ContactAddForm);
-
     return (
       <div className="container">
         <h1 className="text-center">My Contact Management</h1>
@@ -135,7 +132,7 @@ class App extends Component {
           {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} />)}
         </div>
 
-        <div className="w-100 px-4 py-5 d-flex flex-row flex-wrap align-items-center justify-content-between">
+        <div className="w-100 px-4 d-flex flex-row flex-wrap align-items-center justify-content-between">
           <div className="d-flex flex-row align-items-center">
 
             <h5 className={headerClass}>
@@ -150,8 +147,8 @@ class App extends Component {
 
           </div>
 
-          <div className="d-flex flex-row py-4 align-items-center">
-            <Pagination total={recordCount} pageSize={PAGE_SIZE} onChange={this.onPageChanged} />
+          <div className="d-flex flex-row align-items-center">
+            <Pagination total={recordCount} pageSize={PAGE_SIZE} current={currentPage} onChange={this.onPageChanged} />
           </div>
         </div>
 
