@@ -50,7 +50,10 @@ class ContactAddForm extends Component {
         <Col span={8}>
           <Form.Item>
             {getFieldDecorator('email', {
-              rules: [{ required: true, message: 'Email required' }],
+              rules: [
+                { required: true, message: 'Email required' },
+                { type: 'email', message: 'The input is not valid E-mail!' }
+              ],
             })(
               <Input placeholder="Email" name="email"/>
             )}
@@ -59,7 +62,7 @@ class ContactAddForm extends Component {
         <Col span={4}>
           <Form.Item>
             {getFieldDecorator('phone1', {
-              rules: [{ required: true, message: 'Last name required' }],
+              rules: [{ required: true, message: 'Phone required' }],
             })(
               <Input placeholder="Phone 1" name="phone1"/>
             )}

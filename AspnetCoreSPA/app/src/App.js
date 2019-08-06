@@ -112,6 +112,7 @@ class App extends Component {
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     const MyContactAddForm = Form.create()(ContactAddForm);
+
     return (
       <div className="container">
         <h1 className="text-center">My Contact Management</h1>
