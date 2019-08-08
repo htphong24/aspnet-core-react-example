@@ -5,9 +5,9 @@ import { Form, Icon, Input, Row, Col, Pagination } from 'antd';
 import './App.css';
 
 import { PAGE_SIZE, API_BASE_URL } from './constants';
-//import Pagination from './components/Pagination';
 import ContactRow from './components/ContactRow';
 import ContactAddForm from './components/ContactAdd';
+import { getContacts } from './utils/APIUtils';
 
 const request = (options) => {
   const headers = new Headers({
@@ -58,30 +58,27 @@ class App extends Component {
   }
 
   loadContacts = () => {
-    let contactUrl = this.state.filter === ""
-      ? API_BASE_URL + "contacts?PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_SIZE // on load
-      : API_BASE_URL + "contacts/search?q=" + this.state.filter + "&PageNumber=" + this.state.currentPage + "&RowsPerPage=" + PAGE_SIZE // on search
-    request({
-      url: contactUrl,
-      method: 'GET'
-    }).then(response => {
-      this.setState({
-        recordCount: response.RecordCount,
-        currentContacts: response.Results,
-        currentPage: response.PageNumber,
-        pageCount: response.PageCount
+    getContacts(this.state.filter, this.state.currentPage)
+      .then(response => {
+        this.setState({
+          recordCount: response.RecordCount,
+          currentContacts: response.Results,
+          currentPage: response.PageNumber,
+          pageCount: response.PageCount
+        });
+      })
+      .catch(error => {
+        if (error.status === 404) {
+          this.setState({
+            recordCount: null
+          });
+        }
+        else {
+          this.setState({
+            recordCount: null
+          });
+        }
       });
-    }).catch(error => {
-      if (error.status === 404) {
-        this.setState({
-          recordCount: null
-        });
-      } else {
-        this.setState({
-          recordCount: null
-        });
-      }
-    });
   }
 
   componentDidMount = () => {
