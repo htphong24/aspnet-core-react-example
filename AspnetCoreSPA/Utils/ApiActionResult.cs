@@ -130,6 +130,7 @@ namespace AspnetCoreSPATemplate.Utils
             // - Status204NoContent
             // - Status400BadRequest
             // - Status404NotFound
+            // - Status401Unauthorized
             // - Status500InternalServerError 
 
             if (Data == null)

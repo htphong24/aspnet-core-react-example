@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
-import { Form, Icon, Input, Button, Row, Col } from 'antd';
+import { Row, Col } from 'antd';
 
 const ContactRow = props => {
   const {

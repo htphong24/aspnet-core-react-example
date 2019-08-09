@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
-import { Form, Icon, Input, Button, Row, Col } from 'antd';
+import { Form, Input, Button, Col } from 'antd';
 import { addContact } from '../utils/APIUtils';
 
 class ContactAddForm extends Component {
@@ -17,25 +16,23 @@ class ContactAddForm extends Component {
         //const submitRequest = Object.assign({}, values); // clone target values
         let submitRequest = {
           Contact: {
-            First: values.fname,
-            Last: values.lname,
-            Email: values.email,
-            Phone1: values.phone1
+            First: values.txtFirstName,
+            Last: values.txtLastName,
+            Email: values.txtEmail,
+            Phone1: values.txtPhone1
           }
-        } 
+        };
         addContact(submitRequest)
           .then(response => {
             this.props.onAdd();
-            //this.props.history.push("/");
-          }).catch(error => {
-            if (error.status === 401) {
-        //      this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
-            } else {
-        //      notification.error({
-        //        message: 'Polling App',
-        //        description: error.message || 'Ooops! Something went wrong. Please try again!'
-        //      });
-            }
+          })
+          .catch(error => {
+              this.props.form.setFields({
+                txtEmail: {
+                  value: values.txtEmail,
+                  errors: [new Error(error.ErrorMessage)],
+                },
+              });
           });
       }
     });
@@ -53,40 +50,40 @@ class ContactAddForm extends Component {
         </Col>
         <Col span={4}>
           <Form.Item>
-            {getFieldDecorator('fname', {
+            {getFieldDecorator('txtFirstName', {
               rules: [{ required: true, message: 'First name required' }],
             })(
-              <Input placeholder="First Name" name="fname"/>
+              <Input placeholder="First Name" name="txtFirstName"/>
             )}
           </Form.Item>
         </Col>
         <Col span={4}>
           <Form.Item>
-            {getFieldDecorator('lname', {
+            {getFieldDecorator('txtLastName', {
               rules: [{ required: true, message: 'Last name required' }],
             })(
-              <Input placeholder="Last Name" name="lname"/>
+              <Input placeholder="Last Name" name="txtLastName"/>
             )}
           </Form.Item>
         </Col>
         <Col span={8}>
           <Form.Item>
-            {getFieldDecorator('email', {
+            {getFieldDecorator('txtEmail', {
               rules: [
                 { required: true, message: 'Email required' },
                 { type: 'email', message: 'The input is not valid E-mail!' }
               ],
             })(
-              <Input placeholder="Email" name="email"/>
+              <Input placeholder="Email" name="txtEmail"/>
             )}
           </Form.Item>
         </Col>
         <Col span={4}>
           <Form.Item>
-            {getFieldDecorator('phone1', {
+            {getFieldDecorator('txtPhone1', {
               rules: [{ required: true, message: 'Phone required' }],
             })(
-              <Input placeholder="Phone 1" name="phone1"/>
+              <Input placeholder="Phone 1" name="txtPhone1"/>
             )}
           </Form.Item>
         </Col>

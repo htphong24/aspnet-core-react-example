@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Form, Icon, Input, Row, Col, Pagination } from 'antd';
+import { Form, Input, Row, Col, Pagination } from 'antd';
 
 import './App.css';
 
-import { PAGE_SIZE, API_BASE_URL } from './constants';
+import { PAGE_SIZE } from './constants';
 import ContactRow from './components/ContactRow';
 import ContactAddForm from './components/ContactAdd';
 import { getContacts } from './utils/APIUtils';
@@ -89,11 +89,29 @@ class App extends Component {
       .then(response => {
         // then move to the last page to show the contact has been added
         let lastPage = Math.ceil(response.RecordCount / PAGE_SIZE);
-        this.setState({
-          recordCount: response.RecordCount,
-          currentContacts: response.Results,
-          currentPage: lastPage,
-          pageCount: response.PageCount
+        getContacts(
+          this.state.filter,
+          lastPage
+        )
+        .then(response => {
+          this.setState({
+            recordCount: response.RecordCount,
+            currentContacts: response.Results,
+            currentPage: response.PageNumber,
+            pageCount: response.PageCount
+          });
+        })
+        .catch(error => {
+          if (error.status === 404) {
+            this.setState({
+              recordCount: null
+            });
+          }
+          else {
+            this.setState({
+              recordCount: null
+            });
+          }
         });
       })
       .catch(error => {
