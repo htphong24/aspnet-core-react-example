@@ -26,11 +26,13 @@ namespace AspnetCoreSPATemplate.Models
         public string State { get; }
 
         public string Post { get; }
-        
+
+        [Required]
         public string Phone1 { get; set; }
 
         public string Phone2 { get; }
 
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
 

@@ -9,24 +9,6 @@ import ContactRow from './components/ContactRow';
 import ContactAddForm from './components/ContactAdd';
 import { getContacts } from './utils/APIUtils';
 
-const request = (options) => {
-  const headers = new Headers({
-    'Content-Type': 'application/json'
-  })
-
-  const defaults = { headers: headers };
-  options = Object.assign({}, defaults, options);
-  return fetch(options.url, options)
-    .then(response =>
-      response.json().then(json => {
-        if (!response.ok) {
-          return Promise.reject(json);
-        }
-        return json;
-      })
-    );
-};
-
 class App extends Component {
 
   constructor(props) {
@@ -35,21 +17,21 @@ class App extends Component {
     this.state = {
       recordCount: null,   // total number of records
       currentContacts: [], // an array of all the contacts to be shown on the currently active page. Initialized to an empty array([])
-      currentPage: 1,   // the page number of the currently active page. Initialized to 1
-      pageCount: null,    // the total number of pages for all the contact records. Initialized to null.
-      filter: ""           // search keyword
+      currentPage: 1,      // the page number of the currently active page. Initialized to 1
+      pageCount: null,     // the total number of pages for all the contact records. Initialized to null.
+      filter: "",          // search keyword
     };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    //this.handleFormAdd = this.handleFormAdd.bind(this);
+    this.handleFormAdd = this.handleFormAdd.bind(this);
   }
 
   handleSearchChange = evt => {
     // Prevent the browser's default action of submitting the form.
     evt.preventDefault();
     this.setState({
-      filter: evt.target.value,
-      currentPage: 1
+        filter: evt.target.value,
+        currentPage: 1
       },
       () => {
         this.loadContacts();
@@ -58,27 +40,29 @@ class App extends Component {
   }
 
   loadContacts = () => {
-    getContacts(this.state.filter, this.state.currentPage)
-      .then(response => {
-        this.setState({
-          recordCount: response.RecordCount,
-          currentContacts: response.Results,
-          currentPage: response.PageNumber,
-          pageCount: response.PageCount
-        });
-      })
-      .catch(error => {
-        if (error.status === 404) {
-          this.setState({
-            recordCount: null
-          });
-        }
-        else {
-          this.setState({
-            recordCount: null
-          });
-        }
+    getContacts(
+      this.state.filter,
+      this.state.currentPage
+    ).then(response => {
+      this.setState({
+        recordCount: response.RecordCount,
+        currentContacts: response.Results,
+        currentPage: response.PageNumber,
+        pageCount: response.PageCount
       });
+    })
+    .catch(error => {
+      if (error.status === 404) {
+        this.setState({
+          recordCount: null
+        });
+      }
+      else {
+        this.setState({
+          recordCount: null
+        });
+      }
+    });
   }
 
   componentDidMount = () => {
@@ -93,15 +77,39 @@ class App extends Component {
     }, () => this.loadContacts());
   }
 
-  //handleFormAdd = evt => {
-  //  evt.preventDefault();
-    //this.props.form.validateFields((err, values) => {
-    //  if (!err) {
-    //    console.log('Received values of form: ', values);
-    //  }
-    //});
-    // TODO: retrieve first, last, email, phone and call ajax
-  //}
+  handleFormAdd = () => {
+    // clear search query
+    this.setState({
+      filter: ""
+    }, () => {
+      getContacts(
+        this.state.filter,
+        this.state.currentPage
+      )
+      .then(response => {
+        // then move to the last page to show the contact has been added
+        let lastPage = Math.ceil(response.RecordCount / PAGE_SIZE);
+        this.setState({
+          recordCount: response.RecordCount,
+          currentContacts: response.Results,
+          currentPage: lastPage,
+          pageCount: response.PageCount
+        });
+      })
+      .catch(error => {
+        if (error.status === 404) {
+          this.setState({
+            recordCount: null
+          });
+        }
+        else {
+          this.setState({
+            recordCount: null
+            });
+          }
+        });
+    });
+  }
 
   render() {
     // We render the total number of contacts, the current page, the total number of pages,
@@ -113,9 +121,9 @@ class App extends Component {
     return (
       <div className="container">
         <h1 className="text-center">My Contact Management</h1>
-        <Input.Search placeholder="Search" onChange={this.handleSearchChange} />
+        <Input.Search id="txtSearch" placeholder="Search" onChange={this.handleSearchChange} value={this.state.filter} />
         <Row>
-          <MyContactAddForm />
+          <MyContactAddForm onAdd={this.handleFormAdd}/>
         </Row>
 
         <div className="my-custom-scrollbar">

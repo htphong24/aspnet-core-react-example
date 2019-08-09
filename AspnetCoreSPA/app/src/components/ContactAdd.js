@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
 import { Form, Icon, Input, Button, Row, Col } from 'antd';
+import { addContact } from '../utils/APIUtils';
 
 class ContactAddForm extends Component {
   constructor(props) {
@@ -13,21 +14,29 @@ class ContactAddForm extends Component {
     evt.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const submitRequest = Object.assign({}, values); // clone target values
-        //TODO: submitRequest.fname, submitRequest.lname, submitRequest.email, submitRequest.phone1
-        //contactAdd(submitRequest)
-        //  .then(response => {
-        //    this.props.history.push("/");
-        //  }).catch(error => {
-        //    if (error.status === 401) {
+        //const submitRequest = Object.assign({}, values); // clone target values
+        let submitRequest = {
+          Contact: {
+            First: values.fname,
+            Last: values.lname,
+            Email: values.email,
+            Phone1: values.phone1
+          }
+        } 
+        addContact(submitRequest)
+          .then(response => {
+            this.props.onAdd();
+            //this.props.history.push("/");
+          }).catch(error => {
+            if (error.status === 401) {
         //      this.props.handleLogout('/login', 'error', 'You have been logged out. Please login create poll.');
-        //    } else {
+            } else {
         //      notification.error({
         //        message: 'Polling App',
         //        description: error.message || 'Ooops! Something went wrong. Please try again!'
         //      });
-        //    }
-        //  });
+            }
+          });
       }
     });
   }
