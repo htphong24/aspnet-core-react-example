@@ -47,13 +47,9 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            if (_contacts == null)
-            {
-                // Load data from csv file
-                string fileData = FileHandler.LoadFile().Result;
-                _contacts = ParseDataString(fileData);
-            }
-
+            // Load data from csv file
+            string fileData = FileHandler.LoadFile().Result;
+            _contacts = ParseDataString(fileData);
             int recordCount = _contacts.Count();
 
             return Task.FromResult(result: (recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
@@ -61,24 +57,18 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> ListRecordCountAsync()
         {
-            if (_contacts == null)
-            {
-                // Load data from csv file
-                string fileData = FileHandler.LoadFile().Result;
-                _contacts = ParseDataString(fileData);
-            }
+            // Load data from csv file
+            string fileData = FileHandler.LoadFile().Result;
+            _contacts = ParseDataString(fileData);
 
             return Task.FromResult(_contacts.Count());
         }
 
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
-            if (_contacts == null)
-            {
-                // Load data from csv file
-                string fileData = FileHandler.LoadFile().Result;
-                _contacts = ParseDataString(fileData);
-            }
+            // Load data from csv file
+            string fileData = FileHandler.LoadFile().Result;
+            _contacts = ParseDataString(fileData);
 
             List<ContactModel> result = _contacts
                                           .Where(predicate: c => c.First.Contains(request.Query)
@@ -93,12 +83,9 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
-            if (_contacts == null)
-            {
-                // Load data from csv file
-                string fileData = FileHandler.LoadFile().Result;
-                _contacts = ParseDataString(fileData);
-            }
+            // Load data from csv file
+            string fileData = FileHandler.LoadFile().Result;
+            _contacts = ParseDataString(fileData);
 
             int recordCount = _contacts
                                 .Where(predicate: c => c.First.Contains(request.Query)

@@ -29,29 +29,20 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> ListPageCountAsync(ContactListRequest request)
         {
-            if (_contacts == null)
-            {
-                LoadContacts();
-            }
+            LoadContacts();
             int recordCount = _contacts.Count();
             return Task.FromResult((recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
         }
 
         public Task<int> ListRecordCountAsync()
         {
-            if (_contacts == null)
-            {
-                LoadContacts();
-            }
+            LoadContacts();
             return Task.FromResult(_contacts.Count());
         }
 
         public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
-            if (_contacts == null)
-            {
-                LoadContacts();
-            }
+            LoadContacts();
             List<ContactModel> result = _contacts
                                           .Where(c => c.First.Contains(request.Query)
                                                    || c.Last.Contains(request.Query)
@@ -66,10 +57,7 @@ namespace AspnetCoreSPATemplate.Services
 
         public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
-            if (_contacts == null)
-            {
-                LoadContacts();
-            }
+            LoadContacts();
             int recordCount = _contacts
                                 .Where(c => c.First.Contains(request.Query)
                                          || c.Last.Contains(request.Query)
