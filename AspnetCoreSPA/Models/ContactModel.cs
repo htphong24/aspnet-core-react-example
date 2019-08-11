@@ -12,10 +12,10 @@ namespace AspnetCoreSPATemplate.Models
         public int Id { get; set; }
 
         [Required]
-        public string First { get; set; }
+        public string FirstName { get; set; }
 
         [Required]
-        public string Last { get; set; }
+        public string LastName { get; set; }
 
         public string Company { get; }
 

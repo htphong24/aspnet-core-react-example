@@ -19,8 +19,6 @@ namespace AspnetCoreSPATemplate.Services
 
         public IFileHandler FileHandler { get; set; }
 
-        private List<ContactModel> _contacts;
-
         public CsvContactRepository()
         {
             // No need to expose FilePath and FileLoader in constructor's parameters
@@ -31,87 +29,74 @@ namespace AspnetCoreSPATemplate.Services
             FileHandler = new CsvFileHandler(filePath: FilePath);
         }
 
-        public Task<List<ContactModel>> ListAsync(ContactListRequest request)
+        public async Task<List<ContactModel>> ListAsync(ContactListRequest request)
         {
             // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
-            _contacts = ParseDataString(fileData);
+            string fileData = await FileHandler.LoadFileAsync();
+            List<ContactModel> allContacts = ParseDataString(fileData);
 
-            List<ContactModel> result = _contacts
+            List<ContactModel> result = allContacts
                                           .Skip(count: request.SkipCount)
                                           .Take(count: request.TakeCount)
                                           .ToList();
 
-            return Task.FromResult(result: result);
+            return result;
         }
 
-        public Task<int> ListPageCountAsync(ContactListRequest request)
+        public async Task<int> ListRecordCountAsync()
         {
             // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
-            _contacts = ParseDataString(fileData);
-            int recordCount = _contacts.Count();
+            string fileData = await FileHandler.LoadFileAsync();
+            List<ContactModel> allContacts = ParseDataString(fileData);
 
-            return Task.FromResult(result: (recordCount + request.RowsPerPage - 1) / request.RowsPerPage);
+            return allContacts.Count();
         }
 
-        public Task<int> ListRecordCountAsync()
+        public async Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
         {
             // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
-            _contacts = ParseDataString(fileData);
+            string fileData = await FileHandler.LoadFileAsync();
+            List<ContactModel> allContacts = ParseDataString(fileData);
 
-            return Task.FromResult(_contacts.Count());
-        }
-
-        public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
-        {
-            // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
-            _contacts = ParseDataString(fileData);
-
-            List<ContactModel> result = _contacts
-                                          .Where(predicate: c => c.First.Contains(request.Query)
-                                                              || c.Last.Contains(request.Query)
+            List<ContactModel> result = allContacts
+                                          .Where(predicate: c => c.FirstName.Contains(request.Query)
+                                                              || c.LastName.Contains(request.Query)
                                                               || c.Email.Contains(request.Query)
                                                               || c.Phone1.Contains(request.Query))
                                           .Skip(count: request.SkipCount)
                                           .Take(count: request.TakeCount)
                                           .ToList();
-            return Task.FromResult(result: result);
+            return result;
         }
 
-        public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
+        public async Task<int> SearchRecordCountAsync(ContactSearchRequest request)
         {
             // Load data from csv file
-            string fileData = FileHandler.LoadFile().Result;
-            _contacts = ParseDataString(fileData);
+            string fileData = await FileHandler.LoadFileAsync();
+            List<ContactModel> allContacts = ParseDataString(fileData);
 
-            int recordCount = _contacts
-                                .Where(predicate: c => c.First.Contains(request.Query)
-                                                    || c.Last.Contains(request.Query)
+            int recordCount = allContacts
+                                .Where(predicate: c => c.FirstName.Contains(request.Query)
+                                                    || c.LastName.Contains(request.Query)
                                                     || c.Email.Contains(request.Query)
                                                     || c.Phone1.Contains(request.Query))
                                 .Count();
-            return Task.FromResult(result: recordCount);
+            return recordCount;
         }
 
-        public Task CreateAsync(ContactCreateRequest request)
+        public async Task CreateAsync(ContactCreateRequest request)
         {
             ContactModel contact = request.Contact;
             List<string> propList = new List<string>();
-            return Task.Run(() =>
+            // read through each properties of the contact
+            foreach (PropertyInfo prop in contact.GetType().GetProperties())
             {
-                // read through each properties of the contact
-                foreach (PropertyInfo prop in contact.GetType().GetProperties())
-                {
-                    object propValue = prop.GetValue(obj: contact);
-                    // then add each properties to the list
-                    propList.Add(item: propValue.ToString());
-                }
-                // then join them to a string with "," as the delimiter
-                FileHandler.AddLine(value: string.Join(separator: ",", propList.ToArray()));
-            });
+                object propValue = prop.GetValue(obj: contact);
+                // then add each properties to the list
+                propList.Add(item: propValue.ToString());
+            }
+            // then join them to a string with "," as the delimiter
+            await FileHandler.AddLineAsync(value: string.Join(separator: ",", propList.ToArray()));
         }
 
         private List<ContactModel> ParseDataString(string csvData)
@@ -152,8 +137,8 @@ namespace AspnetCoreSPATemplate.Services
             ContactModel contact = new ContactModel()
             {
                 Id = int.Parse(elements[header["id"]]),
-                First = elements[header["first_name"]],
-                Last = elements[header["last_name"]],
+                FirstName = elements[header["first_name"]],
+                LastName = elements[header["last_name"]],
                 Email = elements[header["email"]],
                 Phone1 = elements[header["phone1"]]
             };

@@ -8,8 +8,8 @@ namespace AspnetCoreSPATemplate.Utils
 {
     public interface IFileHandler
     {
-        Task<string> LoadFile();
+        Task<string> LoadFileAsync();
 
-        Task AddLine(string value);
+        Task AddLineAsync(string value);
     }
 }

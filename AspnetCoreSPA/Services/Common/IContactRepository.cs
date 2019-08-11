@@ -12,13 +12,7 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// Returns list of contacts
         /// </summary>
         /// <returns></returns>
-        Task<List<ContactModel>> ListAsync(ContactListRequest request);
-
-        /// <summary>
-        /// Returns page count of list of contacts
-        /// </summary>
-        /// <returns></returns>
-        Task<int> ListPageCountAsync(ContactListRequest request);
+        Task<List<ContactModel>> ListAsync(ContactListRequest rq);
 
         /// <summary>
         /// Returns total records count of list of contacts
@@ -30,19 +24,20 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// Returns search result of contacts
         /// </summary>
         /// <returns></returns>
-        Task<List<ContactModel>> SearchAsync(ContactSearchRequest request);
+        Task<List<ContactModel>> SearchAsync(ContactSearchRequest rq);
 
         /// <summary>
         /// Returns record count of search result of contacts
         /// </summary>
         /// <returns></returns>
-        Task<int> SearchRecordCountAsync(ContactSearchRequest request);
+        Task<int> SearchRecordCountAsync(ContactSearchRequest rq);
 
         /// <summary>
         /// Creates a new contact
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        Task CreateAsync(ContactCreateRequest request);
+        Task CreateAsync(ContactCreateRequest rq);
+
     }
 }

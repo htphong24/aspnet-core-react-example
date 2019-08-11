@@ -26,7 +26,7 @@ namespace AspnetCoreSPATemplate.Services
         {
             ContactListResponse response = new ContactListResponse();
             response.Results = await _contactRepo.ListAsync(request);
-            response.PageCount = await _contactRepo.ListPageCountAsync(request);
+            response.PageCount = (response.RecordCount + request.RowsPerPage - 1) / request.RowsPerPage;
             response.PageNumber = request.PageNumber;
             response.RecordCount = await _contactRepo.ListRecordCountAsync();
             return response;
