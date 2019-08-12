@@ -23,7 +23,7 @@ namespace AspnetCoreSPATemplate.Controllers
         private readonly IContactModificationRepository _contactModRepo;
 
         public ContactsController(
-            IContactRepository contactRepo, 
+            IContactRepository contactRepo,
             IContactModificationRepository contactModRepo
         )
         {
@@ -44,7 +44,7 @@ namespace AspnetCoreSPATemplate.Controllers
             {
                 return new ApiActionResult(this.Context.Request, ex);
             }
-            
+
         }
 
         // http://localhost:5000/api/v1/contacts/search?q=abc
@@ -60,7 +60,7 @@ namespace AspnetCoreSPATemplate.Controllers
             {
                 return new ApiActionResult(this.Context.Request, ex);
             }
-            
+
         }
 
         // http://localhost:5000/api/v1/contacts
@@ -79,8 +79,8 @@ namespace AspnetCoreSPATemplate.Controllers
         }
 
         // http://localhost:5000/api/v1/contacts
-        [HttpPut]
-        public async Task<ActionResult> Update([FromBody]ContactUpdateRequest rq)
+        [HttpPut("{id}")]
+        public async Task<ActionResult> Update(string id, [FromBody]ContactUpdateRequest rq)
         {
             try
             {
@@ -94,8 +94,8 @@ namespace AspnetCoreSPATemplate.Controllers
         }
 
         // http://localhost:5000/api/v1/contacts
-        [HttpDelete]
-        public async Task<ActionResult> Delete([FromBody]ContactDeleteRequest rq)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id, [FromBody]ContactDeleteRequest rq)
         {
             try
             {
