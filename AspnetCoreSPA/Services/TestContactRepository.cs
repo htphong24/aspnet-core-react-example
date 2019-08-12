@@ -16,7 +16,7 @@ namespace AspnetCoreSPATemplate.Services
             _contacts = new List<ContactModel>();
         }
 
-        public Task<List<ContactModel>> ListAsync(ContactListRequest request)
+        public Task<List<ContactModel>> ListAsync(ContactListRequest rq)
         {
             return Task.Run(() =>
             {
@@ -26,8 +26,8 @@ namespace AspnetCoreSPATemplate.Services
                 }
 
                 List<ContactModel> result = _contacts
-                                              .Skip(request.SkipCount)
-                                              .Take(request.TakeCount)
+                                              .Skip(rq.SkipCount)
+                                              .Take(rq.TakeCount)
                                               .ToList();
 
                 return result;
@@ -47,7 +47,7 @@ namespace AspnetCoreSPATemplate.Services
             });
         }
 
-        public Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
+        public Task<List<ContactModel>> SearchAsync(ContactSearchRequest rq)
         {
             return Task.Run(() =>
             {
@@ -57,19 +57,19 @@ namespace AspnetCoreSPATemplate.Services
                 }
 
                 List<ContactModel> result = _contacts
-                                              .Where(c => c.FirstName.Contains(request.Query)
-                                                       || c.LastName.Contains(request.Query)
-                                                       || c.Email.Contains(request.Query)
-                                                       || c.Phone1.Contains(request.Query))
-                                              .Skip(request.SkipCount)
-                                              .Take(request.TakeCount)
+                                              .Where(c => c.FirstName.Contains(rq.Query)
+                                                       || c.LastName.Contains(rq.Query)
+                                                       || c.Email.Contains(rq.Query)
+                                                       || c.Phone1.Contains(rq.Query))
+                                              .Skip(rq.SkipCount)
+                                              .Take(rq.TakeCount)
                                               .ToList();
 
                 return result;
             });
         }
 
-        public Task<int> SearchRecordCountAsync(ContactSearchRequest request)
+        public Task<int> SearchRecordCountAsync(ContactSearchRequest rq)
         {
             return Task.Run(() =>
             {
@@ -79,19 +79,19 @@ namespace AspnetCoreSPATemplate.Services
                 }
                 
                 int recordCount = _contacts
-                                    .Where(c => c.FirstName.Contains(request.Query)
-                                             || c.LastName.Contains(request.Query)
-                                             || c.Email.Contains(request.Query)
-                                             || c.Phone1.Contains(request.Query))
+                                    .Where(c => c.FirstName.Contains(rq.Query)
+                                             || c.LastName.Contains(rq.Query)
+                                             || c.Email.Contains(rq.Query)
+                                             || c.Phone1.Contains(rq.Query))
                                     .Count();
 
                 return recordCount;
             });
         }
 
-        public Task CreateAsync(ContactCreateRequest request)
+        public Task CreateAsync(ContactCreateRequest rq)
         {
-            return Task.Run(() => _contacts.Add(request.Contact));
+            return Task.Run(() => _contacts.Add(rq.Contact));
         }
 
         private void LoadContacts()

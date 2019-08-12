@@ -10,6 +10,8 @@ using AspnetCoreSPATemplate.Services;
 using System.Web.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using AutoMapper;
+using SqlServerDataAccess;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -18,20 +20,25 @@ namespace AspnetCoreSPATemplate.Controllers
     public class ContactsController : BaseController
     {
         private readonly IContactRepository _contactRepo;
+        private readonly IContactModificationRepository _contactModRepo;
 
-        public ContactsController(IContactRepository contactRepo)
+        public ContactsController(
+            IContactRepository contactRepo, 
+            IContactModificationRepository contactModRepo
+        )
         {
             _contactRepo = contactRepo;
+            _contactModRepo = contactModRepo;
         }
 
         // http://localhost:5000/api/v1/contacts
         [HttpGet]
-        public async Task<ActionResult> List([FromQuery]ContactListRequest request)
+        public async Task<ActionResult> List([FromQuery]ContactListRequest rq)
         {
             try
             {
-                ContactListResponse response = await (new ContactListService(this.Context, _contactRepo)).RunAsync(request);
-                return new ApiActionResult(this.Context.Request, response);
+                ContactListResponse rs = await (new ContactListService(this.Context, _contactRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
             }
             catch (Exception ex)
             {
@@ -42,12 +49,12 @@ namespace AspnetCoreSPATemplate.Controllers
 
         // http://localhost:5000/api/v1/contacts/search?q=abc
         [HttpGet("search")]
-        public async Task<ActionResult> Search([FromQuery]ContactSearchRequest request)
+        public async Task<ActionResult> Search([FromQuery]ContactSearchRequest rq)
         {
             try
             {
-                ContactSearchResponse response = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(request);
-                return new ApiActionResult(this.Context.Request, response);
+                ContactSearchResponse rs = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
             }
             catch (Exception ex)
             {
@@ -58,12 +65,12 @@ namespace AspnetCoreSPATemplate.Controllers
 
         // http://localhost:5000/api/v1/contacts
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody]ContactCreateRequest request)
+        public async Task<ActionResult> Create([FromBody]ContactCreateRequest rq)
         {
             try
             {
-                ContactCreateResponse response = await (new ContactCreateService(this.Context, _contactRepo)).RunAsync(request);
-                return new ApiActionResult(this.Context.Request, response);
+                ContactCreateResponse rs = await (new ContactCreateService(this.Context, _contactRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
             }
             catch (Exception ex)
             {

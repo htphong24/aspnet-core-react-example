@@ -148,8 +148,8 @@ class App extends Component {
           <Row className="my-row-header">
             <Col span={2}>Actions</Col>
             <Col span={2}>Id</Col>
-            <Col span={4}>First</Col>
-            <Col span={4}>Last</Col>
+            <Col span={4}>First Name</Col>
+            <Col span={4}>Last Name</Col>
             <Col span={8}>Email</Col>
             <Col span={4}>Phone1</Col>
           </Row>

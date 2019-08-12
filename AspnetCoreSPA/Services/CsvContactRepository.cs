@@ -26,18 +26,18 @@ namespace AspnetCoreSPATemplate.Services
             // Since they're properties so user can still change them later on if
             // they don't like the implementation.
             FilePath = AppDomain.CurrentDomain.BaseDirectory + "SampleData.csv";
-            FileHandler = new CsvFileHandler(filePath: FilePath);
+            FileHandler = new CsvFileHandler(FilePath);
         }
 
-        public async Task<List<ContactModel>> ListAsync(ContactListRequest request)
+        public async Task<List<ContactModel>> ListAsync(ContactListRequest rq)
         {
             // Load data from csv file
             string fileData = await FileHandler.LoadFileAsync();
             List<ContactModel> allContacts = ParseDataString(fileData);
 
             List<ContactModel> result = allContacts
-                                          .Skip(count: request.SkipCount)
-                                          .Take(count: request.TakeCount)
+                                          .Skip(rq.SkipCount)
+                                          .Take(rq.TakeCount)
                                           .ToList();
 
             return result;
@@ -52,41 +52,41 @@ namespace AspnetCoreSPATemplate.Services
             return allContacts.Count();
         }
 
-        public async Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
+        public async Task<List<ContactModel>> SearchAsync(ContactSearchRequest rq)
         {
             // Load data from csv file
             string fileData = await FileHandler.LoadFileAsync();
             List<ContactModel> allContacts = ParseDataString(fileData);
 
             List<ContactModel> result = allContacts
-                                          .Where(predicate: c => c.FirstName.Contains(request.Query)
-                                                              || c.LastName.Contains(request.Query)
-                                                              || c.Email.Contains(request.Query)
-                                                              || c.Phone1.Contains(request.Query))
-                                          .Skip(count: request.SkipCount)
-                                          .Take(count: request.TakeCount)
+                                          .Where(predicate: c => c.FirstName.Contains(rq.Query)
+                                                              || c.LastName.Contains(rq.Query)
+                                                              || c.Email.Contains(rq.Query)
+                                                              || c.Phone1.Contains(rq.Query))
+                                          .Skip(rq.SkipCount)
+                                          .Take(rq.TakeCount)
                                           .ToList();
             return result;
         }
 
-        public async Task<int> SearchRecordCountAsync(ContactSearchRequest request)
+        public async Task<int> SearchRecordCountAsync(ContactSearchRequest rq)
         {
             // Load data from csv file
             string fileData = await FileHandler.LoadFileAsync();
             List<ContactModel> allContacts = ParseDataString(fileData);
 
             int recordCount = allContacts
-                                .Where(predicate: c => c.FirstName.Contains(request.Query)
-                                                    || c.LastName.Contains(request.Query)
-                                                    || c.Email.Contains(request.Query)
-                                                    || c.Phone1.Contains(request.Query))
+                                .Where(predicate: c => c.FirstName.Contains(rq.Query)
+                                                    || c.LastName.Contains(rq.Query)
+                                                    || c.Email.Contains(rq.Query)
+                                                    || c.Phone1.Contains(rq.Query))
                                 .Count();
             return recordCount;
         }
 
-        public async Task CreateAsync(ContactCreateRequest request)
+        public async Task CreateAsync(ContactCreateRequest rq)
         {
-            ContactModel contact = request.Contact;
+            ContactModel contact = rq.Contact;
             List<string> propList = new List<string>();
             // read through each properties of the contact
             foreach (PropertyInfo prop in contact.GetType().GetProperties())

@@ -1,5 +1,7 @@
 ﻿using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Common;
+using AutoMapper;
+using SqlServerDataAccess;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +24,14 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary> 
         /// <param name="rq">Request</param> 
         /// <returns>Response</returns>
-        protected override async Task<ContactListResponse> DoRunAsync(ContactListRequest request)
+        protected override async Task<ContactListResponse> DoRunAsync(ContactListRequest rq)
         {
-            ContactListResponse response = new ContactListResponse();
-            response.Results = await _contactRepo.ListAsync(request);
-            response.PageCount = (response.RecordCount + request.RowsPerPage - 1) / request.RowsPerPage;
-            response.PageNumber = request.PageNumber;
-            response.RecordCount = await _contactRepo.ListRecordCountAsync();
-            return response;
+            ContactListResponse rs = new ContactListResponse();
+            rs.Results = await _contactRepo.ListAsync(rq);
+            rs.PageCount = (rs.RecordCount + rq.RowsPerPage - 1) / rq.RowsPerPage;
+            rs.PageNumber = rq.PageNumber;
+            rs.RecordCount = await _contactRepo.ListRecordCountAsync();
+            return rs;
         }
     }
 }

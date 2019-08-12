@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspnetCoreSPATemplate", "AspnetCoreSPA\AspnetCoreSPATemplate.csproj", "{8DB7F7FC-B546-48F6-AA69-867A683CE8EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SqlServerDataAccess", "SqlServerDataAccess\SqlServerDataAccess.csproj", "{1AC58B3F-9C10-4DB7-8525-8088484CE45E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8DB7F7FC-B546-48F6-AA69-867A683CE8EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DB7F7FC-B546-48F6-AA69-867A683CE8EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DB7F7FC-B546-48F6-AA69-867A683CE8EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AC58B3F-9C10-4DB7-8525-8088484CE45E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AC58B3F-9C10-4DB7-8525-8088484CE45E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AC58B3F-9C10-4DB7-8525-8088484CE45E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AC58B3F-9C10-4DB7-8525-8088484CE45E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

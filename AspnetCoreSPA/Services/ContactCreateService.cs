@@ -22,12 +22,12 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary> 
         /// <param name="rq">Request</param> 
         /// <returns>Response</returns>
-        protected override async Task<ContactCreateResponse> DoRunAsync(ContactCreateRequest request)
+        protected override async Task<ContactCreateResponse> DoRunAsync(ContactCreateRequest rq)
         {
-            ContactCreateResponse response = new ContactCreateResponse();
-            response.Contact = request.Contact;
-            await _contactRepo.CreateAsync(request);
-            return response;
+            ContactCreateResponse rs = new ContactCreateResponse();
+            rs.Contact = rq.Contact;
+            await _contactRepo.CreateAsync(rq);
+            return rs;
         }
     }
 }

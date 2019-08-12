@@ -7,8 +7,8 @@ import { DATA_SOURCE } from '../constants';
 const ContactRow = props => {
   const {
     Id = 0,
-    First = '',
-    Last = '',
+    FirstName = '',
+    LastName = '',
     Email = '',
     Phone1 = ''
   } = props.contact || {};
@@ -26,8 +26,8 @@ const ContactRow = props => {
       )}
       </Col>
       <Col span={2}>{Id}</Col>
-      <Col span={4}>{First}</Col>
-      <Col span={4}>{Last}</Col>
+      <Col span={4}>{FirstName}</Col>
+      <Col span={4}>{LastName}</Col>
       <Col span={8}>{Email}</Col>
       <Col span={4}>{Phone1}</Col>
     </Row>
@@ -37,8 +37,8 @@ const ContactRow = props => {
 ContactRow.propTypes = {
   contact: PropTypes.shape({
     Id: PropTypes.number,
-    First: PropTypes.string,
-    Last: PropTypes.string,
+    FirstName: PropTypes.string,
+    LastName: PropTypes.string,
     Email: PropTypes.string, 
     Phone1: PropTypes.string
   }).isRequired

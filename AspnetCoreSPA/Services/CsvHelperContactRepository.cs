@@ -26,21 +26,21 @@ namespace AspnetCoreSPATemplate.Services
             FilePath = AppDomain.CurrentDomain.BaseDirectory + "SampleData.csv";
         }
 
-        public async Task<List<ContactModel>> ListAsync(ContactListRequest request)
+        public async Task<List<ContactModel>> ListAsync(ContactListRequest rq)
         {
             List<ContactModel> allContacts = await ParseContactDataAsync(FilePath);
             List<ContactModel> result = allContacts
-                                          .Skip(request.SkipCount)
-                                          .Take(request.TakeCount)
+                                          .Skip(rq.SkipCount)
+                                          .Take(rq.TakeCount)
                                           .ToList();
             return result;
         }
 
-        public async Task<int> ListPageCountAsync(ContactListRequest request)
+        public async Task<int> ListPageCountAsync(ContactListRequest rq)
         {
             List<ContactModel> allContacts = await ParseContactDataAsync(FilePath);
             int recordCount = allContacts.Count();
-            return (recordCount + request.RowsPerPage - 1) / request.RowsPerPage;
+            return (recordCount + rq.RowsPerPage - 1) / rq.RowsPerPage;
         }
 
         public async Task<int> ListRecordCountAsync()
@@ -50,48 +50,48 @@ namespace AspnetCoreSPATemplate.Services
             return recordCount;
         }
 
-        public async Task<List<ContactModel>> SearchAsync(ContactSearchRequest request)
+        public async Task<List<ContactModel>> SearchAsync(ContactSearchRequest rq)
         {
             List<ContactModel> allContacts = await ParseContactDataAsync(FilePath);
             List<ContactModel> result = allContacts
-                                          .Where(c => c.FirstName.Contains(request.Query)
-                                                   || c.LastName.Contains(request.Query)
-                                                   || c.Email.Contains(request.Query)
-                                                   || c.Phone1.Contains(request.Query))
-                                          .Skip(request.SkipCount)
-                                          .Take(request.TakeCount)
+                                          .Where(c => c.FirstName.Contains(rq.Query)
+                                                   || c.LastName.Contains(rq.Query)
+                                                   || c.Email.Contains(rq.Query)
+                                                   || c.Phone1.Contains(rq.Query))
+                                          .Skip(rq.SkipCount)
+                                          .Take(rq.TakeCount)
                                           .ToList();
 
             return result;
         }
 
-        public async Task<int> SearchRecordCountAsync(ContactSearchRequest request)
+        public async Task<int> SearchRecordCountAsync(ContactSearchRequest rq)
         {
             List<ContactModel> allContacts = await ParseContactDataAsync(FilePath);
             int recordCount = allContacts
-                                .Where(c => c.FirstName.Contains(request.Query)
-                                         || c.LastName.Contains(request.Query)
-                                         || c.Email.Contains(request.Query)
-                                         || c.Phone1.Contains(request.Query))
+                                .Where(c => c.FirstName.Contains(rq.Query)
+                                         || c.LastName.Contains(rq.Query)
+                                         || c.Email.Contains(rq.Query)
+                                         || c.Phone1.Contains(rq.Query))
                                 .Count();
 
             return recordCount;
         }
 
-        public async Task CreateAsync(ContactCreateRequest request)
+        public async Task CreateAsync(ContactCreateRequest rq)
         {
             List<ContactModel> allContacts = await ParseContactDataAsync(FilePath);
-            if (IsEmailInUse(allContacts, request.Contact.Email))
+            if (IsEmailInUse(allContacts, rq.Contact.Email))
             {
                 throw new Exception("Email is in use.");
             }
             else
             {
-                request.Contact.Id = MaxId(allContacts) + 1;
+                rq.Contact.Id = MaxId(allContacts) + 1;
                 using (StreamWriter writer = new StreamWriter(path: FilePath, append: true))
                 using (CsvWriter csv = new CsvWriter(writer))
                 {
-                    csv.WriteRecord(request.Contact);
+                    csv.WriteRecord(rq.Contact);
                     csv.NextRecord();
                 }
             }

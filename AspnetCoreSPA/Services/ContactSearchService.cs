@@ -22,14 +22,14 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary> 
         /// <param name="rq">Request</param> 
         /// <returns>Response</returns>
-        protected override async Task<ContactSearchResponse> DoRunAsync(ContactSearchRequest request)
+        protected override async Task<ContactSearchResponse> DoRunAsync(ContactSearchRequest rq)
         {
-            ContactSearchResponse response = new ContactSearchResponse();
-            response.Results = await _contactRepo.SearchAsync(request);
-            response.RecordCount = await _contactRepo.SearchRecordCountAsync(request);
-            response.PageCount = (response.RecordCount + request.RowsPerPage - 1) / request.RowsPerPage;
-            response.PageNumber = request.PageNumber;
-            return response;
+            ContactSearchResponse rs = new ContactSearchResponse();
+            rs.Results = await _contactRepo.SearchAsync(rq);
+            rs.RecordCount = await _contactRepo.SearchRecordCountAsync(rq);
+            rs.PageCount = (rs.RecordCount + rq.RowsPerPage - 1) / rq.RowsPerPage;
+            rs.PageNumber = rq.PageNumber;
+            return rs;
         }
     }
 }

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AspnetCoreSPATemplate.Services.Common;
+using SqlServerDataAccess;
+using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 
 namespace AspnetCoreSPATemplate
 {
@@ -22,9 +25,20 @@ namespace AspnetCoreSPATemplate
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
+
+            // Auto Mapper
+            services.AddAutoMapper(typeof(Startup));
+
+            // Fetching Ccnnection string from appsettings.json
+            string connectionString = Configuration.GetConnectionString("DbConstr");
+            // Entity Framework
+            services.AddDbContext<ContactsMgmtContext>(options => options.UseSqlServer(connectionString));
+
             //services.AddTransient<IContactRepository, TestContactRepository>();
             //services.AddTransient<IContactRepository, CsvContactRepository>();
-            services.AddTransient<IContactRepository, CsvHelperContactRepository>();
+            //services.AddTransient<IContactRepository, CsvHelperContactRepository>();
+            services.AddTransient<IContactRepository, SqlServerContactRepository>();
+            services.AddTransient<IContactModificationRepository, SqlServerContactRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

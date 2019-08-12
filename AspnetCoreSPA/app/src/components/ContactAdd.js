@@ -16,8 +16,8 @@ class ContactAddForm extends Component {
         //const submitRequest = Object.assign({}, values); // clone target values
         let submitRequest = {
           Contact: {
-            First: values.txtFirstName,
-            Last: values.txtLastName,
+            FirstName: values.txtFirstName,
+            LastName: values.txtLastName,
             Email: values.txtEmail,
             Phone1: values.txtPhone1
           }
