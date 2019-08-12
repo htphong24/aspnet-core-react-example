@@ -98,12 +98,19 @@ namespace AspnetCoreSPATemplate.Services
         public async Task UpdateAsync(ContactUpdateRequest rq)
         {
             ContactModel dto = rq.Contact;
-            if (IsEmailInUse(dto.Email))
+            // Retrieve old email
+            string oldEmail = Db.Contacts
+                                .Where(c => c.Id == dto.Id)
+                                .Select(c => c.Email)
+                                .FirstOrDefault();
+            // Check whether the new email is the same as the old one or it is being used by others
+            if (IsEmailInUse(dto.Email, oldEmail))
             {
                 throw new Exception("Email is in use.");
             }
             else
             {
+                // It's not in use, then update the contact
                 Contact result = Mapper.Map<Contact>(dto);
                 Db.Contacts.Attach(result);
                 Db.Entry(result).State = EntityState.Modified;
