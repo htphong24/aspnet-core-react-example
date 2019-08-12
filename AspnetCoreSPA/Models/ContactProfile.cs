@@ -12,6 +12,7 @@ namespace AspnetCoreSPATemplate.Models
         public ContactProfile()
         {
             CreateMap<Contact, ContactModel>();
+            CreateMap<ContactModel, Contact>();
         }
     }
 }
