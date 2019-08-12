@@ -114,7 +114,10 @@ namespace AspnetCoreSPATemplate.Services
 
         public async Task DeleteAsync(ContactDeleteRequest rq)
         {
-            throw new NotImplementedException();
+            ContactModel dto = rq.Contact;
+            Db.Remove(dto);
+            // Save data
+            await Db.SaveChangesAsync();
         }
 
         public bool IsEmailInUse(string email, string oldEmail = null)

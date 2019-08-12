@@ -93,6 +93,20 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        
+        // http://localhost:5000/api/v1/contacts
+        [HttpDelete]
+        public async Task<ActionResult> Delete([FromBody]ContactDeleteRequest rq)
+        {
+            try
+            {
+                ContactDeleteResponse rs = await (new ContactDeleteService(this.Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
+
     }
 }
