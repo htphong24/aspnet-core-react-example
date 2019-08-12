@@ -26,14 +26,16 @@ namespace AspnetCoreSPATemplate
         {
             services.AddHttpContextAccessor();
 
-            // Auto Mapper
-            services.AddAutoMapper(typeof(Startup));
+            if (Configuration["DataSource"] == "SqlServer")
+            {
+                // Auto Mapper
+                services.AddAutoMapper(typeof(Startup));
 
-            // Fetching Ccnnection string from appsettings.json
-            string connectionString = Configuration.GetConnectionString("DbConstr");
-            // Entity Framework
-            services.AddDbContext<ContactsMgmtContext>(options => options.UseSqlServer(connectionString));
-
+                // Fetching Ccnnection string from appsettings.json
+                string connectionString = Configuration.GetConnectionString("DbConstr");
+                // Entity Framework
+                services.AddDbContext<ContactsMgmtContext>(options => options.UseSqlServer(connectionString));
+            }
             //services.AddTransient<IContactRepository, TestContactRepository>();
             //services.AddTransient<IContactRepository, CsvContactRepository>();
             //services.AddTransient<IContactRepository, CsvHelperContactRepository>();
