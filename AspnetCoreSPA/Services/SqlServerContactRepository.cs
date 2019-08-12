@@ -92,13 +92,24 @@ namespace AspnetCoreSPATemplate.Services
                 Db.Contacts.Add(result);
                 // Save data
                 await Db.SaveChangesAsync();
-                //dto.Id = result.Id;
             }
         }
 
         public async Task UpdateAsync(ContactUpdateRequest rq)
         {
-            throw new NotImplementedException();
+            ContactModel dto = rq.Contact;
+            if (IsEmailInUse(dto.Email))
+            {
+                throw new Exception("Email is in use.");
+            }
+            else
+            {
+                Contact result = Mapper.Map<Contact>(dto);
+                Db.Contacts.Attach(result);
+                Db.Entry(result).State = EntityState.Modified;
+                // Save data
+                await Db.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteAsync(ContactDeleteRequest rq)
@@ -106,14 +117,24 @@ namespace AspnetCoreSPATemplate.Services
             throw new NotImplementedException();
         }
 
-        public bool IsEmailInUse(string email)
+        public bool IsEmailInUse(string email, string oldEmail = null)
         {
-            // Create Query
-            var query = Db.Contacts.Where(c => c.Email == email);
-            // Retrieve data, do not use async method here
-            bool isInUse = query.Any();
+            // If new email is the same as old email
+            if (oldEmail != null && oldEmail == email)
+            {
+                // Then it's OK
+                return false;
+            }
+            else
+            {
+                // If not, check whether it is being used by other contacts
+                // Create Query
+                var query = Db.Contacts.Where(c => c.Email == email);
+                // Retrieve data, do not use async method here
+                bool isInUse = query.Any();
 
-            return isInUse;
+                return isInUse;
+            }
         }
     }
 }

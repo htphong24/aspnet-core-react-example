@@ -77,5 +77,22 @@ namespace AspnetCoreSPATemplate.Controllers
                 return new ApiActionResult(this.Context.Request, ex);
             }
         }
+
+        // http://localhost:5000/api/v1/contacts
+        [HttpPut]
+        public async Task<ActionResult> Update([FromBody]ContactUpdateRequest rq)
+        {
+            try
+            {
+                ContactUpdateResponse rs = await (new ContactUpdateService(this.Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
+
+        
     }
 }
