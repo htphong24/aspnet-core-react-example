@@ -13,16 +13,18 @@ class App extends Component {
     super(props);
 
     this.state = {
-      recordCount: null,   // total number of records
-      currentContacts: [], // an array of all the contacts to be shown on the currently active page. Initialized to an empty array([])
-      currentPage: 1,      // the page number of the currently active page. Initialized to 1
-      pageCount: null,     // the total number of pages for all the contact records. Initialized to null.
-      filter: "",          // search keyword
+      recordCount: null,    // total number of records
+      currentContacts: [],  // an array of all the contacts to be shown on the currently active page. Initialized to an empty array([])
+      currentPage: 1,       // the page number of the currently active page. Initialized to 1
+      pageCount: null,      // the total number of pages for all the contact records. Initialized to null.
+      filter: "",           // search keyword
+      editingContact: null, // id of the contact in Edit mode
     };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleFormAdd = this.handleFormAdd.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleSearchChange = evt => {
@@ -128,21 +130,25 @@ class App extends Component {
     });
   }
 
-  handleUpdate = evt => {
-    console.log("App - handleUpdate - evt");
-    console.log(evt);
-    console.log("App - handleUpdate - evt.target");
-    console.log(evt.target);
+  handleEdit = (evt) => {
+    this.setState({
+      editingContact: evt
+    });
+  };
+
+  handleCancel = (evt) => {
+    this.setState({
+      editingContact: null
+    });
   };
 
   render() {
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
-    const { recordCount, currentContacts, currentPage, pageCount } = this.state;
+    const { recordCount, currentContacts, currentPage, pageCount, editingContact } = this.state;
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     const MyContactAddForm = Form.create()(ContactAddForm);
-    //console.log("App - render - currentContacts");
-    //console.log(currentContacts);
+    
     return (
       <div className="container">
         <h1 className="text-center">My Contact Management</h1>
@@ -160,7 +166,7 @@ class App extends Component {
             <Col span={8}>Email</Col>
             <Col span={4}>Phone1</Col>
           </Row>
-          {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} />)}
+          {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} editingContact={editingContact} onEdit={this.handleEdit} onCancel={this.handleCancel} />)}
         </div>
 
         <div className="w-100 px-4 d-flex flex-row flex-wrap align-items-center justify-content-between">

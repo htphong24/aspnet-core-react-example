@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
-import { Row, Col, Tooltip, Input, Form } from 'antd';
+import { Row, Col, Tooltip, Form } from 'antd';
 import { DATA_SOURCE } from '../constants';
 import ContactUpdateForm from './ContactUpdateForm';
 
@@ -10,33 +10,29 @@ class ContactRow extends Component {
     super(props);
 
     this.state = {
-      contact: props.contact,
-      mode: "Read" // Reading/Editing
+      contact: props.contact
     };
-
+    
     this.handleEdit = this.handleEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleEdit = (evt, id) => {
-    this.setState({
-      mode: "Edit"
-    });
+    this.props.onEdit(id);
   }
 
-  handleCancel = (evt) => {
-    this.setState({
-      mode: "Read"
-    });
+  handleCancel = (evt, id) => {
+    this.props.onCancel(id);
   }
 
   render() {
-    const { contact, mode } = this.state;
+    const { contact } = this.state;
     const MyContactUpdateForm = Form.create()(ContactUpdateForm);
-
+    const { editingContact } = this.props;
     return (
-      mode === "Read"
-      ? <Row>
+      editingContact === contact.Id
+      ? <MyContactUpdateForm contact={contact} onCancel={this.handleCancel}/>
+      : <Row>
           <Col span={2}>
             {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
               <span>
@@ -44,7 +40,7 @@ class ContactRow extends Component {
                   <i className="fas fa-edit" onClick={(evt) => this.handleEdit(evt, contact.Id)} />
                 </Tooltip>
                 <Tooltip placement="top" title="Delete contact">
-                  <i className="fas fa-trash" />
+                  <i className="fas fa-trash" onClick={(evt) => this.handleCancel(evt, contact.Id)} />
                 </Tooltip>
               </span>
             ) : (
@@ -57,9 +53,6 @@ class ContactRow extends Component {
           <Col span={8}>{contact.Email}</Col>
           <Col span={4}>{contact.Phone1}</Col>
         </Row>
-
-      : <MyContactUpdateForm contact={contact} onCancel={this.handleCancel}/>
-        
     );
   }
 }
