@@ -11,20 +11,22 @@ class ContactRow extends Component {
 
     this.state = {
       contact: props.contact,
-      mode: "Reading" // Reading / Editing
+      mode: "Read" // Reading/Editing
     };
 
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleEdit = (evt, id) => {
-    console.log("ContactUpdateForm - handleUpdate - evt");
-    console.log(evt);
-    console.log("ContactUpdateForm - handleUpdate - id");
-    console.log(id);
-    evt.preventDefault();
     this.setState({
-      mode: "Editing"
+      mode: "Edit"
+    });
+  }
+
+  handleCancel = (evt) => {
+    this.setState({
+      mode: "Read"
     });
   }
 
@@ -33,7 +35,7 @@ class ContactRow extends Component {
     const MyContactUpdateForm = Form.create()(ContactUpdateForm);
 
     return (
-      mode === "Reading"
+      mode === "Read"
       ? <Row>
           <Col span={2}>
             {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
@@ -56,7 +58,7 @@ class ContactRow extends Component {
           <Col span={4}>{contact.Phone1}</Col>
         </Row>
 
-      : <MyContactUpdateForm contact={contact} />
+      : <MyContactUpdateForm contact={contact} onCancel={this.handleCancel}/>
         
     );
   }

@@ -12,12 +12,12 @@ class ContactUpdateForm extends Component {
     };
 
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleCancel = this.handleCancel.bind(this);
   }
 
   handleUpdate = (evt) => {
     console.log("ContactUpdateForm - handleUpdate - evt");
     console.log(evt);
-    evt.preventDefault();
     //this.props.form.validateFields((err, values) => {
     //  if (!err) {
     //    //const submitRequest = Object.assign({}, values); // clone target values
@@ -45,6 +45,10 @@ class ContactUpdateForm extends Component {
     //});
   }
 
+  handleCancel = (evt, id) => {
+    this.props.onCancel();
+  }
+
   render() {
     const { contact } = this.state;
     const { getFieldDecorator } = this.props.form;
@@ -54,8 +58,11 @@ class ContactUpdateForm extends Component {
           <Col span={2}>
             {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
               <span>
-                <Tooltip placement="top" title="Edit contact">
-                  <i className="fas fa-edit" />
+                <Tooltip placement="top" title="Save contact">
+                  <i className="fas fa-save" />
+                </Tooltip>
+                <Tooltip placement="top" title="Cancel editing">
+                  <i className="fas fa-times" onClick={(evt) => this.handleCancel(evt, contact.Id)} />
                 </Tooltip>
                 <Tooltip placement="top" title="Delete contact">
                   <i className="fas fa-trash" />
