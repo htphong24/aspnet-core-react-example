@@ -37,6 +37,21 @@ namespace AspnetCoreSPATemplate.Services
             return dtoList;
         }
 
+        public async Task<ContactModel> GetAsync(ContactGetRequest rq)
+        {
+            // Create query
+            IQueryable<Contact> query = Db.Contacts
+                                          .Where(c => c.Id == rq.Id);
+            // Retrieve data
+            Contact contact = await query.FirstOrDefaultAsync();
+            // Map to model
+            ContactModel dto = Mapper.Map<ContactModel>(contact);
+            // Detach contact
+            Db.Entry(contact).State = EntityState.Detached;
+
+            return dto;
+        }
+
         public async Task<int> ListRecordCountAsync()
         {
             // Create query

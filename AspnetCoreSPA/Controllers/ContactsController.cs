@@ -44,7 +44,21 @@ namespace AspnetCoreSPATemplate.Controllers
             {
                 return new ApiActionResult(this.Context.Request, ex);
             }
+        }
 
+        // http://localhost:5000/api/v1/contacts/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get([FromRoute]ContactGetRequest rq)
+        {
+            try
+            {
+                ContactGetResponse rs = await (new ContactGetService(this.Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
         }
 
         // http://localhost:5000/api/v1/contacts/search?q=abc
@@ -78,7 +92,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts
+        // http://localhost:5000/api/v1/contacts/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(string id, [FromBody]ContactUpdateRequest rq)
         {
@@ -93,7 +107,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts
+        // http://localhost:5000/api/v1/contacts/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id, [FromBody]ContactDeleteRequest rq)
         {

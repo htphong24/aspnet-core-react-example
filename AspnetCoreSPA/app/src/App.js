@@ -22,7 +22,7 @@ class App extends Component {
     };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleFormAdd = this.handleFormAdd.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
@@ -78,7 +78,7 @@ class App extends Component {
     }, () => this.loadContacts());
   }
 
-  handleFormAdd = () => {
+  handleAdd = () => {
     // clear search query
     this.setState({
       filter: ""
@@ -154,7 +154,7 @@ class App extends Component {
         <h1 className="text-center">My Contact Management</h1>
         <Input.Search id="txtSearch" placeholder="Search" onChange={this.handleSearchChange} value={this.state.filter} />
         <Row>
-          <MyContactAddForm onAdd={this.handleFormAdd}/>
+          <MyContactAddForm onAdd={this.handleAdd}/>
         </Row>
 
         <div className="my-custom-scrollbar">

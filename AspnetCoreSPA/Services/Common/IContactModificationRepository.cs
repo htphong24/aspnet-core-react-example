@@ -11,6 +11,13 @@ namespace AspnetCoreSPATemplate.Services.Common
     public interface IContactModificationRepository
     {
         /// <summary>
+        /// Gets a contact
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        Task<ContactModel> GetAsync(ContactGetRequest rq);
+
+        /// <summary>
         /// Updates a contact
         /// </summary>
         /// <param name="request"></param>
