@@ -1,10 +1,71 @@
-﻿import React from 'react';
+﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
-import { Row, Col } from 'antd';
+import { Row, Col, Tooltip, Input, Form } from 'antd';
 import { DATA_SOURCE } from '../constants';
+import ContactUpdateForm from './ContactUpdateForm';
 
+class ContactRow extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      contact: props.contact,
+      mode: "Reading" // Reading / Editing
+    };
+
+    this.handleEdit = this.handleEdit.bind(this);
+  }
+
+  handleEdit = (evt, id) => {
+    console.log("ContactUpdateForm - handleUpdate - evt");
+    console.log(evt);
+    console.log("ContactUpdateForm - handleUpdate - id");
+    console.log(id);
+    evt.preventDefault();
+    this.setState({
+      mode: "Editing"
+    });
+  }
+
+  render() {
+    const { contact, mode } = this.state;
+    const MyContactUpdateForm = Form.create()(ContactUpdateForm);
+
+    return (
+      mode === "Reading"
+      ? <Row>
+          <Col span={2}>
+            {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
+              <span>
+                <Tooltip placement="top" title="Edit contact">
+                  <i className="fas fa-edit" onClick={(evt) => this.handleEdit(evt, contact.Id)} />
+                </Tooltip>
+                <Tooltip placement="top" title="Delete contact">
+                  <i className="fas fa-trash" />
+                </Tooltip>
+              </span>
+            ) : (
+                <span>N/A</span>
+              )}
+          </Col>
+          <Col span={2}>{contact.Id}</Col>
+          <Col span={4}>{contact.FirstName}</Col>
+          <Col span={4}>{contact.LastName}</Col>
+          <Col span={8}>{contact.Email}</Col>
+          <Col span={4}>{contact.Phone1}</Col>
+        </Row>
+
+      : <MyContactUpdateForm contact={contact} />
+        
+    );
+  }
+}
+
+/*
 const ContactRow = props => {
+  console.log("ContactRow - props");
+  console.log(props);
   const {
     Id = 0,
     FirstName = '',
@@ -18,8 +79,12 @@ const ContactRow = props => {
       <Col span={2}>
       {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
         <span>
-          <i className="fas fa-edit"/>
-          <i className="fas fa-trash" />
+          <Tooltip placement="top" title="Edit contact">
+            <i className="fas fa-edit" value={Id} onClick={props.onUpdate}/>
+          </Tooltip>
+          <Tooltip placement="top" title="Delete contact">
+            <i className="fas fa-trash" />
+          </Tooltip>
         </span>
         ) : (
         <span>N/A</span>
@@ -31,9 +96,9 @@ const ContactRow = props => {
       <Col span={8}>{Email}</Col>
       <Col span={4}>{Phone1}</Col>
     </Row>
-  )
+  );
 }
-
+*/
 ContactRow.propTypes = {
   contact: PropTypes.shape({
     Id: PropTypes.number,

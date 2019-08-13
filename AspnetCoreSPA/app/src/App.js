@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Row, Col, Pagination } from 'antd';
-
 import './App.css';
-
 import { PAGE_SIZE } from './constants';
 import ContactRow from './components/ContactRow';
-import ContactAddForm from './components/ContactAdd';
+import ContactAddForm from './components/ContactAddForm';
 import { getContacts } from './utils/APIUtils';
 
 class App extends Component {
@@ -24,6 +22,7 @@ class App extends Component {
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleFormAdd = this.handleFormAdd.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   handleSearchChange = evt => {
@@ -129,13 +128,21 @@ class App extends Component {
     });
   }
 
+  handleUpdate = evt => {
+    console.log("App - handleUpdate - evt");
+    console.log(evt);
+    console.log("App - handleUpdate - evt.target");
+    console.log(evt.target);
+  };
+
   render() {
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
     const { recordCount, currentContacts, currentPage, pageCount } = this.state;
     const headerClass = ['text-dark py-2 pr-4 m-0', currentPage ? 'border-gray border-right' : ''].join(' ').trim();
     const MyContactAddForm = Form.create()(ContactAddForm);
-
+    //console.log("App - render - currentContacts");
+    //console.log(currentContacts);
     return (
       <div className="container">
         <h1 className="text-center">My Contact Management</h1>
