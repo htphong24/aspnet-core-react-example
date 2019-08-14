@@ -50,20 +50,25 @@ class ContactAddForm extends Component {
             </Tooltip>
           </Col>
           <Col span={4}>
-            {getFieldDecorator('txtFirstName', {
-              rules: [{ required: true, message: 'First name required' }],
-            })(
-              <Input placeholder="First Name" name="txtFirstName"/>
-            )}
+            <Form.Item>
+              {getFieldDecorator('txtFirstName', {
+                rules: [{ required: true, message: 'First name required' }],
+              })(
+                <Input placeholder="First Name" name="txtFirstName"/>
+                )}
+            </Form.Item>
           </Col>
           <Col span={4}>
+            <Form.Item>
             {getFieldDecorator('txtLastName', {
               rules: [{ required: true, message: 'Last name required' }],
             })(
               <Input placeholder="Last Name" name="txtLastName"/>
             )}
+            </Form.Item>
           </Col>
           <Col span={8}>
+            <Form.Item>
             {getFieldDecorator('txtEmail', {
               rules: [
                 { required: true, message: 'Email required' },
@@ -72,13 +77,16 @@ class ContactAddForm extends Component {
             })(
               <Input placeholder="Email" name="txtEmail"/>
             )}
+            </Form.Item>
           </Col>
           <Col span={4}>
+            <Form.Item>
             {getFieldDecorator('txtPhone1', {
               rules: [{ required: true, message: 'Phone required' }],
             })(
               <Input placeholder="Phone 1" name="txtPhone1"/>
             )}
+            </Form.Item>
           </Col>
         </Row>
       </Form>

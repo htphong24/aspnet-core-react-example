@@ -19,7 +19,7 @@
     width: 100%;
     height: 400px;
     overflow: auto;
-    margin: 20px 0;
+    margin-bottom: 20px;
 }
 
 .my-custom-scrollbar .ant-input-search {
@@ -38,7 +38,21 @@
 .my-custom-scrollbar .ant-row .ant-col {
     padding: 5px 10px;
     border: 1px solid #d9d9d9;
-    height: 43px;
+    height: 60px;
+}
+
+.my-custom-scrollbar .ant-row .ant-col .ant-form-item {
+    border: none;
+}
+
+.my-custom-scrollbar .ant-row .ant-col .ant-form-item-control-wrapper {
+    border: none;
+}
+
+.my-custom-scrollbar .ant-row .ant-col .ant-form-item .ant-form-item-control-wrapper {
+    padding: 0;
+    position: relative;
+    top: -5px;
 }
 
 .my-custom-scrollbar .ant-row .ant-col button[name=btnSave] {

@@ -36,8 +36,8 @@ class ContactUpdateForm extends Component {
           })
           .catch(error => {
             this.props.form.setFields({
-              txtEmail: {
-                value: values.txtEmail,
+              txtUpdateEmail: {
+                value: values.txtUpdateEmail,
                 errors: [new Error(error.ErrorMessage)],
               },
             });
@@ -74,22 +74,27 @@ class ContactUpdateForm extends Component {
           </Col>
           <Col span={2}>{contact.Id}</Col>
           <Col span={4}>
+            <Form.Item>
             {getFieldDecorator('txtUpdateFirstName', {
               rules: [{ required: true, message: 'First name required' }],
               initialValue: `${contact.FirstName}`
             })(
               <Input placeholder="First Name" name="txtUpdateFirstName" />
             )}
+            </Form.Item>
           </Col>
           <Col span={4}>
+            <Form.Item>
             {getFieldDecorator('txtUpdateLastName', {
               rules: [{ required: true, message: 'Last name required' }],
               initialValue: `${contact.LastName}`
             })(
               <Input placeholder="Last Name" name="txtUpdateLastName" />
             )}
+            </Form.Item>
           </Col>
           <Col span={8}>
+            <Form.Item>
             {getFieldDecorator('txtUpdateEmail', {
               rules: [
                 { required: true, message: 'Email required' },
@@ -99,14 +104,17 @@ class ContactUpdateForm extends Component {
             })(
               <Input placeholder="Email" name="txtUpdateEmail" />
             )}
+            </Form.Item>
           </Col>
           <Col span={4}>
+            <Form.Item>
             {getFieldDecorator('txtUpdatePhone1', {
               rules: [{ required: true, message: 'Phone 1 required' }],
               initialValue: `${contact.Phone1}`
             })(
               <Input placeholder="Phone 1" name="txtUpdatePhone1" />
             )}
+            </Form.Item>
           </Col>
         </Row>
       </Form>
