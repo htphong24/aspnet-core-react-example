@@ -45,3 +45,11 @@ export function addContact(data) {
     body: JSON.stringify(data)
   });
 }
+
+export function updateContact(data) {
+  return request({
+    url: API_BASE_URL + "contacts/" + data.Contact.Id,
+    method: 'PUT',
+    body: JSON.stringify(data)
+  });
+}

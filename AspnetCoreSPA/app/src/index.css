@@ -41,6 +41,13 @@
     height: 43px;
 }
 
+.my-custom-scrollbar .ant-row .ant-col button[name=btnSave] {
+    background-color: transparent;
+    /*border-color: transparent;*/
+    margin-right: 10px;
+    width: 27px;
+}
+
 .my-custom-scrollbar .my-row-header {
     font-weight: bold;
 }

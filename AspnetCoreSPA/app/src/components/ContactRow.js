@@ -21,6 +21,13 @@ class ContactRow extends Component {
     this.props.onEdit(id);
   }
 
+  handleUpdated = (evt) => {
+    this.setState({
+      contact: evt
+    });
+    this.props.onUpdated(evt);
+  }
+
   handleCancel = (evt, id) => {
     this.props.onCancel(id);
   }
@@ -29,30 +36,31 @@ class ContactRow extends Component {
     const { contact } = this.state;
     const MyContactUpdateForm = Form.create()(ContactUpdateForm);
     const { editingContact } = this.props;
+
     return (
       editingContact === contact.Id
-      ? <MyContactUpdateForm contact={contact} onCancel={this.handleCancel}/>
-      : <Row>
-          <Col span={2}>
-            {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
-              <span>
-                <Tooltip placement="top" title="Edit contact">
-                  <i className="fas fa-edit" onClick={(evt) => this.handleEdit(evt, contact.Id)} />
-                </Tooltip>
-                <Tooltip placement="top" title="Delete contact">
-                  <i className="fas fa-trash" onClick={(evt) => this.handleCancel(evt, contact.Id)} />
-                </Tooltip>
-              </span>
-            ) : (
-                <span>N/A</span>
-              )}
-          </Col>
-          <Col span={2}>{contact.Id}</Col>
-          <Col span={4}>{contact.FirstName}</Col>
-          <Col span={4}>{contact.LastName}</Col>
-          <Col span={8}>{contact.Email}</Col>
-          <Col span={4}>{contact.Phone1}</Col>
-        </Row>
+        ? <MyContactUpdateForm contact={contact} onUpdated={this.handleUpdated} onCancel={(evt) => this.handleCancel(evt, contact.Id)}/>
+        : <Row>
+            <Col span={2}>
+              {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
+                <span>
+                  <Tooltip placement="top" title="Edit contact">
+                    <i className="fas fa-edit" onClick={(evt) => this.handleEdit(evt, contact.Id)} />
+                  </Tooltip>
+                  <Tooltip placement="top" title="Delete contact">
+                    <i className="fas fa-trash" onClick={(evt) => this.handleCancel(evt, contact.Id)} />
+                  </Tooltip>
+                </span>
+              ) : (
+                  <span>N/A</span>
+                )}
+            </Col>
+            <Col span={2}>{contact.Id}</Col>
+            <Col span={4}>{contact.FirstName}</Col>
+            <Col span={4}>{contact.LastName}</Col>
+            <Col span={8}>{contact.Email}</Col>
+            <Col span={4}>{contact.Phone1}</Col>
+          </Row>
     );
   }
 }

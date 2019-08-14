@@ -2,6 +2,7 @@
 import 'antd/dist/antd.css';
 import { Row, Col, Tooltip, Input, Form } from 'antd';
 import { DATA_SOURCE } from '../constants';
+import { updateContact } from '../utils/APIUtils';
 
 class ContactUpdateForm extends Component {
   constructor(props) {
@@ -11,38 +12,38 @@ class ContactUpdateForm extends Component {
       contact: props.contact,
     };
 
-    this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
-  handleUpdate = (evt) => {
-    console.log("ContactUpdateForm - handleUpdate - evt");
-    console.log(evt);
-    //this.props.form.validateFields((err, values) => {
-    //  if (!err) {
-    //    //const submitRequest = Object.assign({}, values); // clone target values
-    //    let submitRequest = {
-    //      Contact: {
-    //        FirstName: values.txtFirstName,
-    //        LastName: values.txtLastName,
-    //        Email: values.txtEmail,
-    //        Phone1: values.txtPhone1
-    //      }
-    //    };
-    //    addContact(submitRequest)
-    //      .then(response => {
-    //        this.props.onAdd();
-    //      })
-    //      .catch(error => {
-    //        this.props.form.setFields({
-    //          txtEmail: {
-    //            value: values.txtEmail,
-    //            errors: [new Error(error.ErrorMessage)],
-    //          },
-    //        });
-    //      });
-    //  }
-    //});
+  handleSubmit = (evt, id) => {
+    evt.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        //const submitRequest = Object.assign({}, values); // clone target values
+        let submitRequest = {
+          Contact: {
+            Id: id,
+            FirstName: values.txtUpdateFirstName,
+            LastName: values.txtUpdateLastName,
+            Email: values.txtUpdateEmail,
+            Phone1: values.txtUpdatePhone1
+          }
+        };
+        updateContact(submitRequest)
+          .then(response => {
+            this.props.onUpdated(response.Contact);
+          })
+          .catch(error => {
+            this.props.form.setFields({
+              txtEmail: {
+                value: values.txtEmail,
+                errors: [new Error(error.ErrorMessage)],
+              },
+            });
+          });
+      }
+    });
   }
 
   handleCancel = (evt, id) => {
@@ -53,19 +54,18 @@ class ContactUpdateForm extends Component {
     const { contact } = this.state;
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form onSubmit={this.handleUpdate}>
+      <Form onSubmit={(evt) => this.handleSubmit(evt, contact.Id)}>
         <Row>
           <Col span={2}>
             {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
               <span>
                 <Tooltip placement="top" title="Save contact">
-                  <i className="fas fa-save" />
+                  <button type="submit" name="btnSave">
+                    <i className="fas fa-save" />
+                  </button>
                 </Tooltip>
                 <Tooltip placement="top" title="Cancel editing">
-                  <i className="fas fa-times" onClick={(evt) => this.handleCancel(evt, contact.Id)} />
-                </Tooltip>
-                <Tooltip placement="top" title="Delete contact">
-                  <i className="fas fa-trash" />
+                  <i className="fas fa-times" onClick={this.handleCancel} />
                 </Tooltip>
               </span>
             ) : (

@@ -24,6 +24,7 @@ class App extends Component {
     this.handleSearchChange = this.handleSearchChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleUpdated = this.handleUpdated.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
   }
 
@@ -136,6 +137,12 @@ class App extends Component {
     });
   };
 
+  handleUpdated = (evt) => {
+    this.setState({
+      editingContact: null
+    });
+  };
+
   handleCancel = (evt) => {
     this.setState({
       editingContact: null
@@ -166,7 +173,7 @@ class App extends Component {
             <Col span={8}>Email</Col>
             <Col span={4}>Phone1</Col>
           </Row>
-          {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} editingContact={editingContact} onEdit={this.handleEdit} onCancel={this.handleCancel} />)}
+          {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} editingContact={editingContact} onEdit={this.handleEdit} onUpdated={this.handleUpdated} onCancel={this.handleCancel} />)}
         </div>
 
         <div className="w-100 px-4 d-flex flex-row flex-wrap align-items-center justify-content-between">
