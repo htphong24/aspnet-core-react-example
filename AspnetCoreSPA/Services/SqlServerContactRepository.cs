@@ -127,8 +127,7 @@ namespace AspnetCoreSPATemplate.Services
             {
                 // It's not in use, then update the contact
                 Contact result = Mapper.Map<Contact>(dto);
-                Db.Contacts.Attach(result);
-                Db.Entry(result).State = EntityState.Modified;
+                Db.Contacts.Update(result);
                 // Save data
                 await Db.SaveChangesAsync();
             }
