@@ -47,7 +47,7 @@ class ContactUpdateForm extends Component {
   }
 
   handleCancel = (evt, id) => {
-    this.props.onCancel();
+    this.props.onCanceled();
   }
 
   render() {

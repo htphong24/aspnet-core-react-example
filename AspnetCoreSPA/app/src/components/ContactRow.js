@@ -14,7 +14,7 @@ class ContactRow extends Component {
     };
     
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
+    this.handleCanceled = this.handleCanceled.bind(this);
   }
 
   handleEdit = (evt, id) => {
@@ -28,8 +28,8 @@ class ContactRow extends Component {
     this.props.onUpdated(evt);
   }
 
-  handleCancel = (evt, id) => {
-    this.props.onCancel(id);
+  handleCanceled = (evt, id) => {
+    this.props.onCanceled(id);
   }
 
   render() {
@@ -39,7 +39,7 @@ class ContactRow extends Component {
 
     return (
       editingContact === contact.Id
-        ? <MyContactUpdateForm contact={contact} onUpdated={this.handleUpdated} onCancel={(evt) => this.handleCancel(evt, contact.Id)}/>
+        ? <MyContactUpdateForm contact={contact} onUpdated={this.handleUpdated} onCanceled={(evt) => this.handleCanceled(evt, contact.Id)}/>
         : <Row>
             <Col span={2}>
               {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (

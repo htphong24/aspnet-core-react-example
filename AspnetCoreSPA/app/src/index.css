@@ -60,6 +60,7 @@
     /*border-color: transparent;*/
     margin-right: 10px;
     width: 27px;
+    border: none;
 }
 
 .my-custom-scrollbar .my-row-header {
