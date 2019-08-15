@@ -142,6 +142,11 @@ namespace AspnetCoreSPATemplate.Services
             await Db.SaveChangesAsync();
         }
 
+        public async Task ReloadAsync(ContactReloadRequest rq)
+        {
+            await Db.Database.ExecuteSqlCommandAsync("ReloadContacts");
+        }
+
         public bool IsEmailInUse(string email, string oldEmail = null)
         {
             // If new email is the same as old email

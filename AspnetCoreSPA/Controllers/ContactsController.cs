@@ -122,5 +122,20 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
+        // http://localhost:5000/api/v1/contacts/reload
+        [HttpPost("reload")]
+        public async Task<ActionResult> Reload([FromBody]ContactReloadRequest rq)
+        {
+            try
+            {
+                ContactReloadResponse rs = await (new ContactReloadService(this.Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
+
     }
 }
