@@ -53,3 +53,11 @@ export function updateContact(data) {
     body: JSON.stringify(data)
   });
 }
+
+export function deleteContact(data) {
+  return request({
+    url: API_BASE_URL + "contacts/" + data.Contact.Id,
+    method: 'DELETE',
+    body: JSON.stringify(data)
+  });
+}

@@ -22,10 +22,11 @@ class App extends Component {
     };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
-    this.handleAdd = this.handleAdd.bind(this);
+    this.handleAdded = this.handleAdded.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleUpdated = this.handleUpdated.bind(this);
     this.handleCanceled = this.handleCanceled.bind(this);
+    this.handleDeleted = this.handleDeleted.bind(this);
   }
 
   handleSearchChange = evt => {
@@ -79,7 +80,7 @@ class App extends Component {
     }, () => this.loadContacts());
   }
 
-  handleAdd = () => {
+  handleAdded = () => {
     // clear search query
     this.setState({
       filter: ""
@@ -131,6 +132,55 @@ class App extends Component {
     });
   }
 
+  handleDeleted = () => {
+    getContacts(
+      this.state.filter,
+      this.state.currentPage
+    )
+      .then(response => {
+        // then move to the currentPage to show the page where we were before onDelete
+        let lastPage = Math.ceil(response.RecordCount / PAGE_SIZE);
+        let newCurrentPage = this.state.currentPage >= lastPage ? lastPage : this.state.currentPage
+    
+        getContacts(
+          this.state.filter,
+          newCurrentPage
+        )
+          .then(response => {
+            this.setState({
+              recordCount: response.RecordCount,
+              currentContacts: response.Results,
+              currentPage: response.PageNumber,
+              pageCount: response.PageCount
+            });
+          })
+          .catch(error => {
+            if (error.status === 404) {
+              this.setState({
+                recordCount: null
+              });
+            }
+            else {
+              this.setState({
+                recordCount: null
+              });
+            }
+          });
+      })
+      .catch(error => {
+        if (error.status === 404) {
+          this.setState({
+            recordCount: null
+          });
+        }
+        else {
+          this.setState({
+            recordCount: null
+          });
+        }
+      });
+  }
+
   handleEdit = (evt) => {
     this.setState({
       editingContact: evt
@@ -161,7 +211,7 @@ class App extends Component {
         <h1 className="text-center">My Contact Management</h1>
         <Input.Search id="txtSearch" placeholder="Search" onChange={this.handleSearchChange} value={this.state.filter} />
         <Row>
-          <MyContactAddForm onAdd={this.handleAdd}/>
+          <MyContactAddForm onAdded={this.handleAdded}/>
         </Row>
 
         <div className="my-custom-scrollbar">
@@ -173,7 +223,15 @@ class App extends Component {
             <Col span={8}>Email</Col>
             <Col span={4}>Phone1</Col>
           </Row>
-          {currentContacts.map(contact => <ContactRow key={contact.Id} contact={contact} editingContact={editingContact} onEdit={this.handleEdit} onUpdated={this.handleUpdated} onCanceled={this.handleCanceled} />)}
+          {currentContacts.map(contact => <ContactRow
+                                            key={contact.Id} 
+                                            contact={contact} 
+                                            editingContact={editingContact} 
+                                            onEdit={this.handleEdit} 
+                                            onUpdated={this.handleUpdated} 
+                                            onCanceled={this.handleCanceled} 
+                                            onDeleted={this.handleDeleted}
+                                          />)}
         </div>
 
         <div className="w-100 px-4 d-flex flex-row flex-wrap align-items-center justify-content-between">

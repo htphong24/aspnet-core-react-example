@@ -24,7 +24,7 @@ class ContactAddForm extends Component {
         };
         addContact(submitRequest)
           .then(response => {
-            this.props.onAdd();
+            this.props.onAdded();
           })
           .catch(error => {
               this.props.form.setFields({

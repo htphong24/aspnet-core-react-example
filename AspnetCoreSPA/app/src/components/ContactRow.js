@@ -1,9 +1,10 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
-import { Row, Col, Tooltip, Form } from 'antd';
+import { Row, Col, Tooltip, Form, Popconfirm } from 'antd';
 import { DATA_SOURCE } from '../constants';
 import ContactUpdateForm from './ContactUpdateForm';
+import { deleteContact } from '../utils/APIUtils';
 
 class ContactRow extends Component {
   constructor(props) {
@@ -32,6 +33,21 @@ class ContactRow extends Component {
     this.props.onCanceled(id);
   }
 
+  handleDelete = (evt, id) => {
+    let submitRequest = {
+      Contact: this.state.contact
+    };
+    //console.log("submitRequest");
+    //console.log(submitRequest);
+    deleteContact(submitRequest)
+      .then(response => {
+        this.props.onDeleted();
+      })
+      .catch(error => {
+
+      });
+  }
+
   render() {
     const { contact } = this.state;
     const MyContactUpdateForm = Form.create()(ContactUpdateForm);
@@ -47,9 +63,16 @@ class ContactRow extends Component {
                   <Tooltip placement="top" title="Edit contact">
                     <i className="fas fa-edit" onClick={(evt) => this.handleEdit(evt, contact.Id)} />
                   </Tooltip>
-                  <Tooltip placement="top" title="Delete contact">
-                    <i className="fas fa-trash" onClick={(evt) => this.handleCancel(evt, contact.Id)} />
-                  </Tooltip>
+                  <Popconfirm
+                    title="Are you sure you want to delete this contact?"
+                    onConfirm={(evt) => this.handleDelete(evt, contact.Id)}
+                    okText="Yes"
+                    cancelText="No"
+                  >
+                    <Tooltip placement="top" title="Delete contact">
+                      <i className="fas fa-trash" />
+                    </Tooltip>
+                  </Popconfirm>
                 </span>
               ) : (
                   <span>N/A</span>
