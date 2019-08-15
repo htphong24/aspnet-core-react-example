@@ -9,8 +9,8 @@ using System.IO;
 using CsvHelper;
 using Microsoft.EntityFrameworkCore;
 using SqlServerDataAccess;
-using SqlServerDataAccess.Entities;
 using AutoMapper;
+using SqlServerDataAccess.Models.DB;
 
 namespace AspnetCoreSPATemplate.Services
 {
@@ -41,7 +41,7 @@ namespace AspnetCoreSPATemplate.Services
         {
             // Create query
             IQueryable<Contact> query = Db.Contacts
-                                          .Where(c => c.Id == rq.Id);
+                                          .Where(c => c.ContactId == rq.Id);
             // Retrieve data
             Contact contact = await query.FirstOrDefaultAsync();
             // Map to model
@@ -115,7 +115,7 @@ namespace AspnetCoreSPATemplate.Services
             ContactModel dto = rq.Contact;
             // Retrieve old email
             string oldEmail = Db.Contacts
-                                .Where(c => c.Id == dto.Id)
+                                .Where(c => c.ContactId == dto.Id)
                                 .Select(c => c.Email)
                                 .FirstOrDefault();
             // Check whether the new email is the same as the old one or it is being used by others

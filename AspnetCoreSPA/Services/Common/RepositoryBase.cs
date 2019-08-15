@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using SqlServerDataAccess;
+using SqlServerDataAccess.Models.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace SqlServerDataAccess.Entities
+namespace SqlServerDataAccess.Models.DB
 {
-    public class Contact
+    public partial class Contact
     {
-        public int Id { get; set; }
+        public int ContactId { get; set; }
 
         public string FirstName { get; set; }
 
@@ -22,13 +21,12 @@ namespace SqlServerDataAccess.Entities
 
         public string Post { get; set; }
 
-        public string Phone1 { get; set; }
-
-        public string Phone2 { get; set; }
-
         public string Email { get; set; }
 
         public string Web { get; set; }
 
+        public string Phone1 { get; set; }
+
+        public string Phone2 { get; set; }
     }
 }

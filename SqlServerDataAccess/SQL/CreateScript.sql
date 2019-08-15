@@ -18,9 +18,9 @@ GO
 USE ContactsMgmt;
 GO
 CREATE TABLE Contacts (
-  Id          INT  IDENTITY(1,1) NOT NULL,
-  FirstName	  NVARCHAR(255) NOT NULL,
-  LastName	  NVARCHAR(255) NOT NULL,
+  ContactId   INT  IDENTITY(1,1) NOT NULL,
+  FirstName   NVARCHAR(255) NOT NULL,
+  LastName    NVARCHAR(255) NOT NULL,
   Company     NVARCHAR(255),
   Address     NVARCHAR(255),
   City        NVARCHAR(255),
@@ -29,7 +29,11 @@ CREATE TABLE Contacts (
   Email       NVARCHAR(255) NOT NULL,
   Web         NVARCHAR(255),
   Phone1      NVARCHAR(127) NOT NULL,
-  Phone2      NVARCHAR(127)
+  Phone2      NVARCHAR(127),
+  CONSTRAINT ContactId_PK PRIMARY KEY CLUSTERED 
+  (
+    ContactId ASC
+  ) ON [PRIMARY]
 );
 GO
 

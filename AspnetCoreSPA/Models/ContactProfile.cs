@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using SqlServerDataAccess.Entities;
+using SqlServerDataAccess.Models.DB;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,8 @@ namespace AspnetCoreSPATemplate.Models
     {
         public ContactProfile()
         {
-            CreateMap<Contact, ContactModel>();
+            CreateMap<Contact, ContactModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ContactId)); ;
             CreateMap<ContactModel, Contact>();
         }
     }
