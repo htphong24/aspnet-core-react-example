@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SqlServerDataAccess.Models.DB
+namespace SqlServerDataAccess.EF
 {
     public partial class Contact
     {

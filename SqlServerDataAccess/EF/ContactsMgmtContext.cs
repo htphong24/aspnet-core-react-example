@@ -3,7 +3,7 @@ using System.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace SqlServerDataAccess.Models.DB
+namespace SqlServerDataAccess.EF
 {
     public partial class ContactsMgmtContext : DbContext
     {

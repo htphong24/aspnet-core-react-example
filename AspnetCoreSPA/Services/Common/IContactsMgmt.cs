@@ -1,7 +1,7 @@
 ﻿using AspnetCoreSPATemplate.Models;
 using AutoMapper;
 using SqlServerDataAccess;
-using SqlServerDataAccess.Models.DB;
+using SqlServerDataAccess.EF;
 using System;
 using System.Collections.Generic;
 using System.Linq;

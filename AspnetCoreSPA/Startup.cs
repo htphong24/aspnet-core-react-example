@@ -9,7 +9,7 @@ using AspnetCoreSPATemplate.Services.Common;
 using SqlServerDataAccess;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using SqlServerDataAccess.Models.DB;
+using SqlServerDataAccess.EF;
 
 namespace AspnetCoreSPATemplate
 {

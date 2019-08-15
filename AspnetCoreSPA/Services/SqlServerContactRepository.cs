@@ -10,7 +10,7 @@ using CsvHelper;
 using Microsoft.EntityFrameworkCore;
 using SqlServerDataAccess;
 using AutoMapper;
-using SqlServerDataAccess.Models.DB;
+using SqlServerDataAccess.EF;
 
 namespace AspnetCoreSPATemplate.Services
 {
