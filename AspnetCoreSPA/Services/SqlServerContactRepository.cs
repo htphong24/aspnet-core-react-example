@@ -137,7 +137,8 @@ namespace AspnetCoreSPATemplate.Services
         public async Task DeleteAsync(ContactDeleteRequest rq)
         {
             ContactModel dto = rq.Contact;
-            Db.Remove(dto);
+            Contact result = Mapper.Map<Contact>(dto);
+            Db.Remove(result);
             // Save data
             await Db.SaveChangesAsync();
         }
