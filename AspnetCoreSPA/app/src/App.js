@@ -27,6 +27,7 @@ class App extends Component {
     this.handleUpdated = this.handleUpdated.bind(this);
     this.handleCanceled = this.handleCanceled.bind(this);
     this.handleDeleted = this.handleDeleted.bind(this);
+    this.handleReloaded = this.handleReloaded.bind(this);
   }
 
   handleSearchChange = evt => {
@@ -199,6 +200,22 @@ class App extends Component {
     });
   };
 
+  handleReloaded = (evt) => {
+    console.log("App - handleReloaded - evt");
+    console.log(evt);
+    this.setState({
+      recordCount: null,
+      currentContacts: [],
+      currentPage: 1,
+      pageCount: null,
+      filter: "",
+      editingContact: null,
+    },
+    () => {
+      this.loadContacts();
+    });
+  };
+
   render() {
     // We render the total number of contacts, the current page, the total number of pages,
     // <Pagination> control and then <ContactRow> for each contact in the current page
@@ -211,7 +228,7 @@ class App extends Component {
         <h1 className="text-center">My Contact Management</h1>
         <Input.Search id="txtSearch" placeholder="Search" onChange={this.handleSearchChange} value={this.state.filter} />
         <Row>
-          <MyContactAddForm onAdded={this.handleAdded}/>
+          <MyContactAddForm onAdded={this.handleAdded} onReloaded={this.handleReloaded}/>
         </Row>
 
         <div className="my-custom-scrollbar">

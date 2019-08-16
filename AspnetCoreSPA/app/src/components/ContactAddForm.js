@@ -1,12 +1,13 @@
 ﻿import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Form, Input, Button, Row, Col, Tooltip } from 'antd';
-import { addContact } from '../utils/APIUtils';
+import { Button, Col, Form, Input, Popconfirm, Row, Tooltip } from 'antd';
+import { addContact, reloadContacts } from '../utils/APIUtils';
 
 class ContactAddForm extends Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleReload = this.handleReload.bind(this);
   }
 
   handleSubmit = evt => {
@@ -38,12 +39,34 @@ class ContactAddForm extends Component {
     });
   }
 
+  handleReload = evt => {
+    reloadContacts()
+      .then(response => {
+        console.log("ContactAddForm - handleReload - reloadContacts - then - response")
+        this.props.onReloaded();
+      })
+      .catch(error => {
+        
+      });
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit}>
         <Row>
-          <Col span={2}></Col>
+          <Col span={2}>
+            <Popconfirm
+              title="Are you sure you want to reload all contacts data?"
+              onConfirm={this.handleReload}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Tooltip placement="top" title="Reload all contacts">
+                <Button type="danger" className="btn btn-danger">Reload</Button>
+              </Tooltip>
+            </Popconfirm>
+          </Col>
           <Col span={2}>
             <Tooltip placement="top" title="Add new contact">
               <Button type="primary" htmlType="submit" className="btn btn-primary">Add</Button>

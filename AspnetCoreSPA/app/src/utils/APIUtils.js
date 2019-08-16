@@ -61,3 +61,11 @@ export function deleteContact(data) {
     body: JSON.stringify(data)
   });
 }
+
+export function reloadContacts() {
+  return request({
+    url: API_BASE_URL + "contacts/reload",
+    method: 'POST',
+    body: JSON.stringify({})
+  });
+}
