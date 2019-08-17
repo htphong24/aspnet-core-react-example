@@ -10,11 +10,16 @@ using SqlServerDataAccess;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using SqlServerDataAccess.EF;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AspnetCoreSPATemplate
 {
     public class Startup
     {
+        private JwtConfiguration _jwtConfig;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +32,26 @@ namespace AspnetCoreSPATemplate
         {
             services.AddHttpContextAccessor();
 
+            services.Configure<JwtConfiguration>(Configuration.GetSection("JwtConfiguration"));
+
+            _jwtConfig = Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
+
+            services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = _jwtConfig.Issuer,
+                        ValidAudience = _jwtConfig.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key))
+                    };
+                });
+
             if (Configuration["DataSource"] == "SqlServer")
             {
                 // Auto Mapper
@@ -37,11 +62,13 @@ namespace AspnetCoreSPATemplate
                 // Entity Framework
                 services.AddDbContext<ContactsMgmtContext>(options => options.UseSqlServer(connectionString));
             }
+
             //services.AddTransient<IContactRepository, TestContactRepository>();
             //services.AddTransient<IContactRepository, CsvContactRepository>();
             //services.AddTransient<IContactRepository, CsvHelperContactRepository>();
             services.AddTransient<IContactRepository, SqlServerContactRepository>();
             services.AddTransient<IContactModificationRepository, SqlServerContactRepository>();
+            services.AddTransient<IAccountRepository, SqlServerAccountRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -68,6 +95,8 @@ namespace AspnetCoreSPATemplate
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
