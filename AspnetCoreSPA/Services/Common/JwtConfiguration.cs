@@ -9,7 +9,7 @@ namespace AspnetCoreSPATemplate.Services.Common
     {
         public string Key { get; set; }
 
-        public double ExpireDays { get; set; }
+        public double DaysToExpiration { get; set; }
 
         public string Issuer { get; set; }
 

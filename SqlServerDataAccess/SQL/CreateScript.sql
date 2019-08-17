@@ -17,8 +17,12 @@ GO
 
 USE ContactsMgmt;
 GO
+
+/******************************
+ * CONTACTS
+ ******************************/
 CREATE TABLE Contacts (
-  ContactId   INT  IDENTITY(1,1) NOT NULL,
+  ContactId   INT IDENTITY(1,1) NOT NULL,
   FirstName   NVARCHAR(255) NOT NULL,
   LastName    NVARCHAR(255) NOT NULL,
   Company     NVARCHAR(255),
@@ -538,3 +542,29 @@ INSERT INTO Contacts (FirstName, LastName, Email, Phone1, Company, Address, City
 INSERT INTO Contacts (FirstName, LastName, Email, Phone1, Company, Address, City, State, Post, Web, Phone2) VALUES ('Aide', 'Ghera', 'aide.ghera@ghera.com.au', '02-3738-7508', 'Nathaniel Electronics', '22 Livingston Ave', 'Rhodes', 'NS', '2138', 'http://www.nathanielelectronics.com.au', '0443-448-467');
 INSERT INTO Contacts (FirstName, LastName, Email, Phone1, Company, Address, City, State, Post, Web, Phone2) VALUES ('Noelia', 'Brackett', 'noelia@brackett.net.au', '08-3773-3770', 'Rodriguez, Joseph A Esq', '403 Conn Valley Rd', 'Castletown', 'WA', '6450', 'http://www.rodriguezjosephaesq.com.au', '0454-135-614');
 INSERT INTO Contacts (FirstName, LastName, Email, Phone1, Company, Address, City, State, Post, Web, Phone2) VALUES ('Lenora', 'Delacruz', 'lenora@delacruz.net.au', '02-7862-5151', 'Stilling, William J Esq', '5400 Market St', 'Turill', 'NS', '2850', 'http://www.stillingwilliamjesq.com.au', '0454-434-110');
+
+
+/******************************
+ * USERS
+ ******************************/
+ CREATE TABLE Users (
+  UserId      INT IDENTITY(1,1) NOT NULL,
+  FirstName   NVARCHAR(127) NOT NULL,
+  LastName    NVARCHAR(127) NOT NULL,
+  Username    NVARCHAR(127) NOT NULL,
+  Email       NVARCHAR(127) NOT NULL,
+  Password    NVARCHAR(127) NOT NULL,
+  CreatedTime DATETIME      NOT NULL,
+  UpdatedTime DATETIME      NOT NULL,
+  CONSTRAINT Users_PK PRIMARY KEY CLUSTERED 
+  (
+    UserId ASC
+  ) ON [PRIMARY]
+);
+GO
+
+ALTER TABLE Users ADD CONSTRAINT DF_Users_CreatedTime DEFAULT GETDATE FOR CreatedTime;
+GO
+
+ALTER TABLE Users ADD CONSTRAINT DF_Users_UpdatedTime DEFAULT GETDATE FOR UpdatedTime;
+GO
