@@ -13,6 +13,8 @@ using SqlServerDataAccess.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Common.Identity;
 
 namespace AspnetCoreSPATemplate
 {
@@ -32,10 +34,9 @@ namespace AspnetCoreSPATemplate
         {
             services.AddHttpContextAccessor();
 
-            services.Configure<JwtConfiguration>(Configuration.GetSection("JwtConfiguration"));
-
+            // Configure authentication
             _jwtConfig = Configuration.GetSection("JwtConfiguration").Get<JwtConfiguration>();
-
+            services.Configure<JwtConfiguration>(Configuration.GetSection("JwtConfiguration"));
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -52,6 +53,7 @@ namespace AspnetCoreSPATemplate
                     };
                 });
 
+            // Configure database
             if (Configuration["DataSource"] == "SqlServer")
             {
                 // Auto Mapper
@@ -61,6 +63,7 @@ namespace AspnetCoreSPATemplate
                 string connectionString = Configuration.GetConnectionString("DbConstr");
                 // Entity Framework
                 services.AddDbContext<ContactsMgmtContext>(options => options.UseSqlServer(connectionString));
+                services.AddDbContext<ContactsMgmtIdentityContext>(options => options.UseSqlServer(connectionString));
             }
 
             //services.AddTransient<IContactRepository, TestContactRepository>();
@@ -68,7 +71,21 @@ namespace AspnetCoreSPATemplate
             //services.AddTransient<IContactRepository, CsvHelperContactRepository>();
             services.AddTransient<IContactRepository, SqlServerContactRepository>();
             services.AddTransient<IContactModificationRepository, SqlServerContactRepository>();
-            services.AddTransient<IAccountRepository, SqlServerAccountRepository>();
+            services.AddTransient<IAuthenticationRepository, SqlServerAuthenticationRepository>();
+            services.AddTransient<IUserRepository, SqlServerUserRepository>();
+
+            // Configure identity
+            services
+                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+                {
+                    options.Password.RequireDigit = false;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireLowercase = false;
+                })
+                .AddEntityFrameworkStores<ContactsMgmtIdentityContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

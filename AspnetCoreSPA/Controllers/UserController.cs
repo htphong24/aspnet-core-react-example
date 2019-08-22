@@ -19,25 +19,24 @@ namespace AspnetCoreSPATemplate.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AccountController : BaseController
+    public class UserController : ControllerBase
     {
-        private readonly IAccountRepository _accRepo;
+        private readonly IUserRepository _userRepo;
 
-        public AccountController(
-            IAccountRepository accRepo
+        public UserController(
+            IUserRepository userRepo
         )
         {
-            _accRepo = accRepo;
+            _userRepo = userRepo;
         }
 
-        // http://localhost:5000/api/v1/contacts
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody]AccountLoginRequest rq)
+        // http://localhost:5000/api/v1/user/create
+        [HttpPost("create")]
+        public async Task<ActionResult> Create([FromBody]UserCreateRequest rq)
         {
             try
             {
-                AccountLoginResponse rs = await (new AccountLoginService(this.Context, _accRepo)).RunAsync(rq);
+                UserCreateResponse rs = await (new UserCreateService(this.Context, _userRepo)).RunAsync(rq);
                 return new ApiActionResult(this.Context.Request, rs);
             }
             catch (Exception ex)
@@ -46,6 +45,6 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        
+
     }
 }

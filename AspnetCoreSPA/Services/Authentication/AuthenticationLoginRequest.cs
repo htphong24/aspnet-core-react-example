@@ -8,17 +8,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
-    public class AccountLoginResponse : RequestBase
+    [BindProperties(SupportsGet = true)]
+    public class AuthenticationLoginRequest : RequestBase
     {
-        public AccountLoginResponse()
+        public AuthenticationLoginRequest()
             : base()
         {
 
+
         }
 
-        public string Token { get; set; }
+        public string Email { get; set; }
 
-        //public User User { get; set; }
+        public string Password { get; set; }
 
     }
 }

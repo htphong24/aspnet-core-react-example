@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    public class AccountLoginService : ServiceBase<AccountLoginRequest, AccountLoginResponse>
+    public class AuthenticationLoginService : ServiceBase<AuthenticationLoginRequest, AuthenticationLoginResponse>
     {
-        private readonly IAccountRepository _accRepo;
+        private readonly IAuthenticationRepository _authRepo;
 
-        public AccountLoginService(ServiceContext context, IAccountRepository accRepo)
+        public AuthenticationLoginService(ServiceContext context, IAuthenticationRepository authRepo)
             : base(context)
         {
-            _accRepo = accRepo;
+            _authRepo = authRepo;
         }
 
         /// <summary> 
@@ -24,10 +24,10 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary> 
         /// <param name="rq">Request</param> 
         /// <returns>Response</returns>
-        protected override async Task<AccountLoginResponse> DoRunAsync(AccountLoginRequest rq)
+        protected override async Task<AuthenticationLoginResponse> DoRunAsync(AuthenticationLoginRequest rq)
         {
-            AccountLoginResponse rs = new AccountLoginResponse();
-            rs.Token = await _accRepo.LoginAsync(rq);
+            AuthenticationLoginResponse rs = new AuthenticationLoginResponse();
+            rs.Token = await _authRepo.LoginAsync(rq);
             return rs;
         }
     }

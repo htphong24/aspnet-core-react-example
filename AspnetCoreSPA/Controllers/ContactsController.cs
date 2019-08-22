@@ -17,7 +17,7 @@ namespace AspnetCoreSPATemplate.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ContactsController : BaseController
+    public class ContactsController : ControllerBase
     {
         private readonly IContactRepository _contactRepo;
         private readonly IContactModificationRepository _contactModRepo;

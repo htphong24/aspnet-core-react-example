@@ -17,22 +17,24 @@ namespace AspnetCoreSPATemplate.Services
     
     public class SqlServerContactRepository : RepositoryBase, IContactRepository, IContactModificationRepository
     {
-        public SqlServerContactRepository(ContactsMgmtContext db, IMapper mapper)
+        public SqlServerContactRepository(
+            ContactsMgmtContext db,
+            ContactsMgmtIdentityContext idDb,
+            IMapper mapper)
+            : base(db, idDb, mapper)
         {
-            Db = db;
-            Mapper = mapper;
         }
 
         public async Task<List<ContactModel>> ListAsync(ContactListRequest rq)
         {
             // Create query
-            IQueryable<Contact> query = Db.Contacts
+            IQueryable<Contact> query = _db.Contacts
                                           .Skip(rq.SkipCount)
                                           .Take(rq.TakeCount);
             // Retrieve data
             List<Contact> contacts = await query.ToListAsync();
             // Map to model
-            List<ContactModel> dtoList = Mapper.Map<List<ContactModel>>(contacts);
+            List<ContactModel> dtoList = _mapper.Map<List<ContactModel>>(contacts);
 
             return dtoList;
         }
@@ -40,14 +42,14 @@ namespace AspnetCoreSPATemplate.Services
         public async Task<ContactModel> GetAsync(ContactGetRequest rq)
         {
             // Create query
-            IQueryable<Contact> query = Db.Contacts
+            IQueryable<Contact> query = _db.Contacts
                                           .Where(c => c.ContactId == rq.Id);
             // Retrieve data
             Contact contact = await query.FirstOrDefaultAsync();
             // Map to model
-            ContactModel dto = Mapper.Map<ContactModel>(contact);
+            ContactModel dto = _mapper.Map<ContactModel>(contact);
             // Detach contact
-            Db.Entry(contact).State = EntityState.Detached;
+            _db.Entry(contact).State = EntityState.Detached;
 
             return dto;
         }
@@ -55,7 +57,7 @@ namespace AspnetCoreSPATemplate.Services
         public async Task<int> ListRecordCountAsync()
         {
             // Create query
-            IQueryable<Contact> query = Db.Contacts;
+            IQueryable<Contact> query = _db.Contacts;
             // Retrieve data
             int recordCount = await query.CountAsync();
 
@@ -65,7 +67,7 @@ namespace AspnetCoreSPATemplate.Services
         public async Task<List<ContactModel>> SearchAsync(ContactSearchRequest rq)
         {
             // Create query
-            IQueryable<Contact> query = Db.Contacts
+            IQueryable<Contact> query = _db.Contacts
                                           .Where(c => c.FirstName.Contains(rq.Query)
                                                    || c.LastName.Contains(rq.Query)
                                                    || c.Email.Contains(rq.Query)
@@ -75,7 +77,7 @@ namespace AspnetCoreSPATemplate.Services
             // Retrieve data
             List<Contact> contacts = await query.ToListAsync();
             // Map to model
-            List<ContactModel> dtoList = Mapper.Map<List<ContactModel>>(contacts);
+            List<ContactModel> dtoList = _mapper.Map<List<ContactModel>>(contacts);
 
             return dtoList;
         }
@@ -83,7 +85,7 @@ namespace AspnetCoreSPATemplate.Services
         public async Task<int> SearchRecordCountAsync(ContactSearchRequest rq)
         {
             // Create query
-            IQueryable<Contact> query = Db.Contacts
+            IQueryable<Contact> query = _db.Contacts
                                           .Where(c => c.FirstName.Contains(rq.Query)
                                                    || c.LastName.Contains(rq.Query)
                                                    || c.Email.Contains(rq.Query)
@@ -103,10 +105,10 @@ namespace AspnetCoreSPATemplate.Services
             }
             else
             {
-                Contact result = Mapper.Map<Contact>(dto);
-                Db.Contacts.Add(result);
+                Contact result = _mapper.Map<Contact>(dto);
+                _db.Contacts.Add(result);
                 // Save data
-                await Db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
         }
 
@@ -114,7 +116,7 @@ namespace AspnetCoreSPATemplate.Services
         {
             ContactModel dto = rq.Contact;
             // Retrieve old email
-            string oldEmail = Db.Contacts
+            string oldEmail = _db.Contacts
                                 .Where(c => c.ContactId == dto.Id)
                                 .Select(c => c.Email)
                                 .FirstOrDefault();
@@ -126,25 +128,25 @@ namespace AspnetCoreSPATemplate.Services
             else
             {
                 // It's not in use, then update the contact
-                Contact result = Mapper.Map<Contact>(dto);
-                Db.Contacts.Update(result);
+                Contact result = _mapper.Map<Contact>(dto);
+                _db.Contacts.Update(result);
                 // Save data
-                await Db.SaveChangesAsync();
+                await _db.SaveChangesAsync();
             }
         }
 
         public async Task DeleteAsync(ContactDeleteRequest rq)
         {
             ContactModel dto = rq.Contact;
-            Contact result = Mapper.Map<Contact>(dto);
-            Db.Remove(result);
+            Contact result = _mapper.Map<Contact>(dto);
+            _db.Remove(result);
             // Save data
-            await Db.SaveChangesAsync();
+            await _db.SaveChangesAsync();
         }
 
         public async Task ReloadAsync(ContactReloadRequest rq)
         {
-            await Db.Database.ExecuteSqlCommandAsync("ReloadContacts");
+            await _db.Database.ExecuteSqlCommandAsync("ReloadContacts");
         }
 
         public bool IsEmailInUse(string email, string oldEmail = null)
@@ -159,7 +161,7 @@ namespace AspnetCoreSPATemplate.Services
             {
                 // If not, check whether it is being used by other contacts
                 // Create Query
-                var query = Db.Contacts.Where(c => c.Email == email);
+                var query = _db.Contacts.Where(c => c.Email == email);
                 // Retrieve data, do not use async method here
                 bool isInUse = query.Any();
 

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
-    public interface IAccountRepository
+    public interface IAuthenticationRepository
     {
         /// <summary>
-        /// Logs in, if successfully then returns token
+        /// Logs in, if successfully then returns a token
         /// </summary>
         /// <returns></returns>
-        Task<string> LoginAsync(AccountLoginRequest rq);
+        Task<string> LoginAsync(AuthenticationLoginRequest rq);
 
     }
 }
