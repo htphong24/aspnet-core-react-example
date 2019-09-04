@@ -1,18 +1,10 @@
 USE master;
 GO
+
 CREATE DATABASE ContactsMgmt
-ON
-( NAME = ContactsMgmt_dat,
-    FILENAME = 'E:\SQL Server Data\ContactsMgmt_dat.mdf',
-    SIZE = 10000KB,
-    MAXSIZE = UNLIMITED,
-    FILEGROWTH = 10% )  
+ON ( NAME = ContactsMgmt_dat, FILENAME = 'D:\Databases\Data\ContactsMgmt.mdf' )  
 LOG ON
-( NAME = ContactsMgmt_log,  
-    FILENAME = 'E:\SQL Server Data\ContactsMgmt_log.ldf',
-    SIZE = 5000KB,
-    MAXSIZE = UNLIMITED,
-    FILEGROWTH = 10% );
+( NAME = ContactsMgmt_log, FILENAME = 'D:\Databases\Data\ContactsMgmt_log.ldf' );
 GO
 
 USE ContactsMgmt;
@@ -39,8 +31,8 @@ CREATE TABLE [dbo].[AspNetUsers] (
     [UserName]             NVARCHAR (256)     NULL,
     [FirstName]            NVARCHAR (256)     NOT NULL,
     [LastName]             NVARCHAR (256)     NOT NULL,
-    [CreatedTime]          DATETIME DEFAULT(GETDATE) NOT NULL,
-    [UpdatedTime]          DATETIME DEFAULT(GETDATE) NOT NULL,
+    [CreatedTime]          DATETIME DEFAULT(GETDATE()) NOT NULL,
+    [UpdatedTime]          DATETIME DEFAULT(GETDATE()) NOT NULL,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
@@ -694,8 +686,8 @@ INSERT INTO Contacts (FirstName, LastName, Email, Phone1, Company, Address, City
 );
 GO
 
-ALTER TABLE Users ADD CONSTRAINT DF_Users_CreatedTime DEFAULT GETDATE FOR CreatedTime;
+ALTER TABLE Users ADD CONSTRAINT DF_Users_CreatedTime DEFAULT GETDATE() FOR CreatedTime;
 GO
 
-ALTER TABLE Users ADD CONSTRAINT DF_Users_UpdatedTime DEFAULT GETDATE FOR UpdatedTime;
+ALTER TABLE Users ADD CONSTRAINT DF_Users_UpdatedTime DEFAULT GETDATE() FOR UpdatedTime;
 GO
