@@ -31,7 +31,6 @@ namespace AspnetCoreSPATemplate.Services
             rs.RecordCount = await _contactRepo.ListRecordCountAsync();
             rs.PageCount = (rs.RecordCount + rq.RowsPerPage - 1) / rq.RowsPerPage;
             rs.PageNumber = rq.PageNumber;
-            rs.RecordCount = await _contactRepo.ListRecordCountAsync();
             return rs;
         }
     }

@@ -46,19 +46,44 @@ namespace AspnetCoreSPATemplate.Services
             _signInMgr = signInMgr;
         }
 
-        public async Task<ApplicationUser> CreateAsync(UserCreateRequest rq)
+        public async Task<List<UserModel>> ListAsync(UserListRequest rq)
         {
+            // Create query
+            IQueryable<ApplicationUser> query = _userMgr.Users;
+            // Retrieve data
+            List<ApplicationUser> users = await query.ToListAsync();
+            // Map to model
+            List<UserModel> dtoList = _mapper.Map<List<UserModel>>(users);
+
+            return dtoList;
+        }
+
+        public async Task<int> ListRecordCountAsync()
+        {
+            // Create query
+            IQueryable<ApplicationUser> query = _userMgr.Users;
+            // Retrieve data
+            int recordCount = await query.CountAsync();
+
+            return recordCount;
+        }
+
+        public async Task CreateAsync(UserCreateRequest rq)
+        {
+            UserModel dto = rq.User;
+
             // Handle user
-            ApplicationUser user = new ApplicationUser()
-            {
-                UserName = rq.Email,
-                Email = rq.Email,
-                FirstName = rq.FirstName,
-                LastName = rq.LastName
-            };
+            ApplicationUser user = _mapper.Map<ApplicationUser>(dto);
+            //ApplicationUser user = new ApplicationUser()
+            //{
+            //    UserName = rq.User.Email,
+            //    Email = rq.User.Email,
+            //    FirstName = rq.User.FirstName,
+            //    LastName = rq.User.LastName
+            //};
 
             // Handle creation
-            IdentityResult result = await _userMgr.CreateAsync(user, rq.Password);
+            IdentityResult result = await _userMgr.CreateAsync(user, dto.Password);
             if (!result.Succeeded)
             {
                 throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
@@ -71,8 +96,6 @@ namespace AspnetCoreSPATemplate.Services
                 await _userMgr.DeleteAsync(user);
                 throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
             }
-
-            return user;
         }
 
         private string GenerateJwt(ApplicationUser user, IList<string> roles)

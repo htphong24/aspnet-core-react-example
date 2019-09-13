@@ -9,20 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    [BindProperties(SupportsGet = true)]
     public class UserCreateRequest : RequestBase
     {
-        public UserCreateRequest() : base()
-        {
-        }
-
-        public string FirstName { get; set; }
-
-        public string LastName { get; set; }
-
-        public string Email { get; set; }
-
-        public string Password { get; set; }
+        public UserModel User { get; set; }
 
     }
 }

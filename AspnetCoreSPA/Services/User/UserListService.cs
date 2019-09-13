@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    public class UserCreateService : ServiceBase<UserCreateRequest, UserCreateResponse>
+    public class UserListService : ServiceBase<UserListRequest, UserListResponse>
     {
         private readonly IUserRepository _userRepo;
 
-        public UserCreateService(ServiceContext context, IUserRepository userRepo)
+        public UserListService(ServiceContext context, IUserRepository userRepo)
             : base(context)
         {
             _userRepo = userRepo;
@@ -24,10 +24,11 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary> 
         /// <param name="rq">Request</param> 
         /// <returns>Response</returns>
-        protected override async Task<UserCreateResponse> DoRunAsync(UserCreateRequest rq)
+        protected override async Task<UserListResponse> DoRunAsync(UserListRequest rq)
         {
-            UserCreateResponse rs = new UserCreateResponse();
-            await _userRepo.CreateAsync(rq);
+            UserListResponse rs = new UserListResponse();
+            rs.Results = await _userRepo.ListAsync(rq);
+            rs.RecordCount = await _userRepo.ListRecordCountAsync();
             return rs;
         }
     }

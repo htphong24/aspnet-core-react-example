@@ -19,18 +19,48 @@ namespace AspnetCoreSPATemplate.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
 
-        public UserController(
+        public UsersController(
             IUserRepository userRepo
         )
         {
             _userRepo = userRepo;
         }
 
-        // http://localhost:5000/api/v1/user/create
+        // http://localhost:5000/api/v1/users
+        [HttpGet]
+        public async Task<ActionResult> List([FromQuery]UserListRequest rq)
+        {
+            try
+            {
+                UserListResponse rs = await (new UserListService(this.Context, _userRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
+
+        //// http://localhost:5000/api/v1/users/{id}
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult> Get([FromRoute]UserGetRequest rq)
+        //{
+        //    try
+        //    {
+        //        UserGetResponse rs = await (new UserGetService(this.Context, _userRepo)).RunAsync(rq);
+        //        return new ApiActionResult(this.Context.Request, rs);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new ApiActionResult(this.Context.Request, ex);
+        //    }
+        //}
+
+        // http://localhost:5000/api/v1/users/create
         [HttpPost("create")]
         public async Task<ActionResult> Create([FromBody]UserCreateRequest rq)
         {
