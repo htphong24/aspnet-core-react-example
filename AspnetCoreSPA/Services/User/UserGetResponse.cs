@@ -9,12 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    public class ContactGetRequest : GetReferenceDataRequest
+    public class UserGetResponse : ResponseBase
     {
-        public ContactGetRequest()
-            : base()
-        {
-
-        }
+        public UserModel User { get; set; }
     }
 }

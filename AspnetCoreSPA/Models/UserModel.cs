@@ -9,6 +9,8 @@ namespace AspnetCoreSPATemplate.Models
 {
     public class UserModel
     {
+        public string Id { get; set; }
+
         [Required]
         public string FirstName { get; set; }
 

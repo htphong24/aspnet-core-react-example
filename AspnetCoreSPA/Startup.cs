@@ -73,6 +73,7 @@ namespace AspnetCoreSPATemplate
             services.AddTransient<IContactModificationRepository, SqlServerContactRepository>();
             services.AddTransient<IAuthenticationRepository, SqlServerAuthenticationRepository>();
             services.AddTransient<IUserRepository, SqlServerUserRepository>();
+            services.AddTransient<IUserModificationRepository, SqlServerUserRepository>();
 
             // Configure identity
             services

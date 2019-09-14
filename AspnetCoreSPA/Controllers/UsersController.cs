@@ -22,12 +22,15 @@ namespace AspnetCoreSPATemplate.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
+        private readonly IUserModificationRepository _userModRepo;
 
         public UsersController(
-            IUserRepository userRepo
+            IUserRepository userRepo,
+            IUserModificationRepository userModRepo
         )
         {
             _userRepo = userRepo;
+            _userModRepo = userModRepo;
         }
 
         // http://localhost:5000/api/v1/users
@@ -45,20 +48,20 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        //// http://localhost:5000/api/v1/users/{id}
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult> Get([FromRoute]UserGetRequest rq)
-        //{
-        //    try
-        //    {
-        //        UserGetResponse rs = await (new UserGetService(this.Context, _userRepo)).RunAsync(rq);
-        //        return new ApiActionResult(this.Context.Request, rs);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return new ApiActionResult(this.Context.Request, ex);
-        //    }
-        //}
+        // http://localhost:5000/api/v1/users/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult> Get([FromRoute]UserGetRequest rq)
+        {
+            try
+            {
+                UserGetResponse rs = await (new UserGetService(this.Context, _userModRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
 
         // http://localhost:5000/api/v1/users/create
         [HttpPost("create")]

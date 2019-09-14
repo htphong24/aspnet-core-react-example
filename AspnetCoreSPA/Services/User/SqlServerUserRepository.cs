@@ -19,11 +19,12 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
+using AspnetCoreSPATemplate.Utils;
 
 namespace AspnetCoreSPATemplate.Services
 {
     
-    public class SqlServerUserRepository : RepositoryBase, IUserRepository
+    public class SqlServerUserRepository : RepositoryBase, IUserRepository, IUserModificationRepository
     {
         private readonly JwtConfiguration _jwtConfig;
         private readonly UserManager<ApplicationUser> _userMgr;
@@ -68,19 +69,22 @@ namespace AspnetCoreSPATemplate.Services
             return recordCount;
         }
 
+        public async Task<UserModel> GetAsync(UserGetRequest rq)
+        {
+            // Retrieve data
+            ApplicationUser user = await _userMgr.FindByIdAsync(rq.Id);
+            // Map to model
+            UserModel dto = _mapper.Map<UserModel>(user);
+
+            return dto;
+        }
+
         public async Task CreateAsync(UserCreateRequest rq)
         {
             UserModel dto = rq.User;
 
             // Handle user
             ApplicationUser user = _mapper.Map<ApplicationUser>(dto);
-            //ApplicationUser user = new ApplicationUser()
-            //{
-            //    UserName = rq.User.Email,
-            //    Email = rq.User.Email,
-            //    FirstName = rq.User.FirstName,
-            //    LastName = rq.User.LastName
-            //};
 
             // Handle creation
             IdentityResult result = await _userMgr.CreateAsync(user, dto.Password);
