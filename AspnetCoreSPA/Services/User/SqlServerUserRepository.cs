@@ -81,7 +81,7 @@ namespace AspnetCoreSPATemplate.Services
 
         public async Task CreateAsync(UserCreateRequest rq)
         {
-            UserModel dto = rq.User;
+            UserCreateModel dto = rq.User;
 
             // Handle user
             ApplicationUser user = _mapper.Map<ApplicationUser>(dto);
@@ -100,6 +100,39 @@ namespace AspnetCoreSPATemplate.Services
                 await _userMgr.DeleteAsync(user);
                 throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
             }
+        }
+
+        public async Task UpdateAsync(UserUpdateRequest rq)
+        {
+            UserUpdateModel dto = rq.User;
+            ApplicationUser user = await _userMgr.FindByIdAsync(dto.Id);
+
+            // Map to model
+            //ApplicationUser user2 = _mapper.Map<ApplicationUser>(dto);
+            // Don't allow to change email as it's used as username
+            user.FirstName = dto.FirstName;
+            user.LastName = dto.LastName;
+            user.UpdatedTime = DateTime.UtcNow;
+
+            // Update user
+            IdentityResult updateResult = await _userMgr.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+            }
+
+            //IList<string> roles = await _userMgr.GetRolesAsync(user);
+            //IdentityResult removeResult = await _userMgr.RemoveFromRolesAsync(user, roles);
+            //if (!removeResult.Succeeded)
+            //{
+            //    throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+            //}
+
+            //IdentityResult addResult = await _userMgr.AddToRoleAsync(user, rq.MainRole);
+            //if (!addResult.Succeeded)
+            //{
+            //    throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+            //}
         }
 
         private string GenerateJwt(ApplicationUser user, IList<string> roles)

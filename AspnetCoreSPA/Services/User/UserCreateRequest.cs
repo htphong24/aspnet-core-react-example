@@ -11,7 +11,7 @@ namespace AspnetCoreSPATemplate.Services
 {
     public class UserCreateRequest : RequestBase
     {
-        public UserModel User { get; set; }
+        public UserCreateModel User { get; set; }
 
     }
 }

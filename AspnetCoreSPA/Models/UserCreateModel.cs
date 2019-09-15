@@ -7,17 +7,19 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Models
 {
-    public class UserModel
+    public class UserCreateModel
     {
-        public string Id { get; set; }
-
+        [Required]
         public string FirstName { get; set; }
 
+        [Required]
         public string LastName { get; set; }
 
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
 
+        [Required]
         public string Password { get; set; }
     }
 }

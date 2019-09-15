@@ -23,7 +23,7 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        //Task UpdateAsync(UserUpdateRequest rq);
+        Task UpdateAsync(UserUpdateRequest rq);
 
         /// <summary>
         /// Deletes a User
