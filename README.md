@@ -10,10 +10,15 @@ Then to start the dev server, run this command:
 
 Fire up the AspNetCore app from Visual Studio and browse to `http://locahost:5000`
 
-## Evaluation Process
+## Build
 
-### For the candidate
+To publish the app, go to AspnetCoreSPA folder and run this command
 
-1. Clone the repo and publish it to your Github account.
-2. Make the changes
-3. Notify the admin the URL to your repo once finished
+`dotnet publish AspnetCoreSPATemplate.csproj -o ../Publish`
+
+## Assumptions
+
+The page is an Single Page App uses ASP.NET core and React. It loads data from database (MS SQL) through API and display how many records are loaded. 
+We can also click on page number to navigate between pages. The list, number of contacts/pages and pagination will get refreshed as user types in search bar. User can also perform updating/deleting a record or or click Reload to reset all data. Here is a screen-shot.
+
+![App Screenshot](screenshot.PNG)
