@@ -30,6 +30,6 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// </summary>
         /// <param name="rq"></param>
         /// <returns></returns>
-        //Task DeleteAsync(UserDeleteRequest rq);
+        Task DeleteAsync(UserDeleteRequest rq);
     }
 }

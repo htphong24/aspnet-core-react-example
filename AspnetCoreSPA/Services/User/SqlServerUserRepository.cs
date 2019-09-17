@@ -135,6 +135,17 @@ namespace AspnetCoreSPATemplate.Services
             //}
         }
 
+        public async Task DeleteAsync(UserDeleteRequest rq)
+        {
+            UserDeleteModel dto = rq.User;
+            ApplicationUser user = await _userMgr.FindByIdAsync(dto.Id);
+            IdentityResult deleteResult = await _userMgr.DeleteAsync(user);
+            if (!deleteResult.Succeeded)
+            {
+                throw new InvalidOperationException(string.Join('\n', deleteResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+            }
+        }
+
         private string GenerateJwt(ApplicationUser user, IList<string> roles)
         {
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key));

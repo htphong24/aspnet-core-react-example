@@ -94,5 +94,21 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
+        // http://localhost:5000/api/v1/users/{id}
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(string id, [FromBody]UserDeleteRequest rq)
+        {
+            try
+            {
+                rq.User.Id = id;
+                UserDeleteResponse rs = await (new UserDeleteService(this.Context, _userModRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
+
     }
 }
