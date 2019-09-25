@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 namespace AspnetCoreSPATemplate.Services
 {
     [BindProperties(SupportsGet = true)]
-    public class AuthenticationLoginRequest : RequestBase
+    public class AuthenticationLogoutRequest : RequestBase
     {
-        public AuthenticationLoginRequest()
+        public AuthenticationLogoutRequest()
             : base()
         {
 
@@ -20,8 +20,6 @@ namespace AspnetCoreSPATemplate.Services
         }
 
         public string Email { get; set; }
-
-        public string Password { get; set; }
 
     }
 }

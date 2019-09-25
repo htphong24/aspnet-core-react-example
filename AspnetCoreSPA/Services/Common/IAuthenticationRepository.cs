@@ -14,5 +14,12 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <returns></returns>
         Task<string> LoginAsync(AuthenticationLoginRequest rq);
 
+        /// <summary>
+        /// Logs out
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        Task LogoutAsync(AuthenticationLogoutRequest rq);
+
     }
 }

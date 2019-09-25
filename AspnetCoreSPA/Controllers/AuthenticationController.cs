@@ -46,5 +46,21 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
+        // http://localhost:5000/api/v1/auth/logout
+        [AllowAnonymous]
+        [HttpPost("logout")]
+        public async Task<ActionResult> Logout([FromBody]AuthenticationLogoutRequest rq)
+        {
+            try
+            {
+                AuthenticationLogoutResponse rs = await (new AuthenticationLogoutService(this.Context, _authRepo)).RunAsync(rq);
+                return new ApiActionResult(this.Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                return new ApiActionResult(this.Context.Request, ex);
+            }
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
@@ -12,10 +13,13 @@ namespace AspnetCoreSPATemplate.Services.Common
 
         public HttpResponse Response { get; }
 
+        public ClaimsPrincipal User { get; }
+
         public ServiceContext(HttpContext httpContext)
         {
             Request = httpContext.Request;
             Response = httpContext.Response;
+            User = httpContext.User;
         }
     }
 }

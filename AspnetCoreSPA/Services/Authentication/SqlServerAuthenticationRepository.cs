@@ -60,8 +60,8 @@ namespace AspnetCoreSPATemplate.Services
             }
 
             // Handle signin
-            SignInResult signin = await _signInMgr.PasswordSignInAsync(rq.Email, rq.Password, true, true);
-            if (!signin.Succeeded)
+            SignInResult result = await _signInMgr.PasswordSignInAsync(rq.Email, rq.Password, true, true);
+            if (!result.Succeeded)
             {
                 throw new InvalidOperationException("Password is incorrect");
             }
@@ -70,6 +70,19 @@ namespace AspnetCoreSPATemplate.Services
             IList<string> roles = await _userMgr.GetRolesAsync(user);
 
             return GenerateJwt(user, roles);
+        }
+
+        public async Task LogoutAsync(AuthenticationLogoutRequest rq)
+        {
+            // Handle user
+            ApplicationUser user = await _userMgr.FindByNameAsync(rq.Email);
+            if (user == null)
+            {
+                throw new InvalidOperationException("User not found");
+            }
+
+            // Handle signout
+            await _signInMgr.SignOutAsync();
         }
 
         private string GenerateJwt(ApplicationUser user, IList<string> roles)

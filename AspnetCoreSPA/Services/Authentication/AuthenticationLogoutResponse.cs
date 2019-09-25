@@ -9,19 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    [BindProperties(SupportsGet = true)]
-    public class AuthenticationLoginRequest : RequestBase
+    public class AuthenticationLogoutResponse : ResponseBase
     {
-        public AuthenticationLoginRequest()
+        public AuthenticationLogoutResponse()
             : base()
         {
 
-
         }
-
-        public string Email { get; set; }
-
-        public string Password { get; set; }
 
     }
 }
