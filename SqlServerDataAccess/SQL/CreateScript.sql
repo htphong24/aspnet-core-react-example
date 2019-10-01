@@ -72,9 +72,10 @@ CREATE NONCLUSTERED INDEX [RoleNameIndex]
 
 GO
 
-INSERT INTO AspNetRoles VALUES ('-1',NEWID(),'Admin',LOWER('ADMIN'));
-INSERT INTO AspNetRoles VALUES ('-2',NEWID(),'Standard',LOWER('STANDARD'));
-
+INSERT INTO AspNetRoles VALUES ('-1',NEWID(),'Admin',LOWER('Admin'));
+INSERT INTO AspNetRoles VALUES ('-2',NEWID(),'Standard',LOWER('Standard'));
+INSERT INTO AspNetRoles VALUES ('-3',NEWID(),'Manager',LOWER('Manager'));
+INSERT INTO AspNetRoles VALUES ('-4',NEWID(),'HR',LOWER('HR'));
 
 CREATE TABLE [dbo].[AspNetUserRoles] (
     [UserId] NVARCHAR (450) NOT NULL,

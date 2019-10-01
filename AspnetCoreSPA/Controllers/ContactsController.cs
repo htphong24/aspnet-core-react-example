@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using AutoMapper;
 using SqlServerDataAccess;
+using Microsoft.AspNetCore.Authorization;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(Policy = "RequireStandard")]
     public class ContactsController : ControllerBase
     {
         private readonly IContactRepository _contactRepo;

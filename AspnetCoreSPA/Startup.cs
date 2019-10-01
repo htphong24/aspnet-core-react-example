@@ -95,6 +95,8 @@ namespace AspnetCoreSPATemplate
             {
                 configuration.RootPath = "app/dist";
             });
+
+            ConfigureAuthorization(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -132,6 +134,16 @@ namespace AspnetCoreSPATemplate
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
+            });
+        }
+
+        private static void ConfigureAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization(options => {
+                options.AddPolicy("RequireStandard", policy => policy.RequireRole("Standard", "Manager", "HR", "Admin"));
+                options.AddPolicy("RequireManager", policy => policy.RequireRole("Manager", "Admin"));
+                options.AddPolicy("RequireHR", policy => policy.RequireRole("HR", "Admin"));
+                options.AddPolicy("RequireAdmin", policy => policy.RequireRole("Admin"));
             });
         }
     }

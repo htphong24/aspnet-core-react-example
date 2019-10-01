@@ -19,6 +19,7 @@ namespace AspnetCoreSPATemplate.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize(Policy = "RequireAdmin")]
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
