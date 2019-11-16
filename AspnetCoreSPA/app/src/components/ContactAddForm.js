@@ -42,7 +42,6 @@ class ContactAddForm extends Component {
   handleReload = evt => {
     reloadContacts()
       .then(response => {
-        console.log("ContactAddForm - handleReload - reloadContacts - then - response")
         this.props.onReloaded();
       })
       .catch(error => {

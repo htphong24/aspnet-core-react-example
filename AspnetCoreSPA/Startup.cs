@@ -88,6 +88,8 @@ namespace AspnetCoreSPATemplate
                 .AddEntityFrameworkStores<ContactsMgmtIdentityContext>()
                 .AddDefaultTokenProviders();
 
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/auth/login");
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the SPA files will be served from this directory
