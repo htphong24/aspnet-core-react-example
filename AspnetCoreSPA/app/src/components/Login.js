@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Icon, notification } from 'antd';
-
+import { login } from '../utils/APIUtils';
 
 class Login extends Component {
     render() {
@@ -30,25 +30,27 @@ class LoginForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 const loginRequest = Object.assign({}, values);
+                console.log(loginRequest);
                 login(loginRequest)
-                    .then(response => {
-                        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                        this.props.onLogin();
+                  .then(response => {
+                      console.log(response);
+                //        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                //        this.props.onLogin();
                     }).catch(error => {
                         alert(error);
                         console.log("Login Form - handleSubmit - error");
                         console.log(error);
-                        //if (error.status === 401) {
-                        //    notification.error({
-                        //        message: 'Polling App',
-                        //        description: 'Your Username or Password is incorrect. Please try again!'
-                        //    });
-                        //} else {
-                        //    notification.error({
-                        //        message: 'Polling App',
-                        //        description: error.message || 'Sorry! Something went wrong. Please try again!'
-                        //    });
-                        //}
+                        if (error.status === 401) {
+                            notification.error({
+                                message: 'Polling App',
+                                description: 'Your Username or Password is incorrect. Please try again!'
+                            });
+                        } else {
+                            notification.error({
+                                message: 'Polling App',
+                                description: error.message || 'Sorry! Something went wrong. Please try again!'
+                            });
+                        }
                     });
             }
         });
@@ -65,7 +67,7 @@ class LoginForm extends Component {
                         <Input
                             prefix={<Icon type="user" />}
                             size="large"
-                            name="usernameOrEmail"
+                            name="email"
                             placeholder="Username or Email" />
                     )}
                 </Form.Item>
@@ -83,7 +85,6 @@ class LoginForm extends Component {
                 </Form.Item>
                 <Form.Item>
                     <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                    Or <Link to="/signup">register now!</Link>
                 </Form.Item>
             </Form>
         );

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import MainApp from './components/MainApp';
+import Login from './components/Login';
 
 import 'antd/dist/antd.css';
 import { Form, Input, Row, Col, Pagination, Layout } from 'antd';
@@ -28,7 +29,7 @@ class App extends Component {
               <Route exact path="/" render={(props) =>
                 <MainApp isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
               </Route>
-              {/* <Route path="/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route> */}
+              <Route path="/auth/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
             </Switch>
           </div>
         </Content>
