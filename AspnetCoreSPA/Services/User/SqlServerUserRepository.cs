@@ -19,7 +19,6 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
-using AspnetCoreSPATemplate.Utils;
 
 namespace AspnetCoreSPATemplate.Services
 {

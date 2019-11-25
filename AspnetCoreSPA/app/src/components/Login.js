@@ -32,10 +32,9 @@ class LoginForm extends Component {
                 const loginRequest = Object.assign({}, values);
                 console.log(loginRequest);
                 login(loginRequest)
-                  .then(response => {
-                      console.log(response);
-                //        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
-                //        this.props.onLogin();
+                    .then(response => {
+                        localStorage.setItem("accessToken", response.AccessToken);
+                        this.props.onLogin();
                     }).catch(error => {
                         alert(error);
                         console.log("Login Form - handleSubmit - error");

@@ -74,6 +74,7 @@ namespace AspnetCoreSPATemplate
             services.AddTransient<IAuthenticationRepository, SqlServerAuthenticationRepository>();
             services.AddTransient<IUserRepository, SqlServerUserRepository>();
             services.AddTransient<IUserModificationRepository, SqlServerUserRepository>();
+            services.AddTransient<IMeRepository, SqlServerMeRepository>();
 
             // Configure identity
             services

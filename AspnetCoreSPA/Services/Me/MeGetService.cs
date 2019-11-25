@@ -1,5 +1,6 @@
 ﻿using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Common;
+using AspnetCoreSPATemplate.Utils;
 using AutoMapper;
 using SqlServerDataAccess;
 using System;
@@ -9,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services
 {
-    public class UserGetService : ServiceBase<UserGetRequest, UserGetResponse>
+    public class MeGetService : ServiceBase<MeGetRequest, MeGetResponse>
     {
-        private readonly IUserRepository _userRepo;
+        private readonly IMeRepository _meRepo;
         private readonly ServiceContext _context;
 
-        public UserGetService(ServiceContext context, IUserRepository userRepo)
+        public MeGetService(ServiceContext context, IMeRepository userRepo)
             : base(context)
         {
-            _userRepo = userRepo;
+            _meRepo = userRepo;
             _context = context;
         }
 
@@ -26,10 +27,10 @@ namespace AspnetCoreSPATemplate.Services
         /// </summary> 
         /// <param name="rq">Request</param> 
         /// <returns>Response</returns>
-        protected override async Task<UserGetResponse> DoRunAsync(UserGetRequest rq)
+        protected override async Task<MeGetResponse> DoRunAsync(MeGetRequest rq)
         {
-            UserGetResponse rs = new UserGetResponse();
-            rs.User = await _userRepo.GetAsync(rq);
+            MeGetResponse rs = new MeGetResponse();
+            rs.User = await _meRepo.GetAsync(rq);
             return rs;
         }
     }

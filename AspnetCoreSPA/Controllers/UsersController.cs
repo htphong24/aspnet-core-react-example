@@ -55,7 +55,7 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                UserGetResponse rs = await (new UserGetService(this.Context, _userModRepo)).RunAsync(rq);
+                UserGetResponse rs = await (new UserGetService(this.Context, _userRepo)).RunAsync(rq);
                 return new ApiActionResult(this.Context.Request, rs);
             }
             catch (Exception ex)

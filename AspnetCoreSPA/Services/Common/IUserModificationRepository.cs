@@ -12,13 +12,6 @@ namespace AspnetCoreSPATemplate.Services.Common
     public interface IUserModificationRepository
     {
         /// <summary>
-        /// Gets a user
-        /// </summary>
-        /// <param name="rq"></param>
-        /// <returns></returns>
-        Task<UserModel> GetAsync(UserGetRequest rq);
-
-        /// <summary>
         /// Updates a user
         /// </summary>
         /// <param name="rq"></param>

@@ -11,6 +11,13 @@ namespace AspnetCoreSPATemplate.Services.Common
     public interface IUserRepository
     {
         /// <summary>
+        /// Gets a user
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        Task<UserModel> GetAsync(UserGetRequest rq);
+
+        /// <summary>
         /// Returns list of users
         /// </summary>
         /// <returns></returns>

@@ -77,3 +77,14 @@ export function login(data) {
         body: JSON.stringify(data)
     });
 }
+
+export function getCurrentUser() {
+    if (!localStorage.getItem(ACCESS_TOKEN)) {
+        return Promise.reject("No access token set.");
+    }
+
+    return request({
+        url: API_BASE_URL + "/me",
+        method: 'GET'
+    });
+}
