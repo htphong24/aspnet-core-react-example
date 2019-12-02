@@ -27,7 +27,7 @@ namespace AspnetCoreSPATemplate.Services
         protected override async Task<AuthenticationLoginResponse> DoRunAsync(AuthenticationLoginRequest rq)
         {
             AuthenticationLoginResponse rs = new AuthenticationLoginResponse();
-            rs.Token = await _authRepo.LoginAsync(rq);
+            rs.AccessToken = await _authRepo.LoginAsync(rq);
             return rs;
         }
     }

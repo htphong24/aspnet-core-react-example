@@ -30,8 +30,8 @@ const request = (options) => {
 
 export function getContacts(filter, page) {
     let contactUrl = filter === ""
-        ? API_BASE_URL + "contacts?PageNumber=" + page + "&RowsPerPage=" + PAGE_SIZE // on load
-        : API_BASE_URL + "contacts/search?q=" + filter + "&PageNumber=" + page + "&RowsPerPage=" + PAGE_SIZE // on search
+        ? API_BASE_URL + "/contacts?PageNumber=" + page + "&RowsPerPage=" + PAGE_SIZE // on load
+        : API_BASE_URL + "/contacts/search?q=" + filter + "&PageNumber=" + page + "&RowsPerPage=" + PAGE_SIZE // on search
     return request({
         url: contactUrl,
         method: 'GET'
@@ -40,7 +40,7 @@ export function getContacts(filter, page) {
 
 export function addContact(data) {
     return request({
-        url: API_BASE_URL + "contacts",
+        url: API_BASE_URL + "/contacts",
         method: 'POST',
         body: JSON.stringify(data)
     });
@@ -48,7 +48,7 @@ export function addContact(data) {
 
 export function updateContact(data) {
     return request({
-        url: API_BASE_URL + "contacts/" + data.Contact.Id,
+        url: API_BASE_URL + "/contacts/" + data.Contact.Id,
         method: 'PUT',
         body: JSON.stringify(data)
     });
@@ -56,7 +56,7 @@ export function updateContact(data) {
 
 export function deleteContact(data) {
     return request({
-        url: API_BASE_URL + "contacts/" + data.Contact.Id,
+        url: API_BASE_URL + "/contacts/" + data.Contact.Id,
         method: 'DELETE',
         body: JSON.stringify(data)
     });
@@ -64,7 +64,7 @@ export function deleteContact(data) {
 
 export function reloadContacts() {
     return request({
-        url: API_BASE_URL + "contacts/reload",
+        url: API_BASE_URL + "/contacts/reload",
         method: 'POST',
         body: JSON.stringify({})
     });
@@ -79,7 +79,7 @@ export function login(data) {
 }
 
 export function getCurrentUser() {
-    if (!localStorage.getItem(ACCESS_TOKEN)) {
+    if (!localStorage.getItem("accessToken")) {
         return Promise.reject("No access token set.");
     }
 

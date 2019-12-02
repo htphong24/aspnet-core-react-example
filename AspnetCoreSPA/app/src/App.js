@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { Route, withRouter, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import Login from './components/Login';
-
 import 'antd/dist/antd.css';
-import { Form, Input, Row, Col, Pagination, Layout } from 'antd';
 import './App.css';
-
-const { Content } = Layout;
+import { getCurrentUser } from './utils/APIUtils';
 
 class App extends Component {
 
@@ -26,12 +23,17 @@ class App extends Component {
 
     handleLogin() {
         this.loadCurrentUser();
+        console.log("this.props.history");
+        console.log(this.props.history);
+        console.log("this.state.isAuthenticated");
+        console.log(this.state.isAuthenticated);
         this.props.history.push("/");
     }
 
     loadCurrentUser() {
         getCurrentUser()
             .then(response => {
+                console.log("setting state after loadCurrentUser")
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true
@@ -50,6 +52,10 @@ class App extends Component {
         });
 
         this.props.history.push("/");
+    }
+
+    componentDidMount() {
+        this.loadCurrentUser();
     }
 
     render() {

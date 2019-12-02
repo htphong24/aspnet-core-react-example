@@ -17,7 +17,7 @@ namespace AspnetCoreSPATemplate.Services
 
         }
 
-        public string Token { get; set; }
+        public string AccessToken { get; set; }
 
         //public ApplicationUser User { get; set; }
 

@@ -1,12 +1,15 @@
-﻿import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+﻿import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Icon, notification } from 'antd';
 import { login } from '../utils/APIUtils';
 
 class Login extends Component {
+    constructor(props) {
+        super(props);
+    }
     render() {
+        console.log("Login.js - Login class");
+        console.log(localStorage.getItem("accessToken"));
         const AntWrappedLoginForm = Form.create()(LoginForm)
         return (
             <div className="login-container">
@@ -29,9 +32,13 @@ class LoginForm extends Component {
         event.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const loginRequest = Object.assign({}, values);
-                console.log(loginRequest);
-                login(loginRequest)
+                //const submit houstRequest = Object.assign({}, values); // clone target values
+                // build submit request
+                let submitRequest = {
+                    Email: values.email,
+                    Password: values.password
+                };
+                login(submitRequest)
                     .then(response => {
                         localStorage.setItem("accessToken", response.AccessToken);
                         this.props.onLogin();
@@ -56,11 +63,13 @@ class LoginForm extends Component {
     }
 
     render() {
+
+        console.log("Login.js - LoginForm class");
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
-                    {getFieldDecorator('usernameOrEmail', {
+                    {getFieldDecorator('email', {
                         rules: [{ required: true, message: 'Please input your username or email!' }],
                     })(
                         <Input

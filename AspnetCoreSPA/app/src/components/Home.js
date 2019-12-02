@@ -1,11 +1,11 @@
 ﻿import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import 'antd/dist/antd.css';
-import { Row, Col, Tooltip, Form, Pagination, Input, Layout } from 'antd';
+import { Row, Col, Form, Pagination, Input, Layout } from 'antd';
 import { PAGE_SIZE } from '../constants';
 import ContactRow from './ContactRow';
 import ContactAddForm from './ContactAddForm';
 import { getContacts } from '../utils/APIUtils';
+import { Redirect } from "react-router-dom";
 const { Content } = Layout;
 
 class Home extends Component {
@@ -30,6 +30,8 @@ class Home extends Component {
         this.handleDeleted = this.handleDeleted.bind(this);
         this.handleReloaded = this.handleReloaded.bind(this);
     }
+
+    _isMounted = false;
 
     // EVENTS
 
@@ -190,41 +192,58 @@ class Home extends Component {
     // LIFECYCLE METHODS
 
     componentDidMount = () => {
-        this.loadContacts();
+        //alert("componentDidMount!!!!!");
+        this._isMounted = true;
+        //this.loadContacts();
+    }
+
+    componentWillUnmount() {
+        //alert("componentWillUnmount!!!!!");
+        this._isMounted = false;
     }
 
     // PRIVATE METHODS
 
     loadContacts = () => {
-        getContacts(
-            this.state.filter,
-            this.state.currentPage
-        ).then(response => {
-            this.setState({
-                recordCount: response.RecordCount,
-                currentContacts: response.Results,
-                currentPage: response.PageNumber,
-                pageCount: response.PageCount
-            });
-        })
-            .catch(error => {
-                if (error.status === 404) {
-                    this.setState({
-                        recordCount: null
-                    });
-                }
-                else {
-                    this.setState({
-                        recordCount: null
-                    });
-                }
-            });
+        if (this._isMounted) {
+            getContacts(
+                this.state.filter,
+                this.state.currentPage
+            ).then(response => {
+                this.setState({
+                    recordCount: response.RecordCount,
+                    currentContacts: response.Results,
+                    currentPage: response.PageNumber,
+                    pageCount: response.PageCount
+                });
+            })
+                .catch(error => {
+                    if (error.status === 404) {
+                        this.setState({
+                            recordCount: null
+                        });
+                    }
+                    else {
+                        this.setState({
+                            recordCount: null
+                        });
+                    }
+                });
+        }
     }
 
     render() {
         if (!this.props.isAuthenticated) {
-            this.props.history.push("/auth/login");
+            console.log("Home.js - NOT Authenticated!!!!!");
+            return (
+                <Redirect
+                    to={{
+                        pathname: '/auth/login',
+                        state: { from: this.props.location }
+                    }}
+                />);
         }
+        console.log("Home.js - IS Authenticated!!!!!");
         // We render the total number of contacts, the current page, the total number of pages,
         // <Pagination> control and then <ContactRow> for each contact in the current page
         const { recordCount, currentContacts, currentPage, pageCount, editingContact } = this.state;
