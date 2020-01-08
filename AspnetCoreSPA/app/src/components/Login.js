@@ -8,8 +8,6 @@ class Login extends Component {
         super(props);
     }
     render() {
-        console.log("Login.js - Login class");
-        console.log(localStorage.getItem("accessToken"));
         const AntWrappedLoginForm = Form.create()(LoginForm)
         return (
             <div className="login-container">
@@ -63,8 +61,6 @@ class LoginForm extends Component {
     }
 
     render() {
-
-        console.log("Login.js - LoginForm class");
         const { getFieldDecorator } = this.props.form;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">

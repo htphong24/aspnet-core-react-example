@@ -5,7 +5,6 @@ import { PAGE_SIZE } from '../constants';
 import ContactRow from './ContactRow';
 import ContactAddForm from './ContactAddForm';
 import { getContacts } from '../utils/APIUtils';
-import { Redirect } from "react-router-dom";
 const { Content } = Layout;
 
 class Home extends Component {
@@ -192,13 +191,21 @@ class Home extends Component {
     // LIFECYCLE METHODS
 
     componentDidMount = () => {
-        //alert("componentDidMount!!!!!");
         this._isMounted = true;
         this.loadContacts();
     }
 
+    componentWillMount() {
+        var token = localStorage.getItem("accessToken");
+        if (token == null && !this.props.isAuthenticated) {
+            this.props.history.push("/auth/login");
+        }
+    }
+
+    componentWillReceiveProps() {
+    }
+
     componentWillUnmount() {
-        //alert("componentWillUnmount!!!!!");
         this._isMounted = false;
     }
 
@@ -233,17 +240,6 @@ class Home extends Component {
     }
 
     render() {
-        if (!this.props.isAuthenticated) {
-            console.log("Home.js - NOT Authenticated!!!!!");
-            return (
-                <Redirect
-                    to={{
-                        pathname: '/auth/login',
-                        state: { from: this.props.location }
-                    }}
-                />);
-        }
-        console.log("Home.js - IS Authenticated!!!!!");
         // We render the total number of contacts, the current page, the total number of pages,
         // <Pagination> control and then <ContactRow> for each contact in the current page
         const { recordCount, currentContacts, currentPage, pageCount, editingContact } = this.state;

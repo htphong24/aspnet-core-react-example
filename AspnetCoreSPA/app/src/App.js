@@ -23,17 +23,12 @@ class App extends Component {
 
     handleLogin() {
         this.loadCurrentUser();
-        console.log("this.props.history");
-        console.log(this.props.history);
-        console.log("this.state.isAuthenticated");
-        console.log(this.state.isAuthenticated);
         this.props.history.push("/");
     }
 
     loadCurrentUser() {
         getCurrentUser()
             .then(response => {
-                console.log("setting state after loadCurrentUser")
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true
@@ -55,6 +50,9 @@ class App extends Component {
     }
 
     componentDidMount() {
+    }
+
+    componentWillMount() {
         this.loadCurrentUser();
     }
 
