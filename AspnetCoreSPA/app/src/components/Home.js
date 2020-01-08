@@ -194,7 +194,7 @@ class Home extends Component {
     componentDidMount = () => {
         //alert("componentDidMount!!!!!");
         this._isMounted = true;
-        //this.loadContacts();
+        this.loadContacts();
     }
 
     componentWillUnmount() {
