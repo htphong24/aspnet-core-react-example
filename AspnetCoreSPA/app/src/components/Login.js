@@ -4,9 +4,9 @@ import { Form, Input, Button, Icon, notification } from 'antd';
 import { login } from '../utils/APIUtils';
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-    }
+    //constructor(props) {
+    //    super(props);
+    //}
     render() {
         const AntWrappedLoginForm = Form.create()(LoginForm)
         return (

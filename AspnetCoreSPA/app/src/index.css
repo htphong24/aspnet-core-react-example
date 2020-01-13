@@ -1,4 +1,9 @@
-﻿.container .ant-form {
+﻿.home-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.container .ant-form {
     margin: 10px 0;
 }
 
@@ -113,7 +118,6 @@
 
 .login-container {
     max-width: 420px;
-    margin: 0 auto;
     margin: 0 auto;
     margin-top: 40px;
 }

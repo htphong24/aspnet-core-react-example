@@ -29,6 +29,7 @@ class App extends Component {
     loadCurrentUser() {
         getCurrentUser()
             .then(response => {
+                //console.log("App.js loadCurrentUser getCurrentUser");
                 this.setState({
                     currentUser: response,
                     isAuthenticated: true
@@ -44,9 +45,7 @@ class App extends Component {
         this.setState({
             currentUser: null,
             isAuthenticated: false
-        });
-
-        this.props.history.push("/");
+        }, () => this.props.history.push("/auth/login"));
     }
 
     componentDidMount() {
@@ -60,7 +59,7 @@ class App extends Component {
         return (
             <Switch>
                 <Route exact path="/" render={(props) =>
-                    <Home isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} />}>
+                    <Home isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} onLogout={this.handleLogout} />}>
                 </Route>
                 <Route path="/auth/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
             </Switch>
