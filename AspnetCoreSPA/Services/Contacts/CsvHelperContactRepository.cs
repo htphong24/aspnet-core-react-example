@@ -67,12 +67,10 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         public async Task<int> SearchRecordCountAsync(ContactSearchRequest rq)
         {
             List<ContactModel> allContacts = await ParseContactDataAsync(FilePath);
-            int recordCount = allContacts
-                                .Where(c => c.FirstName.Contains(rq.Query)
-                                         || c.LastName.Contains(rq.Query)
-                                         || c.Email.Contains(rq.Query)
-                                         || c.Phone1.Contains(rq.Query))
-                                .Count();
+            int recordCount = allContacts.Count(c => c.FirstName.Contains(rq.Query)
+                                                  || c.LastName.Contains(rq.Query)
+                                                  || c.Email.Contains(rq.Query)
+                                                  || c.Phone1.Contains(rq.Query));
 
             return recordCount;
         }
@@ -98,10 +96,7 @@ namespace AspnetCoreSPATemplate.Services.Contacts
 
         public bool IsEmailInUse(List<ContactModel> contacts, string email)
         {
-            bool emailFound = contacts
-                                .Where(c => c.Email == email)
-                                .Any();
-
+            bool emailFound = contacts.Any(c => c.Email == email);
             return emailFound;
         }
 

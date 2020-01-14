@@ -1,16 +1,11 @@
-﻿using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Utils;
-using AspnetCoreSPATemplate.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.IO;
-using AspnetCoreSPATemplate.Services.Contacts;
-using CsvHelper;
 using Microsoft.EntityFrameworkCore;
-using SqlServerDataAccess;
 using AutoMapper;
+using AspnetCoreSPATemplate.Services.Common;
+using AspnetCoreSPATemplate.Models;
 using SqlServerDataAccess.EF;
 
 namespace AspnetCoreSPATemplate.Services.Contacts

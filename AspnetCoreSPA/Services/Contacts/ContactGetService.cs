@@ -20,8 +20,11 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         /// <returns>Response</returns>
         protected override async Task<ContactGetResponse> DoRunAsync(ContactGetRequest rq)
         {
-            ContactGetResponse rs = new ContactGetResponse();
-            rs.Contact = await _contactModRepo.GetAsync(rq);
+            ContactGetResponse rs = new ContactGetResponse
+            {
+                Contact = await _contactModRepo.GetAsync(rq)
+            };
+
             return rs;
         }
     }

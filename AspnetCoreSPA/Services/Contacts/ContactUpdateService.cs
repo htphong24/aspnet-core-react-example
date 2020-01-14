@@ -20,8 +20,10 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         /// <returns>Response</returns>
         protected override async Task<ContactUpdateResponse> DoRunAsync(ContactUpdateRequest rq)
         {
-            ContactUpdateResponse rs = new ContactUpdateResponse();
-            rs.Contact = rq.Contact;
+            ContactUpdateResponse rs = new ContactUpdateResponse
+            {
+                Contact = rq.Contact
+            };
             await _contactModRepo.UpdateAsync(rq);
             return rs;
         }

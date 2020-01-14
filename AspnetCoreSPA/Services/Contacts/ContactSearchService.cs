@@ -20,11 +20,13 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         /// <returns>Response</returns>
         protected override async Task<ContactSearchResponse> DoRunAsync(ContactSearchRequest rq)
         {
-            ContactSearchResponse rs = new ContactSearchResponse();
-            rs.Results = await _contactRepo.SearchAsync(rq);
-            rs.RecordCount = await _contactRepo.SearchRecordCountAsync(rq);
+            ContactSearchResponse rs = new ContactSearchResponse
+            {
+                Results = await _contactRepo.SearchAsync(rq),
+                RecordCount = await _contactRepo.SearchRecordCountAsync(rq),
+                PageNumber = rq.PageNumber
+            };
             rs.PageCount = (rs.RecordCount + rq.RowsPerPage - 1) / rq.RowsPerPage;
-            rs.PageNumber = rq.PageNumber;
             return rs;
         }
     }

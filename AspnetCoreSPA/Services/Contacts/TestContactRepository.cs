@@ -8,7 +8,7 @@ namespace AspnetCoreSPATemplate.Services.Contacts
 {
     public class TestContactRepository : IContactRepository
     {
-        private List<ContactModel> _contacts;
+        private readonly List<ContactModel> _contacts;
 
         public TestContactRepository()
         {
@@ -77,12 +77,10 @@ namespace AspnetCoreSPATemplate.Services.Contacts
                     LoadContacts();
                 }
 
-                int recordCount = _contacts
-                                    .Where(c => c.FirstName.Contains(rq.Query)
-                                             || c.LastName.Contains(rq.Query)
-                                             || c.Email.Contains(rq.Query)
-                                             || c.Phone1.Contains(rq.Query))
-                                    .Count();
+                int recordCount = _contacts.Count(c => c.FirstName.Contains(rq.Query)
+                                                    || c.LastName.Contains(rq.Query)
+                                                    || c.Email.Contains(rq.Query)
+                                                    || c.Phone1.Contains(rq.Query));
 
                 return recordCount;
             });
