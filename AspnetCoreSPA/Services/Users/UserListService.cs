@@ -1,13 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
+﻿using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using AutoMapper;
-using SqlServerDataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Users
 {
     public class UserListService : ServiceBase<UserListRequest, UserListResponse>
     {
@@ -19,16 +13,19 @@ namespace AspnetCoreSPATemplate.Services
             _userRepo = userRepo;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Lists the results of a client search.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<UserListResponse> DoRunAsync(UserListRequest rq)
         {
-            UserListResponse rs = new UserListResponse();
-            rs.Results = await _userRepo.ListAsync(rq);
-            rs.RecordCount = await _userRepo.ListRecordCountAsync();
+            UserListResponse rs = new UserListResponse
+            {
+                Results = await _userRepo.ListAsync(rq),
+                RecordCount = await _userRepo.ListRecordCountAsync()
+            };
+
             return rs;
         }
     }

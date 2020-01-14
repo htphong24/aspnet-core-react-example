@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using AspnetCoreSPATemplate.Utils;
 using AspnetCoreSPATemplate.Services;
 using System.Web.Http;
+using AspnetCoreSPATemplate.Services.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using AutoMapper;

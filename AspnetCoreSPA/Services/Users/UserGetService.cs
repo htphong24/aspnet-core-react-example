@@ -1,13 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
+﻿using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using AutoMapper;
-using SqlServerDataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Users
 {
     public class UserGetService : ServiceBase<UserGetRequest, UserGetResponse>
     {
@@ -28,8 +22,11 @@ namespace AspnetCoreSPATemplate.Services
         /// <returns>Response</returns>
         protected override async Task<UserGetResponse> DoRunAsync(UserGetRequest rq)
         {
-            UserGetResponse rs = new UserGetResponse();
-            rs.User = await _userRepo.GetAsync(rq);
+            UserGetResponse rs = new UserGetResponse
+            {
+                User = await _userRepo.GetAsync(rq)
+            };
+
             return rs;
         }
     }

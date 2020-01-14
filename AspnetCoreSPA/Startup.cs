@@ -15,6 +15,7 @@ using System.Text;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
 using AspnetCoreSPATemplate.Services.Contacts;
 using AspnetCoreSPATemplate.Services.Me;
+using AspnetCoreSPATemplate.Services.Users;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
 

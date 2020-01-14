@@ -1,11 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
+﻿using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Users
 {
     public class UserUpdateService : ServiceBase<UserUpdateRequest, UserUpdateResponse>
     {
@@ -24,8 +20,10 @@ namespace AspnetCoreSPATemplate.Services
         /// <returns>Response</returns>
         protected override async Task<UserUpdateResponse> DoRunAsync(UserUpdateRequest rq)
         {
-            UserUpdateResponse rs = new UserUpdateResponse();
-            rs.User = rq.User;
+            UserUpdateResponse rs = new UserUpdateResponse
+            {
+                User = rq.User
+            };
             await _userModRepo.UpdateAsync(rq);
             return rs;
         }

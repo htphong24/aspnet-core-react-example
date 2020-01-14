@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Models;
+using AspnetCoreSPATemplate.Services.Users;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AspnetCoreSPATemplate.Models;
-using AspnetCoreSPATemplate.Utils;
-using Microsoft.AspNetCore.Mvc;
+using AspnetCoreSPATemplate.Services.Common;
 
-namespace AspnetCoreSPATemplate.Services.Common
+namespace AspnetCoreSPATemplate.Services.Users
 {
     public class UserListResponse: ListResponse
     {
