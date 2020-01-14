@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
@@ -15,7 +13,7 @@ namespace AspnetCoreSPATemplate.Services.Common
         protected ServiceContext ServiceContext
         { get; private set; }
 
-        public ServiceBase(ServiceContext context)
+        protected ServiceBase(ServiceContext context)
         {
             this.ServiceContext = context;
         }

@@ -1,10 +1,6 @@
-﻿using AspnetCoreSPATemplate.Models;
-using Common.Identity;
-using SqlServerDataAccess.EF;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Models;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {

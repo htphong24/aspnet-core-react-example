@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Mvc;
 using AspnetCoreSPATemplate.Utils;
-using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
@@ -19,8 +15,8 @@ namespace AspnetCoreSPATemplate.Services.Common
         [BindProperty(Name = "q")]
         public string Query
         {
-            get { return _query; }
-            set { _query = value.Trim(100); }
+            get => _query;
+            set => _query = value.Trim(100);
         }
     }
 }

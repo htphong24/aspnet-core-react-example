@@ -14,6 +14,6 @@ namespace AspnetCoreSPATemplate.Services.Common
             : base()
         {
         }
-        
+
     }
 }

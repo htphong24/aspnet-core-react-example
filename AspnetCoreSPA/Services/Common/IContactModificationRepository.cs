@@ -1,10 +1,5 @@
-﻿using AspnetCoreSPATemplate.Models;
-using AutoMapper;
-using SqlServerDataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Contacts;
 
 namespace AspnetCoreSPATemplate.Services.Common

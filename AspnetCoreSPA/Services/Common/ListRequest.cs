@@ -1,15 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
     [BindProperties(SupportsGet = true)]
     public abstract class ListRequest : RequestBase
     {
-        public ListRequest()
+        protected ListRequest()
         {
             this.PageNumber = 1;
             this.RowsPerPage = 10;
