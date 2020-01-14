@@ -76,27 +76,19 @@ namespace AspnetCoreSPATemplate.Services
             List<ContactModel> allContacts = ParseDataString(fileData);
 
             int recordCount = allContacts
-                                .Where(predicate: c => c.FirstName.Contains(rq.Query)
-                                                    || c.LastName.Contains(rq.Query)
-                                                    || c.Email.Contains(rq.Query)
-                                                    || c.Phone1.Contains(rq.Query))
-                                .Count();
+                                  .Count(c => c.FirstName.Contains(rq.Query)
+                                           || c.LastName.Contains(rq.Query)
+                                           || c.Email.Contains(rq.Query)
+                                           || c.Phone1.Contains(rq.Query));
             return recordCount;
         }
 
         public async Task CreateAsync(ContactCreateRequest rq)
         {
             ContactModel contact = rq.Contact;
-            List<string> propList = new List<string>();
-            // read through each properties of the contact
-            foreach (PropertyInfo prop in contact.GetType().GetProperties())
-            {
-                object propValue = prop.GetValue(obj: contact);
-                // then add each properties to the list
-                propList.Add(item: propValue.ToString());
-            }
-            // then join them to a string with "," as the delimiter
-            await FileHandler.AddLineAsync(value: string.Join(separator: ",", propList.ToArray()));
+            PropertyInfo[] props = contact.GetType().GetProperties();
+            IEnumerable<string> propValues = props.Select(p => p.GetValue(obj: contact).ToString());
+            await FileHandler.AddLineAsync(value: string.Join(separator: ",", propValues.ToArray()));
         }
 
         private List<ContactModel> ParseDataString(string csvData)
