@@ -1,5 +1,6 @@
 ﻿using AspnetCoreSPATemplate.Models;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Services.Me;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {

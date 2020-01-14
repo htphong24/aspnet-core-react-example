@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using AspnetCoreSPATemplate.Services.Common;
-using SqlServerDataAccess;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using SqlServerDataAccess.EF;
@@ -15,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
 using AspnetCoreSPATemplate.Services.Contacts;
+using AspnetCoreSPATemplate.Services.Me;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
 

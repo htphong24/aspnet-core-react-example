@@ -1,14 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
+﻿using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Utils;
-using AutoMapper;
-using SqlServerDataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Me
 {
     public class MeGetService : ServiceBase<MeGetRequest, MeGetResponse>
     {
@@ -22,15 +15,18 @@ namespace AspnetCoreSPATemplate.Services
             _context = context;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Lists the results of a client search.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<MeGetResponse> DoRunAsync(MeGetRequest rq)
         {
-            MeGetResponse rs = new MeGetResponse();
-            rs.User = await _meRepo.GetAsync(rq);
+            MeGetResponse rs = new MeGetResponse
+            {
+                User = await _meRepo.GetAsync(rq)
+            };
+
             return rs;
         }
     }

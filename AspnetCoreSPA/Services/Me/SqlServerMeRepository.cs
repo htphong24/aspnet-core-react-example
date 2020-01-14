@@ -1,29 +1,22 @@
-﻿using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Utils;
-using AspnetCoreSPATemplate.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO;
-using CsvHelper;
-using Microsoft.EntityFrameworkCore;
-using SqlServerDataAccess;
-using AutoMapper;
-using SqlServerDataAccess.EF;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Http;
+using System.Linq;
 using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Models;
+using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
-using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 using Common.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using SqlServerDataAccess.EF;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Me
 {
-    
     public class SqlServerMeRepository : RepositoryBase, IMeRepository
     {
         private readonly JwtConfiguration _jwtConfig;
