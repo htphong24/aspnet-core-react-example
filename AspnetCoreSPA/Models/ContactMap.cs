@@ -1,13 +1,8 @@
 ﻿using CsvHelper.Configuration;
-using CsvHelper.Configuration.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Models
 {
-    public class ContactMap : ClassMap<ContactModel>
+    public sealed class ContactMap : ClassMap<ContactModel>
     {
         public ContactMap()
         {
