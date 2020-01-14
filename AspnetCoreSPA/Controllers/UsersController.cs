@@ -1,19 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Models;
 using Microsoft.AspNetCore.Mvc;
 using AspnetCoreSPATemplate.Utils;
-using AspnetCoreSPATemplate.Services;
-using System.Web.Http;
 using AspnetCoreSPATemplate.Services.Users;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using AutoMapper;
-using SqlServerDataAccess;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 
 namespace AspnetCoreSPATemplate.Controllers

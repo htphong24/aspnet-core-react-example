@@ -1,20 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Models;
 using Microsoft.AspNetCore.Mvc;
-using AspnetCoreSPATemplate.Utils;
-using AspnetCoreSPATemplate.Services;
-using System.Web.Http;
-using AspnetCoreSPATemplate.Services.Me;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using AutoMapper;
-using SqlServerDataAccess;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
+using AspnetCoreSPATemplate.Services.Common;
+using AspnetCoreSPATemplate.Utils;
+using AspnetCoreSPATemplate.Services.Me;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -38,7 +28,7 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                rq.Id = MiscHelper.GetUserId(this.Context.User);
+                rq.Id = this.Context.User.GetUserId();
                 MeGetResponse rs = await (new MeGetService(this.Context, _meRepo)).RunAsync(rq);
                 return new ApiActionResult(this.Context.Request, rs);
             }
