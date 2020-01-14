@@ -6,15 +6,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using AspnetCoreSPATemplate.Services.Contacts;
 using CsvHelper;
 using Microsoft.EntityFrameworkCore;
 using SqlServerDataAccess;
 using AutoMapper;
 using SqlServerDataAccess.EF;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Contacts
 {
-    
+
     public class SqlServerContactRepository : RepositoryBase, IContactRepository, IContactModificationRepository
     {
         public SqlServerContactRepository(

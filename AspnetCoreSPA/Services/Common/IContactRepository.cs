@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Services.Contacts;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
@@ -35,7 +36,6 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <summary>
         /// Creates a new contact
         /// </summary>
-        /// <param name="request"></param>
         /// <returns></returns>
         Task CreateAsync(ContactCreateRequest rq);
 

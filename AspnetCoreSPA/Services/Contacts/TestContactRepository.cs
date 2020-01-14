@@ -1,11 +1,10 @@
-﻿using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Models;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Models;
+using AspnetCoreSPATemplate.Services.Common;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Contacts
 {
     public class TestContactRepository : IContactRepository
     {
@@ -77,7 +76,7 @@ namespace AspnetCoreSPATemplate.Services
                 {
                     LoadContacts();
                 }
-                
+
                 int recordCount = _contacts
                                     .Where(c => c.FirstName.Contains(rq.Query)
                                              || c.LastName.Contains(rq.Query)

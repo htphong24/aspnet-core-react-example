@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
+using AspnetCoreSPATemplate.Services.Contacts;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
 

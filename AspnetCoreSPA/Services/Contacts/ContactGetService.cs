@@ -1,13 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
+﻿using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using AutoMapper;
-using SqlServerDataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Contacts
 {
     public class ContactGetService : ServiceBase<ContactGetRequest, ContactGetResponse>
     {

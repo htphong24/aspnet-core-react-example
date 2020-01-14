@@ -1,11 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
-using AspnetCoreSPATemplate.Services.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AspnetCoreSPATemplate.Services.Common;
 using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Contacts
 {
     public class ContactDeleteService : ServiceBase<ContactDeleteRequest, ContactDeleteResponse>
     {
@@ -17,10 +13,10 @@ namespace AspnetCoreSPATemplate.Services
             _contactModRepo = contactModRepo;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Inserts a new contact.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<ContactDeleteResponse> DoRunAsync(ContactDeleteRequest rq)
         {
