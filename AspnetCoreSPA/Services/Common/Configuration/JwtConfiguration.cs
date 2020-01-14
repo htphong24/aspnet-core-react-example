@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace AspnetCoreSPATemplate.Services.Common
+﻿namespace AspnetCoreSPATemplate.Services.Common.Configuration
 {
     public class JwtConfiguration
     {

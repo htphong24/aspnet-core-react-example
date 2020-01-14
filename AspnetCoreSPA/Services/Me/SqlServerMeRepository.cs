@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using AspnetCoreSPATemplate.Services.Common.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
 

@@ -17,6 +17,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using AspnetCoreSPATemplate.Services.Common.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
 
@@ -34,13 +35,13 @@ namespace AspnetCoreSPATemplate.Services
             ContactsMgmtContext db,
             ContactsMgmtIdentityContext idDb,
             IMapper mapper,
-            IOptions<JwtConfiguration> options,
+            IOptions<JwtConfiguration> jwtOptions,
             UserManager<ApplicationUser> userMgr,
             RoleManager<ApplicationRole> roleMgr,
             SignInManager<ApplicationUser> signInMgr)
             : base(db, idDb, mapper)
         {
-            _jwtConfig = options.Value;
+            _jwtConfig = jwtOptions.Value;
             _userMgr = userMgr;
             _roleMgr = roleMgr;
             _signInMgr = signInMgr;

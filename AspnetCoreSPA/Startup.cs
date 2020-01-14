@@ -13,6 +13,7 @@ using SqlServerDataAccess.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AspnetCoreSPATemplate.Services.Common.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Common.Identity;
 
