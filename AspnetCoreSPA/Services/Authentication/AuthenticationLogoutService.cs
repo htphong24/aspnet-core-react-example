@@ -1,13 +1,7 @@
-﻿using AspnetCoreSPATemplate.Models;
+﻿using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Common;
-using AutoMapper;
-using SqlServerDataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace AspnetCoreSPATemplate.Services
+namespace AspnetCoreSPATemplate.Services.Authentication
 {
     public class AuthenticationLogoutService : ServiceBase<AuthenticationLogoutRequest, AuthenticationLogoutResponse>
     {
@@ -19,10 +13,10 @@ namespace AspnetCoreSPATemplate.Services
             _authRepo = authRepo;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Lists the results of a client search.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<AuthenticationLogoutResponse> DoRunAsync(AuthenticationLogoutRequest rq)
         {

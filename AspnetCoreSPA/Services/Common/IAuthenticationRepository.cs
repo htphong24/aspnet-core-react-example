@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Services.Authentication;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
