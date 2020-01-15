@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace SqlServerDataAccess.EF
 {
     public partial class AspNetUserLogin

@@ -1,9 +1,6 @@
-﻿using System;
-using Common.Identity;
-using Microsoft.AspNetCore.Identity;
+﻿using Common.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace SqlServerDataAccess.EF
 {

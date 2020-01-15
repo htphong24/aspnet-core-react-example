@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SqlServerDataAccess.EF
+﻿namespace SqlServerDataAccess.EF
 {
     public partial class Contact
     {
