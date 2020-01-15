@@ -1,24 +1,23 @@
-using AspnetCoreSPATemplate.Services;
+using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using AspnetCoreSPATemplate.Services.Common;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
-using SqlServerDataAccess.EF;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Common.Identity;
+using SqlServerDataAccess.EF;
+using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Authentication;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
 using AspnetCoreSPATemplate.Services.Contacts;
 using AspnetCoreSPATemplate.Services.Me;
 using AspnetCoreSPATemplate.Services.Users;
-using Microsoft.AspNetCore.Identity;
-using Common.Identity;
 
 namespace AspnetCoreSPATemplate
 {
@@ -43,18 +42,15 @@ namespace AspnetCoreSPATemplate
             services.Configure<JwtConfiguration>(Configuration.GetSection("JwtConfiguration"));
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
+                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = _jwtConfig.Issuer,
-                        ValidAudience = _jwtConfig.Audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key))
-                    };
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = _jwtConfig.Issuer,
+                    ValidAudience = _jwtConfig.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key))
                 });
 
             // Configure database
@@ -98,10 +94,7 @@ namespace AspnetCoreSPATemplate
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the SPA files will be served from this directory
-            services.AddSpaStaticFiles(configuration =>
-            {
-                configuration.RootPath = "app/dist";
-            });
+            services.AddSpaStaticFiles(configuration => configuration.RootPath = "app/dist");
 
             ConfigureAuthorization(services);
         }
@@ -125,12 +118,9 @@ namespace AspnetCoreSPATemplate
 
             app.UseAuthentication();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller}/{action=Index}/{id?}");
-            });
+            app.UseMvc(routes => routes.MapRoute(
+                name: "default",
+                template: "{controller}/{action=Index}/{id?}"));
 
             app.UseSpa(spa =>
             {
