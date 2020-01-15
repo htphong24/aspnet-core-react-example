@@ -1,10 +1,10 @@
+using AspnetCoreSPATemplate.Services.Common;
+using AspnetCoreSPATemplate.Services.Me;
+using AspnetCoreSPATemplate.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Utils;
-using AspnetCoreSPATemplate.Services.Me;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -52,6 +52,5 @@ namespace AspnetCoreSPATemplate.Controllers
         //        return new ApiActionResult(this.Context.Request, ex);
         //    }
         //}
-
     }
 }

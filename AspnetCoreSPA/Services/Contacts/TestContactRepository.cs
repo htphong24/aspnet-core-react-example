@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using AspnetCoreSPATemplate.Models;
+using AspnetCoreSPATemplate.Services.Common;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Models;
-using AspnetCoreSPATemplate.Services.Common;
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {

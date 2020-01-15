@@ -1,5 +1,4 @@
-﻿
-namespace SqlServerDataAccess.EF
+﻿namespace SqlServerDataAccess.EF
 {
     public partial class AspNetRoleClaim
     {

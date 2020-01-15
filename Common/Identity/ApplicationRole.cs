@@ -4,6 +4,5 @@ namespace Common.Identity
 {
     public partial class ApplicationRole : IdentityRole
     {
-
     }
 }

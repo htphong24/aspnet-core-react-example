@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Services.Common;
+﻿using AspnetCoreSPATemplate.Services.Common;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Users
 {
@@ -15,10 +15,10 @@ namespace AspnetCoreSPATemplate.Services.Users
             _context = context;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Lists the results of a client search.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<UserGetResponse> DoRunAsync(UserGetRequest rq)
         {

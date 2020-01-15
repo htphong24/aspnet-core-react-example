@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Models;
+﻿using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Users;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
@@ -31,6 +31,5 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// </summary>
         /// <returns></returns>
         Task CreateAsync(UserCreateRequest rq);
-
     }
 }

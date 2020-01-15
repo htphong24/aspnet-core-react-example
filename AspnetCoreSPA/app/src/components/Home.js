@@ -35,7 +35,7 @@ class Home extends Component {
 
     // EVENTS
 
-    // This will be called each time we navigate to a new page from the pagination control. This method will be 
+    // This will be called each time we navigate to a new page from the pagination control. This method will be
     // passed to the handlePageChanged prop of the Pagination component.
     handlePageChanged = data => {
         //console.log("Home.js handlePageChanged");

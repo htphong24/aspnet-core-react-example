@@ -2,8 +2,7 @@
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {
-    public class ContactReloadResponse: ResponseBase
+    public class ContactReloadResponse : ResponseBase
     {
-
     }
 }

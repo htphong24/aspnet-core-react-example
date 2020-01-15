@@ -32,6 +32,5 @@ namespace AspnetCoreSPATemplate.Utils
             //    this.ErrorCode = ((ServiceException)ex).ErrorCode;
             //}
         }
-
     }
 }

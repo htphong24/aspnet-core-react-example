@@ -6,10 +6,8 @@ namespace AspnetCoreSPATemplate.Services.Users
     {
         public UserCreateResponse() : base()
         {
-
         }
 
         //public ApplicationUser User { get; set; }
-
     }
 }

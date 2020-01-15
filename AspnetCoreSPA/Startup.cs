@@ -1,23 +1,23 @@
-using System.Text;
-using AutoMapper;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Identity;
-using Common.Identity;
-using SqlServerDataAccess.EF;
-using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Authentication;
+using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
 using AspnetCoreSPATemplate.Services.Contacts;
 using AspnetCoreSPATemplate.Services.Me;
 using AspnetCoreSPATemplate.Services.Users;
+using AutoMapper;
+using Common.Identity;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using SqlServerDataAccess.EF;
+using System.Text;
 
 namespace AspnetCoreSPATemplate
 {
@@ -136,7 +136,8 @@ namespace AspnetCoreSPATemplate
 
         private static void ConfigureAuthorization(IServiceCollection services)
         {
-            services.AddAuthorization(options => {
+            services.AddAuthorization(options =>
+            {
                 options.AddPolicy("RequireStandard", policy => policy.RequireRole("Standard", "Manager", "HR", "Admin"));
                 options.AddPolicy("RequireManager", policy => policy.RequireRole("Manager", "Admin"));
                 options.AddPolicy("RequireHR", policy => policy.RequireRole("HR", "Admin"));

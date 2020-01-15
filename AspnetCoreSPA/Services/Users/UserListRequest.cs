@@ -7,7 +7,6 @@ namespace AspnetCoreSPATemplate.Services.Users
         public UserListRequest()
             : base()
         {
-
         }
     }
 }

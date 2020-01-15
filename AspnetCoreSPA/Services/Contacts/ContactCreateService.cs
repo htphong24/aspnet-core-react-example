@@ -1,10 +1,6 @@
-﻿using AspnetCoreSPATemplate.Models;
-using AspnetCoreSPATemplate.Services.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Contacts;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services
 {
@@ -18,10 +14,10 @@ namespace AspnetCoreSPATemplate.Services
             _contactRepo = contactRepo;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Inserts a new contact.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<ContactCreateResponse> DoRunAsync(ContactCreateRequest rq)
         {

@@ -7,7 +7,6 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         public ContactListRequest()
             : base()
         {
-
         }
     }
 }

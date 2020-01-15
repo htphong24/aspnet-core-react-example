@@ -15,6 +15,5 @@ namespace AspnetCoreSPATemplate.Services.Common
             _idDb = idDb;
             _mapper = mapper;
         }
-
     }
 }

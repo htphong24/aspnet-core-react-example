@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Services.Common;
+﻿using AspnetCoreSPATemplate.Services.Common;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Users
 {
@@ -13,10 +13,10 @@ namespace AspnetCoreSPATemplate.Services.Users
             _userModRepo = userModRepo;
         }
 
-        /// <summary> 
+        /// <summary>
         /// update a user.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<UserUpdateResponse> DoRunAsync(UserUpdateRequest rq)
         {

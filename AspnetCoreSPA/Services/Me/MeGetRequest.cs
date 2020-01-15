@@ -7,7 +7,6 @@ namespace AspnetCoreSPATemplate.Services.Me
         public MeGetRequest()
             : base()
         {
-
         }
 
         public string Id { get; set; }

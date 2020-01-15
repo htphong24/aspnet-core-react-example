@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AspnetCoreSPATemplate.Utils;
+﻿using AspnetCoreSPATemplate.Utils;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {

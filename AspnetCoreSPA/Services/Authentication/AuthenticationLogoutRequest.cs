@@ -9,11 +9,8 @@ namespace AspnetCoreSPATemplate.Services.Authentication
         public AuthenticationLogoutRequest()
             : base()
         {
-
-
         }
 
         public string Email { get; set; }
-
     }
 }

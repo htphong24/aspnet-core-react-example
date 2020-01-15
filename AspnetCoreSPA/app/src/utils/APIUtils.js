@@ -1,7 +1,7 @@
 ﻿import { PAGE_SIZE, API_BASE_URL } from '../constants';
 
 //
-// All the Rest API calls are written in this script. 
+// All the Rest API calls are written in this script.
 // It uses the fetch API to make requests to the backend server
 //
 

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Models;
+﻿using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Common.Configuration;
 using AutoMapper;
@@ -15,10 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SqlServerDataAccess.EF;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Users
 {
-
     public class SqlServerUserRepository : RepositoryBase, IUserRepository, IUserModificationRepository
     {
         private readonly JwtConfiguration _jwtConfig;

@@ -7,8 +7,6 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         public ContactReloadRequest()
             : base()
         {
-
         }
-
     }
 }

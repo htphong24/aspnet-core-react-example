@@ -7,7 +7,6 @@ namespace AspnetCoreSPATemplate.Services.Users
         public UserGetRequest()
             : base()
         {
-
         }
 
         public string Id { get; set; }

@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Services.Users;
+﻿using AspnetCoreSPATemplate.Services.Users;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {

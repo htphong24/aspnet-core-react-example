@@ -7,7 +7,6 @@ import './App.css';
 import { getCurrentUser } from './utils/APIUtils';
 
 class App extends Component {
-
     constructor(props) {
         super(props);
 

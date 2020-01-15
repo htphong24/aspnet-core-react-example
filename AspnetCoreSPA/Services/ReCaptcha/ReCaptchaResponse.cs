@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using AspnetCoreSPATemplate.Models;
+﻿using AspnetCoreSPATemplate.Models;
+using System.Collections.Generic;
 
 namespace AspnetCoreSPATemplate.Services.ReCaptcha
 {
@@ -13,6 +13,5 @@ namespace AspnetCoreSPATemplate.Services.ReCaptcha
         /// Results of the search
         /// </summary>
         public List<ContactModel> Results { get; set; }
-
     }
 }

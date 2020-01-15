@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using AspnetCoreSPATemplate.Models;
+﻿using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Common;
+using System.Collections.Generic;
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {
-    public class ContactSearchResponse: SearchResponse
+    public class ContactSearchResponse : SearchResponse
     {
         public ContactSearchResponse()
             : base()
@@ -15,6 +15,5 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         /// Results of the search
         /// </summary>
         public List<ContactModel> Results { get; set; }
-
     }
 }

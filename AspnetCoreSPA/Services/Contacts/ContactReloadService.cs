@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Services.Common;
+﻿using AspnetCoreSPATemplate.Services.Common;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {
@@ -13,10 +13,10 @@ namespace AspnetCoreSPATemplate.Services.Contacts
             _contactModRepo = contactModRepo;
         }
 
-        /// <summary> 
+        /// <summary>
         /// Inserts a new contact.
-        /// </summary> 
-        /// <param name="rq">Request</param> 
+        /// </summary>
+        /// <param name="rq">Request</param>
         /// <returns>Response</returns>
         protected override async Task<ContactReloadResponse> DoRunAsync(ContactReloadRequest rq)
         {

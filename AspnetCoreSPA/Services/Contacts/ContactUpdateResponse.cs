@@ -3,7 +3,7 @@ using AspnetCoreSPATemplate.Services.Common;
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {
-    public class ContactUpdateResponse: ResponseBase
+    public class ContactUpdateResponse : ResponseBase
     {
         public ContactModel Contact { get; set; }
     }

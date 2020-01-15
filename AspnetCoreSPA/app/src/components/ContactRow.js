@@ -13,7 +13,7 @@ class ContactRow extends Component {
     this.state = {
       contact: props.contact
     };
-    
+
     this.handleEdit = this.handleEdit.bind(this);
     this.handleCanceled = this.handleCanceled.bind(this);
   }
@@ -44,7 +44,6 @@ class ContactRow extends Component {
         this.props.onDeleted();
       })
       .catch(error => {
-
       });
   }
 
@@ -130,7 +129,7 @@ ContactRow.propTypes = {
     Id: PropTypes.number,
     FirstName: PropTypes.string,
     LastName: PropTypes.string,
-    Email: PropTypes.string, 
+    Email: PropTypes.string,
     Phone1: PropTypes.string
   }).isRequired
 };

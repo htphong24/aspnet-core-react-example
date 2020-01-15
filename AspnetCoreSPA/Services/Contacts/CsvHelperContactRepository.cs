@@ -1,11 +1,11 @@
-﻿using System;
+﻿using AspnetCoreSPATemplate.Models;
+using AspnetCoreSPATemplate.Services.Common;
+using CsvHelper;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Models;
-using AspnetCoreSPATemplate.Services.Common;
-using CsvHelper;
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {
@@ -138,6 +138,5 @@ namespace AspnetCoreSPATemplate.Services.Contacts
 
             return contacts;
         }
-
     }
 }

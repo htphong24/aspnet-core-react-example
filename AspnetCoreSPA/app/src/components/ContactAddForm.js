@@ -45,7 +45,6 @@ class ContactAddForm extends Component {
         this.props.onReloaded();
       })
       .catch(error => {
-        
       });
   }
 

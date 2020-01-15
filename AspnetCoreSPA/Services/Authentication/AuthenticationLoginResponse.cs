@@ -7,12 +7,10 @@ namespace AspnetCoreSPATemplate.Services.Authentication
         public AuthenticationLoginResponse()
             : base()
         {
-
         }
 
         public string AccessToken { get; set; }
 
         //public ApplicationUser User { get; set; }
-
     }
 }

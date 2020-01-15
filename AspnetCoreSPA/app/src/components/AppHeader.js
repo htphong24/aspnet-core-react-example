@@ -85,5 +85,4 @@ function ProfileDropdownMenu(props) {
     );
 }
 
-
 export default withRouter(AppHeader);

@@ -1,6 +1,6 @@
 ﻿namespace AspnetCoreSPATemplate.Services.Common
 {
-    public class ListResponse: ResponseBase
+    public class ListResponse : ResponseBase
     {
         public ListResponse()
             : base()
@@ -24,6 +24,5 @@
         /// Number of matching records found
         /// </summary>
         public int RecordCount { get; set; }
-
     }
 }

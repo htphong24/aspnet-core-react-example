@@ -107,8 +107,6 @@ namespace SqlServerDataAccess.EF
             //{
             //    entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
             //});
-
         }
-
     }
 }

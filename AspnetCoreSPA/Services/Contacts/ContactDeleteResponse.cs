@@ -2,7 +2,7 @@
 
 namespace AspnetCoreSPATemplate.Services.Contacts
 {
-    public class ContactDeleteResponse: ResponseBase
+    public class ContactDeleteResponse : ResponseBase
     {
     }
 }

@@ -22,7 +22,6 @@ const range = (from, to, step = 1) => {
 }
 
 class Pagination extends Component {
-
   constructor(props) {
     super(props);
     let pageLimit = typeof props.pageLimit === 'number' ? props.pageLimit : 30;
@@ -35,7 +34,7 @@ class Pagination extends Component {
     let pageCount = Math.ceil(props.totalRecords / props.pageLimit) === 0
       ? 1
       : Math.ceil(props.totalRecords / props.pageLimit);
-    
+
     this.state = {
       totalRecords,
       pageLimit,
@@ -48,7 +47,7 @@ class Pagination extends Component {
   /**
    * This method handles the core logic for generating the page numbers to be shown on the pagination control.
    * We want the first page and last page to always be visible.
-   * 
+   *
    * Let's say we have 10 pages and we set pageNeighbours to 2
    * Given that the current page is 6
    * The pagination control will look like the following:
@@ -58,11 +57,10 @@ class Pagination extends Component {
    * (x) => terminal pages: first and last page(always visible)
    * [x] => represents current page
    * {...x} => represents page neighbours
-   * 
-   * 
+   *
+   *
    */
   fetchPageNumbers = () => {
-
     const pageCount = this.state.pageCount;
     const currentPage = this.state.currentPage;
     const pageNeighbours = this.state.pageNeighbours;
@@ -75,12 +73,11 @@ class Pagination extends Component {
     const totalBlocks = totalNumbers + 2;
 
     /**
-     * If pageCount <= totalBlocks, we simply return a range of numbers from 1 to pageCount. 
-     * If pageCount > totalBlocks, we return the array of page numbers, with LEFT_PAGE and RIGHT_PAGE 
+     * If pageCount <= totalBlocks, we simply return a range of numbers from 1 to pageCount.
+     * If pageCount > totalBlocks, we return the array of page numbers, with LEFT_PAGE and RIGHT_PAGE
      * at points where we have pages spilling to the left and right respectively.
      */
     if (pageCount > totalBlocks) {
-
       const startPage = Math.max(2, currentPage - pageNeighbours);
       const endPage = Math.min(pageCount - 1, currentPage + pageNeighbours);
 
@@ -123,7 +120,7 @@ class Pagination extends Component {
   } // End of fetch
 
   /**
-   * gotoPage modifies the state and sets the currentPage to the specified page. It ensures that the page 
+   * gotoPage modifies the state and sets the currentPage to the specified page. It ensures that the page
    * argument has a minimum value of 1 and a maximum value of the total number of pages
    */
   gotoPage = page => {
@@ -210,7 +207,7 @@ class Pagination extends Component {
   }
 
   render() {
-    // The pagination control will not be rendered if the totalRecords prop was not passed in correctly 
+    // The pagination control will not be rendered if the totalRecords prop was not passed in correctly
     // to the Pagination component or in cases where there is only 1 page.
     if (!this.state.totalRecords || this.state.pageCount === 1) return null;
 
@@ -223,7 +220,6 @@ class Pagination extends Component {
           <ul className="pagination">
             { // render each page number
               pages.map((page, index) => {
-
               if (page === LEFT_PAGE) return (
                 <li key={index} className="page-item">
                   <a className="page-link" aria-label="Previous" onClick={this.handleMoveLeft}>
@@ -248,7 +244,6 @@ class Pagination extends Component {
                   <a className="page-link" onClick={this.handleClick(page)}>{page}</a>
                 </li>
               );
-
             })}
 
           </ul>
@@ -259,14 +254,14 @@ class Pagination extends Component {
 }
 
 Pagination.propTypes = {
-  pageLimit: PropTypes.number,                // indicates the number of records to be shown per page. If not specified, 
+  pageLimit: PropTypes.number,                // indicates the number of records to be shown per page. If not specified,
                                               // it defaults to 30 as defined in the constructor()
 
   pageNeighbours: PropTypes.number,           // indicates the number of additional page numbers to show on each side of the current page
                                               // The minimum value is 0 and the maximum value is 2
                                               // If not specified, it defaults to 0
 
-  onPageChanged: PropTypes.func               // is a function that will be called with data of the current pagination 
+  onPageChanged: PropTypes.func               // is a function that will be called with data of the current pagination
                                               // state only when the current page changes
 };
 

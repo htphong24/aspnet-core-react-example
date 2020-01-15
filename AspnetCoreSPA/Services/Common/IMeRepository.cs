@@ -1,6 +1,6 @@
 ﻿using AspnetCoreSPATemplate.Models;
-using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Services.Me;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
@@ -12,6 +12,5 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <param name="rq"></param>
         /// <returns></returns>
         Task<UserModel> GetAsync(MeGetRequest rq);
-
     }
 }

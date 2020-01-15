@@ -1,11 +1,11 @@
-using System;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using AspnetCoreSPATemplate.Utils;
 using AspnetCoreSPATemplate.Services;
 using AspnetCoreSPATemplate.Services.Common;
 using AspnetCoreSPATemplate.Services.Contacts;
+using AspnetCoreSPATemplate.Utils;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -69,7 +69,6 @@ namespace AspnetCoreSPATemplate.Controllers
             {
                 return new ApiActionResult(this.Context.Request, ex);
             }
-
         }
 
         // http://localhost:5000/api/v1/contacts
@@ -131,6 +130,5 @@ namespace AspnetCoreSPATemplate.Controllers
                 return new ApiActionResult(this.Context.Request, ex);
             }
         }
-
     }
 }

@@ -7,8 +7,6 @@ namespace AspnetCoreSPATemplate.Services.Authentication
         public AuthenticationLogoutResponse()
             : base()
         {
-
         }
-
     }
 }

@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using AspnetCoreSPATemplate.Models;
+﻿using AspnetCoreSPATemplate.Models;
 using AspnetCoreSPATemplate.Services.Contacts;
+using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Services.Common
 {
@@ -33,6 +33,5 @@ namespace AspnetCoreSPATemplate.Services.Common
         /// <param name="rq"></param>
         /// <returns></returns>
         Task ReloadAsync(ContactReloadRequest rq);
-
     }
 }

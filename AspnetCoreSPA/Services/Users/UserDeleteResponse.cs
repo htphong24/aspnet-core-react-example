@@ -2,8 +2,7 @@
 
 namespace AspnetCoreSPATemplate.Services.Users
 {
-    public class UserDeleteResponse: ResponseBase
+    public class UserDeleteResponse : ResponseBase
     {
-
     }
 }
