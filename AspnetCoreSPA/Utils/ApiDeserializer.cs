@@ -1,13 +1,9 @@
-﻿using AspnetCoreSPATemplate.Services;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace AspnetCoreSPATemplate.Utils
@@ -20,7 +16,6 @@ namespace AspnetCoreSPATemplate.Utils
         /// <summary>
         /// Deserializes an object from XML or JSON
         /// </summary>
-        /// <param name="type">Class to deserialize</param>
         /// <returns>Deserialized object</returns>
         public static object Deserialize(Type type, HttpRequest contextRequest)
         {

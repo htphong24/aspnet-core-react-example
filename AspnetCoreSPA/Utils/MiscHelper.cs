@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Utils
 {
@@ -18,14 +15,14 @@ namespace AspnetCoreSPATemplate.Utils
         {
             return string.IsNullOrWhiteSpace(value)
                 ? string.Empty
-                : value.Length <= maxLength 
+                : value.Length <= maxLength
                     ? value
                     : value.Substring(0, maxLength);
         }
 
         public static string GetUserId(this ClaimsPrincipal user)
         {
-            return user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            return user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         }
     }
 }

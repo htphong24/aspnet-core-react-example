@@ -4,13 +4,10 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -24,7 +21,7 @@ namespace AspnetCoreSPATemplate.Utils
     /// </remarks>
     public class ApiActionResult : ActionResult
     {
-        private HttpRequest _contextRequest { get; set; }
+        private HttpRequest ContextRequest { get; set; }
 
         public Encoding ContentEncoding { get; set; }
 
@@ -44,7 +41,7 @@ namespace AspnetCoreSPATemplate.Utils
         /// </summary>
         public ApiActionResult(HttpRequest contextRequest)
         {
-            _contextRequest = contextRequest;
+            ContextRequest = contextRequest;
 
             JsonSerializerSettings = new JsonSerializerSettings()
             {
@@ -56,10 +53,10 @@ namespace AspnetCoreSPATemplate.Utils
             this.JsonFormatting = Newtonsoft.Json.Formatting.None;
             this.ContentEncoding = Encoding.UTF8;
 
-            string dataType = _contextRequest.ContentType;
+            string dataType = ContextRequest.ContentType;
             if (string.IsNullOrWhiteSpace(dataType))
             {
-                dataType = _contextRequest.Headers["Accept"];
+                dataType = ContextRequest.Headers["Accept"];
             }
 
             if (string.IsNullOrWhiteSpace(dataType))
@@ -78,8 +75,8 @@ namespace AspnetCoreSPATemplate.Utils
                     this.ContentType = XML_CONTENT_TYPE;
                 }
                 else if (dataType.ToLower().Contains("multipart/form-data")
-                    && !string.IsNullOrEmpty(_contextRequest.Headers["Accept"])
-                    && _contextRequest.Headers["Accept"] == XML_CONTENT_TYPE)
+                    && !string.IsNullOrEmpty(ContextRequest.Headers["Accept"])
+                    && ContextRequest.Headers["Accept"] == XML_CONTENT_TYPE)
                 {
                     this.ContentType = XML_CONTENT_TYPE;
                 }
@@ -93,16 +90,15 @@ namespace AspnetCoreSPATemplate.Utils
         /// <summary>
         /// Constructor specifying the data to serialize
         /// </summary>
-        /// <param name="data">Object to serialize</param>
         /// <remarks>
         /// If <c>data</c> is an <see cref="Exception"/>, the exception will be encapsulated in <see cref="ApiError"/>.
         /// </remarks>
         public ApiActionResult(HttpRequest contextRequest, object data)
             : this(contextRequest)
         {
-            if (data is Exception)
+            if (data is Exception exception)
             {
-                this.Data = new ApiError((Exception)data);
+                this.Data = new ApiError(exception);
             }
             else
             {
@@ -118,7 +114,7 @@ namespace AspnetCoreSPATemplate.Utils
         {
             if (context == null)
             {
-                throw new ArgumentNullException("context");
+                throw new ArgumentNullException(nameof(context));
             }
 
             HttpResponse response = context.HttpContext.Response;
@@ -131,7 +127,7 @@ namespace AspnetCoreSPATemplate.Utils
             // - Status400BadRequest
             // - Status404NotFound
             // - Status401Unauthorized
-            // - Status500InternalServerError 
+            // - Status500InternalServerError
 
             if (Data == null)
             {
@@ -140,8 +136,8 @@ namespace AspnetCoreSPATemplate.Utils
             }
             else
             {
-                response.StatusCode = (this.Data is ApiError) 
-                                        ? StatusCodes.Status500InternalServerError 
+                response.StatusCode = (this.Data is ApiError)
+                                        ? StatusCodes.Status500InternalServerError
                                         : StatusCodes.Status200OK;
 
                 using (StreamWriter sw = new StreamWriter(response.Body))
@@ -174,7 +170,7 @@ namespace AspnetCoreSPATemplate.Utils
         /// </summary>
         /// <remarks>
         /// <para>
-        /// The default format for <see cref="DateTime"/> is <c>2009-02-15T00:00:00Z</c>. For date only property, we do not want 
+        /// The default format for <see cref="DateTime"/> is <c>2009-02-15T00:00:00Z</c>. For date only property, we do not want
         /// to serialize the time portion.
         /// </para>
         /// <para>
@@ -208,7 +204,7 @@ namespace AspnetCoreSPATemplate.Utils
                 }
                 else
                 {
-                    // For serialization ... this converts to UTC 
+                    // For serialization ... this converts to UTC
                     // It gets ignored for deserialization
                     converter.DateTimeStyles = DateTimeStyles.AdjustToUniversal;
                 }

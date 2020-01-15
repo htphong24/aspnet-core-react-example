@@ -1,17 +1,11 @@
-﻿using AspnetCoreSPATemplate.Services;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+﻿using System.IO;
 using System.Threading.Tasks;
 
 namespace AspnetCoreSPATemplate.Utils
 {
     public class CsvFileHandler : IFileHandler
     {
-        private string _filePath;
+        private readonly string _filePath;
 
         public CsvFileHandler(string filePath)
         {
