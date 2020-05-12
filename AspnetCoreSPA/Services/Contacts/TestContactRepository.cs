@@ -20,14 +20,12 @@ namespace AspnetCoreSPATemplate.Services.Contacts
             return Task.Run(() =>
             {
                 if (_contacts.Count == 0)
-                {
                     LoadContacts();
-                }
 
                 List<ContactModel> result = _contacts
-                                              .Skip(rq.SkipCount)
-                                              .Take(rq.TakeCount)
-                                              .ToList();
+                    .Skip(rq.SkipCount)
+                    .Take(rq.TakeCount)
+                    .ToList();
 
                 return result;
             });
@@ -38,9 +36,7 @@ namespace AspnetCoreSPATemplate.Services.Contacts
             return Task.Run(() =>
             {
                 if (_contacts.Count == 0)
-                {
                     LoadContacts();
-                }
 
                 return _contacts.Count();
             });
@@ -51,18 +47,16 @@ namespace AspnetCoreSPATemplate.Services.Contacts
             return Task.Run(() =>
             {
                 if (_contacts.Count == 0)
-                {
                     LoadContacts();
-                }
 
                 List<ContactModel> result = _contacts
-                                              .Where(c => c.FirstName.Contains(rq.Query)
-                                                       || c.LastName.Contains(rq.Query)
-                                                       || c.Email.Contains(rq.Query)
-                                                       || c.Phone1.Contains(rq.Query))
-                                              .Skip(rq.SkipCount)
-                                              .Take(rq.TakeCount)
-                                              .ToList();
+                    .Where(c => c.FirstName.Contains(rq.Query)
+                                || c.LastName.Contains(rq.Query)
+                                || c.Email.Contains(rq.Query)
+                                || c.Phone1.Contains(rq.Query))
+                    .Skip(rq.SkipCount)
+                    .Take(rq.TakeCount)
+                    .ToList();
 
                 return result;
             });
@@ -73,14 +67,12 @@ namespace AspnetCoreSPATemplate.Services.Contacts
             return Task.Run(() =>
             {
                 if (_contacts.Count == 0)
-                {
                     LoadContacts();
-                }
 
                 int recordCount = _contacts.Count(c => c.FirstName.Contains(rq.Query)
-                                                    || c.LastName.Contains(rq.Query)
-                                                    || c.Email.Contains(rq.Query)
-                                                    || c.Phone1.Contains(rq.Query));
+                                                       || c.LastName.Contains(rq.Query)
+                                                       || c.Email.Contains(rq.Query)
+                                                       || c.Phone1.Contains(rq.Query));
 
                 return recordCount;
             });

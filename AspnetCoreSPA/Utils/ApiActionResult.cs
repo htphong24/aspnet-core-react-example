@@ -54,10 +54,9 @@ namespace AspnetCoreSPATemplate.Utils
             this.ContentEncoding = Encoding.UTF8;
 
             string dataType = ContextRequest.ContentType;
+
             if (string.IsNullOrWhiteSpace(dataType))
-            {
                 dataType = ContextRequest.Headers["Accept"];
-            }
 
             if (string.IsNullOrWhiteSpace(dataType))
             {
@@ -67,23 +66,15 @@ namespace AspnetCoreSPATemplate.Utils
             {
                 dataType = dataType.ToLower();
                 if (dataType.ToLower().Contains("application/json"))
-                {
                     this.ContentType = JSON_CONTENT_TYPE;
-                }
                 else if (dataType.ToLower().Contains("application/xml"))
-                {
                     this.ContentType = XML_CONTENT_TYPE;
-                }
                 else if (dataType.ToLower().Contains("multipart/form-data")
-                    && !string.IsNullOrEmpty(ContextRequest.Headers["Accept"])
-                    && ContextRequest.Headers["Accept"] == XML_CONTENT_TYPE)
-                {
+                         && !string.IsNullOrEmpty(ContextRequest.Headers["Accept"])
+                         && ContextRequest.Headers["Accept"] == XML_CONTENT_TYPE)
                     this.ContentType = XML_CONTENT_TYPE;
-                }
                 else
-                {
                     this.ContentType = JSON_CONTENT_TYPE;
-                }
             }
         }
 
@@ -97,13 +88,9 @@ namespace AspnetCoreSPATemplate.Utils
             : this(contextRequest)
         {
             if (data is Exception exception)
-            {
                 this.Data = new ApiError(exception);
-            }
             else
-            {
                 this.Data = data;
-            }
         }
 
         /// <summary>
@@ -113,9 +100,7 @@ namespace AspnetCoreSPATemplate.Utils
         public override void ExecuteResult(ActionContext context)
         {
             if (context == null)
-            {
                 throw new ArgumentNullException(nameof(context));
-            }
 
             HttpResponse response = context.HttpContext.Response;
             response.ContentType = this.ContentType;
@@ -136,32 +121,32 @@ namespace AspnetCoreSPATemplate.Utils
             }
             else
             {
-                response.StatusCode = (this.Data is ApiError)
-                                        ? StatusCodes.Status500InternalServerError
-                                        : StatusCodes.Status200OK;
+                response.StatusCode = (this.Data is ApiError) ? StatusCodes.Status500InternalServerError : StatusCodes.Status200OK;
 
-                using (StreamWriter sw = new StreamWriter(response.Body))
+                using StreamWriter sw = new StreamWriter(response.Body);
+
+                if (this.ContentType == XML_CONTENT_TYPE)
                 {
-                    if (this.ContentType == XML_CONTENT_TYPE)
+                    using XmlTextWriter writer = new XmlTextWriter(sw)
                     {
-                        using (XmlTextWriter writer = new XmlTextWriter(sw))
-                        {
-                            writer.Formatting = System.Xml.Formatting.Indented;
-                            XmlSerializer serializer = new XmlSerializer(this.Data.GetType());
-                            serializer.Serialize(writer, this.Data);
-                        }
-                    }
-                    else
-                    {
-                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                        {
-                            writer.Formatting = JsonFormatting;
-                            JsonSerializer serializer = JsonSerializer.Create(JsonSerializerSettings);
-                            serializer.Serialize(writer, this.Data);
-                        }
-                    }
-                    // No need to use writer.Flush() since it is enclosed by "using"
+                        Formatting = System.Xml.Formatting.Indented
+                    };
+
+                    XmlSerializer serializer = new XmlSerializer(this.Data.GetType());
+                    serializer.Serialize(writer, this.Data);
                 }
+                else
+                {
+                    using JsonTextWriter writer = new JsonTextWriter(sw)
+                    {
+                        Formatting = JsonFormatting
+                    };
+
+                    JsonSerializer serializer = JsonSerializer.Create(JsonSerializerSettings);
+                    serializer.Serialize(writer, this.Data);
+                }
+
+                // No need to use writer.Flush() since it is enclosed by "using"
             }
         }
 
@@ -188,26 +173,18 @@ namespace AspnetCoreSPATemplate.Utils
                 // skip if the property is not a DateTime
                 if (property.PropertyType != typeof(DateTime) && property.PropertyType != typeof(DateTime?) &&
                     property.PropertyType != typeof(DateTimeOffset) && property.PropertyType != typeof(DateTimeOffset?))
-                {
                     return property;
-                }
 
                 if (property.Converter != null && property.Converter.GetType() == typeof(CustomDateTimeFormatConverter))
-                {
                     return property;
-                }
 
                 IsoDateTimeConverter converter = new IsoDateTimeConverter();
                 if (member.Name.EndsWith("Date"))
-                {
                     converter.DateTimeFormat = "yyyy-MM-dd";
-                }
                 else
-                {
                     // For serialization ... this converts to UTC
                     // It gets ignored for deserialization
                     converter.DateTimeStyles = DateTimeStyles.AdjustToUniversal;
-                }
                 property.Converter = converter;
 
                 return property;

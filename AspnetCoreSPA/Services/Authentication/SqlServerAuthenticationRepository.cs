@@ -43,21 +43,17 @@ namespace AspnetCoreSPATemplate.Services.Authentication
         {
             // Handle user
             ApplicationUser user = await _userMgr.FindByNameAsync(rq.Email);
+
             if (user == null)
-            {
                 throw new InvalidOperationException("User not found");
-            }
             if (await _userMgr.IsLockedOutAsync(user))
-            {
                 throw new InvalidOperationException("User is locked out");
-            }
 
             // Handle signin
             SignInResult result = await _signInMgr.PasswordSignInAsync(rq.Email, rq.Password, true, true);
+
             if (!result.Succeeded)
-            {
                 throw new InvalidOperationException("Password is incorrect");
-            }
 
             // Handle roles
             IList<string> roles = await _userMgr.GetRolesAsync(user);
@@ -69,10 +65,9 @@ namespace AspnetCoreSPATemplate.Services.Authentication
         {
             // Handle user
             ApplicationUser user = await _userMgr.FindByNameAsync(rq.Email);
+
             if (user == null)
-            {
                 throw new InvalidOperationException("User not found");
-            }
 
             // Handle signout
             await _signInMgr.SignOutAsync();
@@ -83,7 +78,8 @@ namespace AspnetCoreSPATemplate.Services.Authentication
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            List<Claim> claims = new List<Claim> {
+            List<Claim> claims = new List<Claim>
+            {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 //new Claim(ClaimTypes.Role, ServerRole.NormalUser.ToString()),

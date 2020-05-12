@@ -82,16 +82,17 @@ namespace AspnetCoreSPATemplate.Services.Users
 
             // Handle creation
             IdentityResult result = await _userMgr.CreateAsync(user, dto.Password);
+
             if (!result.Succeeded)
-            {
                 throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
-            }
 
             // Handle roles
             result = await _userMgr.AddToRoleAsync(user, ApplicationConstants.ROLE_STANDARD);
+
             if (!result.Succeeded)
             {
                 await _userMgr.DeleteAsync(user);
+
                 throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
             }
         }
@@ -110,10 +111,9 @@ namespace AspnetCoreSPATemplate.Services.Users
 
             // Update user
             IdentityResult updateResult = await _userMgr.UpdateAsync(user);
+
             if (!updateResult.Succeeded)
-            {
                 throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
-            }
 
             //IList<string> roles = await _userMgr.GetRolesAsync(user);
             //IdentityResult removeResult = await _userMgr.RemoveFromRolesAsync(user, roles);
@@ -134,10 +134,9 @@ namespace AspnetCoreSPATemplate.Services.Users
             UserDeleteModel dto = rq.User;
             ApplicationUser user = await _userMgr.FindByIdAsync(dto.Id);
             IdentityResult deleteResult = await _userMgr.DeleteAsync(user);
+
             if (!deleteResult.Succeeded)
-            {
                 throw new InvalidOperationException(string.Join('\n', deleteResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
-            }
         }
 
         private string GenerateJwt(ApplicationUser user, IList<string> roles)
@@ -145,7 +144,8 @@ namespace AspnetCoreSPATemplate.Services.Users
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key));
             SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            List<Claim> claims = new List<Claim> {
+            List<Claim> claims = new List<Claim>
+            {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 //new Claim(ClaimTypes.Role, ServerRole.NormalUser.ToString()),

@@ -14,18 +14,16 @@ namespace AspnetCoreSPATemplate.Utils
 
         public async Task<string> LoadFileAsync()
         {
-            using (StreamReader reader = new StreamReader(path: _filePath))
-            {
-                return await reader.ReadToEndAsync();
-            }
+            using StreamReader reader = new StreamReader(path: _filePath);
+
+            return await reader.ReadToEndAsync();
         }
 
         public async Task AddLineAsync(string value)
         {
-            using (StreamWriter writer = new StreamWriter(path: _filePath, append: true))
-            {
-                await writer.WriteLineAsync(value: value);
-            }
+            using StreamWriter writer = new StreamWriter(path: _filePath, append: true);
+
+            await writer.WriteLineAsync(value: value);
         }
     }
 }

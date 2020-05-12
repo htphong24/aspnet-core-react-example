@@ -95,16 +95,12 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         {
             ContactModel dto = rq.Contact;
             if (IsEmailInUse(dto.Email))
-            {
                 throw new Exception("Email is in use.");
-            }
-            else
-            {
-                Contact result = _mapper.Map<Contact>(dto);
-                _db.Contacts.Add(result);
-                // Save data
-                await _db.SaveChangesAsync();
-            }
+
+            Contact result = _mapper.Map<Contact>(dto);
+            await _db.Contacts.AddAsync(result);
+            // Save data
+            await _db.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(ContactUpdateRequest rq)
@@ -117,17 +113,13 @@ namespace AspnetCoreSPATemplate.Services.Contacts
                                 .FirstOrDefault();
             // Check whether the new email is the same as the old one or it is being used by others
             if (IsEmailInUse(dto.Email, oldEmail))
-            {
                 throw new Exception("Email is in use.");
-            }
-            else
-            {
-                // It's not in use, then update the contact
-                Contact result = _mapper.Map<Contact>(dto);
-                _db.Contacts.Update(result);
-                // Save data
-                await _db.SaveChangesAsync();
-            }
+
+            // It's not in use, then update the contact
+            Contact result = _mapper.Map<Contact>(dto);
+            _db.Contacts.Update(result);
+            // Save data
+            await _db.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(ContactDeleteRequest rq)
@@ -148,20 +140,16 @@ namespace AspnetCoreSPATemplate.Services.Contacts
         {
             // If new email is the same as old email
             if (oldEmail != null && oldEmail == email)
-            {
                 // Then it's OK
                 return false;
-            }
-            else
-            {
-                // If not, check whether it is being used by other contacts
-                // Create Query
-                var query = _db.Contacts.Where(c => c.Email == email);
-                // Retrieve data, do not use async method here
-                bool isInUse = query.Any();
 
-                return isInUse;
-            }
+            // If not, check whether it is being used by other contacts
+            // Create Query
+            var query = _db.Contacts.Where(c => c.Email == email);
+            // Retrieve data, do not use async method here
+            bool isInUse = query.Any();
+
+            return isInUse;
         }
     }
 }

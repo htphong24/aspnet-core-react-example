@@ -127,10 +127,8 @@ namespace AspnetCoreSPATemplate
                 spa.Options.SourcePath = "app";
 
                 if (env.IsDevelopment())
-                {
                     //spa.UseProxyToSpaDevelopmentServer("http://localhost:8080");
                     spa.UseReactDevelopmentServer(npmScript: "start");
-                }
             });
         }
 
