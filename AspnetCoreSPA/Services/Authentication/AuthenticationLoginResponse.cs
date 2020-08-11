@@ -1,4 +1,6 @@
-﻿using AspnetCoreSPATemplate.Services.Common;
+﻿using System.Collections.Generic;
+using AspnetCoreSPATemplate.Services.Common;
+using AutoMapper.Mappers;
 
 namespace AspnetCoreSPATemplate.Services.Authentication
 {

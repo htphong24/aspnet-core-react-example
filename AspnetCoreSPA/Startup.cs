@@ -18,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SqlServerDataAccess.EF;
 using System.Text;
+using BotDetect.Web;
 
 namespace AspnetCoreSPATemplate
 {
@@ -59,7 +60,7 @@ namespace AspnetCoreSPATemplate
                 // Auto Mapper
                 services.AddAutoMapper(typeof(Startup));
 
-                // Fetching Ccnnection string from appsettings.json
+                // Fetching Connection string from appsettings.json
                 string connectionString = Configuration.GetConnectionString("DbConstr");
                 // Entity Framework
                 services.AddDbContext<ContactsMgmtContext>(options => options.UseSqlServer(connectionString));
@@ -115,6 +116,9 @@ namespace AspnetCoreSPATemplate
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+
+            // configure BotDetectCaptcha
+            app.UseSimpleCaptcha(Configuration.GetSection("BotDetect"));
 
             app.UseAuthentication();
 

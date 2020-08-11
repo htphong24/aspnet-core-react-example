@@ -4,7 +4,9 @@ using AspnetCoreSPATemplate.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using BotDetect.Web;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -24,11 +26,22 @@ namespace AspnetCoreSPATemplate.Controllers
         // http://localhost:5000/api/v1/auth/login
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody]AuthenticationLoginRequest rq)
+        public async Task<ActionResult> Login([FromBody] AuthenticationLoginRequest rq)
         {
             try
             {
+                SimpleCaptcha captcha = new SimpleCaptcha();
+                bool isHuman = captcha.Validate(rq.UserEnteredCaptchaCode, rq.CaptchaId);
+
+                if (!isHuman)
+                {
+                    var ex = new InvalidOperationException("Incorrect Captcha characters!");
+
+                    return new ApiActionResult(this.Context.Request, ex);
+                }
+
                 AuthenticationLoginResponse rs = await (new AuthenticationLoginService(this.Context, _authRepo)).RunAsync(rq);
+
                 return new ApiActionResult(this.Context.Request, rs);
             }
             catch (Exception ex)

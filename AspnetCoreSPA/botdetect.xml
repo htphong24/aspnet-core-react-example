@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<botdetect xmlns="https://captcha.com/schema/net"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="https://captcha.com/schema/net
+            https://captcha.com/schema/net/botdetect-4.4.2.xsd">
+
+	  <captchaStyles>
+        <captchaStyle>
+            <name>reactBasicCaptcha</name>
+            <userInputID>userCaptchaInput</userInputID>
+            <codeLength>3-5</codeLength>
+            <helpLinkMode>Image</helpLinkMode>
+        </captchaStyle>
+
+        <captchaStyle>
+            <name>reactFormCaptcha</name>
+            <userInputID>userCaptchaInput</userInputID>
+            <codeLength>4-6</codeLength>
+            <helpLinkMode>Image</helpLinkMode>
+        </captchaStyle>
+    </captchaStyles>
+
+</botdetect>
