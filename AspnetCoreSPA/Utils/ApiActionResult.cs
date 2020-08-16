@@ -43,38 +43,38 @@ namespace AspnetCoreSPATemplate.Utils
         {
             ContextRequest = contextRequest;
 
-            JsonSerializerSettings = new JsonSerializerSettings()
+            JsonSerializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
                 ContractResolver = new CustomDateTimeFormatResolver(),
                 DateTimeZoneHandling = DateTimeZoneHandling.Local
             };
 
-            this.JsonFormatting = Newtonsoft.Json.Formatting.None;
-            this.ContentEncoding = Encoding.UTF8;
+            JsonFormatting = Newtonsoft.Json.Formatting.None;
+            ContentEncoding = Encoding.UTF8;
 
-            string dataType = ContextRequest.ContentType;
+            var dataType = ContextRequest.ContentType;
 
             if (string.IsNullOrWhiteSpace(dataType))
                 dataType = ContextRequest.Headers["Accept"];
 
             if (string.IsNullOrWhiteSpace(dataType))
             {
-                this.ContentType = JSON_CONTENT_TYPE;
+                ContentType = JSON_CONTENT_TYPE;
             }
             else
             {
                 dataType = dataType.ToLower();
                 if (dataType.ToLower().Contains("application/json"))
-                    this.ContentType = JSON_CONTENT_TYPE;
+                    ContentType = JSON_CONTENT_TYPE;
                 else if (dataType.ToLower().Contains("application/xml"))
-                    this.ContentType = XML_CONTENT_TYPE;
+                    ContentType = XML_CONTENT_TYPE;
                 else if (dataType.ToLower().Contains("multipart/form-data")
                          && !string.IsNullOrEmpty(ContextRequest.Headers["Accept"])
                          && ContextRequest.Headers["Accept"] == XML_CONTENT_TYPE)
-                    this.ContentType = XML_CONTENT_TYPE;
+                    ContentType = XML_CONTENT_TYPE;
                 else
-                    this.ContentType = JSON_CONTENT_TYPE;
+                    ContentType = JSON_CONTENT_TYPE;
             }
         }
 
@@ -88,9 +88,9 @@ namespace AspnetCoreSPATemplate.Utils
             : this(contextRequest)
         {
             if (data is Exception exception)
-                this.Data = new ApiError(exception);
+                Data = new ApiError(exception);
             else
-                this.Data = data;
+                Data = data;
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace AspnetCoreSPATemplate.Utils
             if (context == null)
                 throw new ArgumentNullException(nameof(context));
 
-            HttpResponse response = context.HttpContext.Response;
+            var response = context.HttpContext.Response;
             response.ContentType = this.ContentType;
 
             // StatusCodes:
@@ -121,29 +121,29 @@ namespace AspnetCoreSPATemplate.Utils
             }
             else
             {
-                response.StatusCode = (this.Data is ApiError) ? StatusCodes.Status500InternalServerError : StatusCodes.Status200OK;
+                response.StatusCode = Data is ApiError ? StatusCodes.Status500InternalServerError : StatusCodes.Status200OK;
 
-                using StreamWriter sw = new StreamWriter(response.Body);
+                using var sw = new StreamWriter(response.Body);
 
-                if (this.ContentType == XML_CONTENT_TYPE)
+                if (ContentType == XML_CONTENT_TYPE)
                 {
-                    using XmlTextWriter writer = new XmlTextWriter(sw)
+                    using var writer = new XmlTextWriter(sw)
                     {
                         Formatting = System.Xml.Formatting.Indented
                     };
 
-                    XmlSerializer serializer = new XmlSerializer(this.Data.GetType());
-                    serializer.Serialize(writer, this.Data);
+                    var serializer = new XmlSerializer(Data.GetType());
+                    serializer.Serialize(writer, Data);
                 }
                 else
                 {
-                    using JsonTextWriter writer = new JsonTextWriter(sw)
+                    using var writer = new JsonTextWriter(sw)
                     {
                         Formatting = JsonFormatting
                     };
 
-                    JsonSerializer serializer = JsonSerializer.Create(JsonSerializerSettings);
-                    serializer.Serialize(writer, this.Data);
+                    var serializer = JsonSerializer.Create(JsonSerializerSettings);
+                    serializer.Serialize(writer, Data);
                 }
 
                 // No need to use writer.Flush() since it is enclosed by "using"
@@ -159,7 +159,7 @@ namespace AspnetCoreSPATemplate.Utils
         /// to serialize the time portion.
         /// </para>
         /// <para>
-        /// This formater serializes dates to <c>2009-02-15</c> if the property name ends to "Date".
+        /// This formatter serializes dates to <c>2009-02-15</c> if the property name ends to "Date".
         /// </para>
         /// See http://stackoverflow.com/questions/22858993/override-json-net-property-serialization-formatting.
         /// See http://www.newtonsoft.com/json/help/html/DatesInJSON.htm
@@ -178,7 +178,8 @@ namespace AspnetCoreSPATemplate.Utils
                 if (property.Converter != null && property.Converter.GetType() == typeof(CustomDateTimeFormatConverter))
                     return property;
 
-                IsoDateTimeConverter converter = new IsoDateTimeConverter();
+                var converter = new IsoDateTimeConverter();
+
                 if (member.Name.EndsWith("Date"))
                     converter.DateTimeFormat = "yyyy-MM-dd";
                 else
