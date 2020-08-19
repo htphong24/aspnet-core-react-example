@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspnetCoreSPATemplate", "As
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlServerDataAccess", "SqlServerDataAccess\SqlServerDataAccess.csproj", "{1AC58B3F-9C10-4DB7-8525-8088484CE45E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{0C95EB4B-66A0-41AB-91AA-BC6E8DBA1A1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{0C95EB4B-66A0-41AB-91AA-BC6E8DBA1A1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{93091348-3FC7-436B-9AA5-3656650F9250}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{0C95EB4B-66A0-41AB-91AA-BC6E8DBA1A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C95EB4B-66A0-41AB-91AA-BC6E8DBA1A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C95EB4B-66A0-41AB-91AA-BC6E8DBA1A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93091348-3FC7-436B-9AA5-3656650F9250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93091348-3FC7-436B-9AA5-3656650F9250}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93091348-3FC7-436B-9AA5-3656650F9250}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93091348-3FC7-436B-9AA5-3656650F9250}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,11 +1,10 @@
-using AspnetCoreSPATemplate.Services.Authentication;
-using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Utils;
+using Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Utilities;
+using AutoMapper;
 using BotDetect.Web;
 
 namespace AspnetCoreSPATemplate.Controllers
@@ -17,6 +16,7 @@ namespace AspnetCoreSPATemplate.Controllers
         private readonly IAuthenticationRepository _authRepo;
 
         public AuthenticationController(
+            IMapper mapper,
             IAuthenticationRepository authRepo
         )
         {
@@ -30,23 +30,23 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                SimpleCaptcha captcha = new SimpleCaptcha();
+                var captcha = new SimpleCaptcha();
                 bool isHuman = captcha.Validate(rq.UserEnteredCaptchaCode, rq.CaptchaId);
 
                 if (!isHuman)
                 {
                     var ex = new InvalidOperationException("Incorrect Captcha characters!");
 
-                    return new ApiActionResult(this.Context.Request, ex);
+                    return new ApiActionResult(Context.Request, ex);
                 }
 
-                AuthenticationLoginResponse rs = await (new AuthenticationLoginService(this.Context, _authRepo)).RunAsync(rq);
+                AuthenticationLoginResponse rs = await (new AuthenticationLoginService(Context, _authRepo)).RunAsync(rq);
 
-                return new ApiActionResult(this.Context.Request, rs);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -57,12 +57,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                AuthenticationLogoutResponse rs = await (new AuthenticationLogoutService(this.Context, _authRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                AuthenticationLogoutResponse rs = await (new AuthenticationLogoutService(Context, _authRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
     }

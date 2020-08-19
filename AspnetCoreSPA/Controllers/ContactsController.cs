@@ -1,11 +1,9 @@
-using AspnetCoreSPATemplate.Services;
-using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Services.Contacts;
-using AspnetCoreSPATemplate.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Utilities;
+using Services;
 
 namespace AspnetCoreSPATemplate.Controllers
 {

@@ -1,10 +1,9 @@
-using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Services.Me;
-using AspnetCoreSPATemplate.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Utilities;
+using Services;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -28,13 +27,13 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                rq.Id = this.Context.User.GetUserId();
-                MeGetResponse rs = await (new MeGetService(this.Context, _meRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                rq.Id = Context.User.GetUserId();
+                MeGetResponse rs = await (new MeGetService(Context, _meRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 

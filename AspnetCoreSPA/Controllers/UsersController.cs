@@ -1,10 +1,9 @@
-using AspnetCoreSPATemplate.Services.Common;
-using AspnetCoreSPATemplate.Services.Users;
-using AspnetCoreSPATemplate.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using AspnetCoreSPATemplate.Utilities;
+using Services;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -31,12 +30,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                UserListResponse rs = await (new UserListService(this.Context, _userRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                UserListResponse rs = await (new UserListService(Context, _userRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -46,12 +45,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                UserGetResponse rs = await (new UserGetService(this.Context, _userRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                UserGetResponse rs = await (new UserGetService(Context, _userRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -61,12 +60,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                UserCreateResponse rs = await (new UserCreateService(this.Context, _userRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                UserCreateResponse rs = await (new UserCreateService(Context, _userRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -77,12 +76,12 @@ namespace AspnetCoreSPATemplate.Controllers
             try
             {
                 rq.User.Id = id;
-                UserUpdateResponse rs = await (new UserUpdateService(this.Context, _userModRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                UserUpdateResponse rs = await (new UserUpdateService(Context, _userModRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -93,12 +92,12 @@ namespace AspnetCoreSPATemplate.Controllers
             try
             {
                 rq.User.Id = id;
-                UserDeleteResponse rs = await (new UserDeleteService(this.Context, _userModRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                UserDeleteResponse rs = await (new UserDeleteService(Context, _userModRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
     }
