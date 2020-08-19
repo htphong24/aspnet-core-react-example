@@ -8,8 +8,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
 
-        // set the captchaEndpoint property to point to 
-        // the captcha endpoint path on your app's backend
+        // set the captchaEndpoint property to point to the captcha endpoint path on your app's backend
         captchaSettings.set({
             captchaEndpoint: 'simple-captcha-endpoint.ashx'
         });
@@ -53,9 +52,8 @@ class LoginForm extends Component {
                         localStorage.setItem("accessToken", response.AccessToken);
                         this.props.onLogin();
                     }).catch(error => {
-                        //alert(error);
-                        console.log("Login Form - handleSubmit - error");
-                        console.log(error);
+                        //console.log("Login Form - handleSubmit - error");
+                        //console.log(error);
                         if (error.ErrorCode === 401) {
                             notification.error({
                                 message: 'Contacts Management',
@@ -66,6 +64,7 @@ class LoginForm extends Component {
                                 message: 'Contacts Management',
                                 description: error.ErrorMessage || 'Sorry! Something went wrong. Please try again!'
                             });
+                            this.captcha.reloadImage();
                         }
                     });
             }
