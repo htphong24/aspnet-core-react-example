@@ -45,6 +45,7 @@ namespace Services
 
             if (user == null)
                 throw new InvalidOperationException("User not found");
+
             if (await _userMgr.IsLockedOutAsync(user))
                 throw new InvalidOperationException("User is locked out");
 

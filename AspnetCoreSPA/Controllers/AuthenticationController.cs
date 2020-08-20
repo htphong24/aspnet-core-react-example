@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Utilities;
-using AutoMapper;
 using BotDetect.Web;
 
 namespace AspnetCoreSPATemplate.Controllers
@@ -15,10 +14,7 @@ namespace AspnetCoreSPATemplate.Controllers
     {
         private readonly IAuthenticationRepository _authRepo;
 
-        public AuthenticationController(
-            IMapper mapper,
-            IAuthenticationRepository authRepo
-        )
+        public AuthenticationController(IAuthenticationRepository authRepo)
         {
             _authRepo = authRepo;
         }
@@ -30,17 +26,7 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                var captcha = new SimpleCaptcha();
-                bool isHuman = captcha.Validate(rq.UserEnteredCaptchaCode, rq.CaptchaId);
-
-                if (!isHuman)
-                {
-                    var ex = new InvalidOperationException("Incorrect Captcha characters!");
-
-                    return new ApiActionResult(Context.Request, ex);
-                }
-
-                AuthenticationLoginResponse rs = await (new AuthenticationLoginService(Context, _authRepo)).RunAsync(rq);
+                AuthenticationLoginResponse rs = await new AuthenticationLoginService(Context, _authRepo).RunAsync(rq);
 
                 return new ApiActionResult(Context.Request, rs);
             }
@@ -53,11 +39,12 @@ namespace AspnetCoreSPATemplate.Controllers
         // http://localhost:5000/api/v1/auth/logout
         [AllowAnonymous]
         [HttpPost("logout")]
-        public async Task<ActionResult> Logout([FromBody]AuthenticationLogoutRequest rq)
+        public async Task<ActionResult> Logout([FromBody] AuthenticationLogoutRequest rq)
         {
             try
             {
                 AuthenticationLogoutResponse rs = await (new AuthenticationLogoutService(Context, _authRepo)).RunAsync(rq);
+
                 return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
