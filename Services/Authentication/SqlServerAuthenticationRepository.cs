@@ -11,6 +11,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using BotDetect.Web;
+
 // ReSharper disable CheckNamespace
 
 namespace Services
@@ -40,6 +42,8 @@ namespace Services
 
         public async Task<string> LoginAsync(AuthenticationLoginRequest rq)
         {
+            ValidateCaptcha(rq.UserEnteredCaptchaCode, rq.CaptchaId);
+
             // Handle user
             ApplicationUser user = await _userMgr.FindByNameAsync(rq.Email);
 
@@ -98,6 +102,15 @@ namespace Services
             string serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             return serializedToken;
+        }
+
+        private void ValidateCaptcha(string userEnteredCaptchaCode, string captchaId)
+        {
+            var captcha = new SimpleCaptcha();
+            bool isHuman = captcha.Validate(userEnteredCaptchaCode, captchaId);
+
+            if (!isHuman)
+                throw new InvalidOperationException("Incorrect Captcha characters!");
         }
     }
 }

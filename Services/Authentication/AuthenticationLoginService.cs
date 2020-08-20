@@ -22,13 +22,6 @@ namespace Services
         /// <returns>Response</returns>
         protected override async Task<AuthenticationLoginResponse> DoRunAsync(AuthenticationLoginRequest rq)
         {
-            // validate captcha
-            var captcha = new SimpleCaptcha();
-            bool isHuman = captcha.Validate(rq.UserEnteredCaptchaCode, rq.CaptchaId);
-
-            if (!isHuman)
-                throw new InvalidOperationException("Incorrect Captcha characters!");
-
             var rs = new AuthenticationLoginResponse
             {
                 AccessToken = await _authRepo.LoginAsync(rq)
