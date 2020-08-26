@@ -30,12 +30,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactListResponse rs = await (new ContactListService(this.Context, _contactRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactListResponse rs = await (new ContactListService(Context, _contactRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -45,12 +45,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactGetResponse rs = await (new ContactGetService(this.Context, _contactModRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactGetResponse rs = await (new ContactGetService(Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -60,12 +60,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactSearchResponse rs = await (new ContactSearchService(this.Context, _contactRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactSearchResponse rs = await (new ContactSearchService(Context, _contactRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -75,12 +75,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactCreateResponse rs = await (new ContactCreateService(this.Context, _contactRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactCreateResponse rs = await (new ContactCreateService(Context, _contactRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -90,12 +90,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactUpdateResponse rs = await (new ContactUpdateService(this.Context, _contactModRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactUpdateResponse rs = await (new ContactUpdateService(Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -105,12 +105,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactDeleteResponse rs = await (new ContactDeleteService(this.Context, _contactModRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactDeleteResponse rs = await (new ContactDeleteService(Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
 
@@ -120,12 +120,12 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                ContactReloadResponse rs = await (new ContactReloadService(this.Context, _contactModRepo)).RunAsync(rq);
-                return new ApiActionResult(this.Context.Request, rs);
+                ContactReloadResponse rs = await (new ContactReloadService(Context, _contactModRepo)).RunAsync(rq);
+                return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
-                return new ApiActionResult(this.Context.Request, ex);
+                return new ApiActionResult(Context.Request, ex);
             }
         }
     }

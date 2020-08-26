@@ -42,7 +42,8 @@ namespace Services
 
         public async Task<string> LoginAsync(AuthenticationLoginRequest rq)
         {
-            ValidateCaptcha(rq.UserEnteredCaptchaCode, rq.CaptchaId);
+            if (rq.CaptchaNeeded)
+                ValidateCaptcha(rq.UserEnteredCaptchaCode, rq.CaptchaId);
 
             // Handle user
             ApplicationUser user = await _userMgr.FindByNameAsync(rq.Email);

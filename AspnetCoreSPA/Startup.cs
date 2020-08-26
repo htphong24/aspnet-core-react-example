@@ -58,10 +58,7 @@ namespace AspnetCoreSPATemplate
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-
-
             app.UseRouting();
-
             app.UseAuthentication();
             app.UseAuthorization();
 

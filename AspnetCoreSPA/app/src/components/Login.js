@@ -30,6 +30,11 @@ class Login extends Component {
 class LoginForm extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            captchaNeeded: false,
+        };
+
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -44,8 +49,9 @@ class LoginForm extends Component {
                     Email: values.email,
                     Password: values.password,
                     CaptchaId: values.captchaInput,
-                    UserEnteredCaptchaCode: this.captcha.getUserEnteredCaptchaCode(),
-                    CaptchaId: this.captcha.getCaptchaId()
+                    CaptchaNeeded: this.state.captchaNeeded,
+                    UserEnteredCaptchaCode: this.state.captchaNeeded ? this.captcha.getUserEnteredCaptchaCode() : null,
+                    CaptchaId: this.state.captchaNeeded ? this.captcha.getCaptchaId() : null
                 };
                 login(submitRequest)
                     .then(response => {
@@ -64,8 +70,12 @@ class LoginForm extends Component {
                                 message: 'Contacts Management',
                                 description: error.ErrorMessage || 'Sorry! Something went wrong. Please try again!'
                             });
-                            this.captcha.reloadImage();
+                            if (this.state.captchaNeeded)
+                                this.captcha.reloadImage();
                         }
+                        this.setState({
+                            captchaNeeded: true,
+                        });
                     });
             }
         });
@@ -73,6 +83,7 @@ class LoginForm extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        const { captchaNeeded } = this.state;
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <Form.Item>
@@ -89,19 +100,24 @@ class LoginForm extends Component {
                         <Input prefix={<Icon type="lock" />} size="large" name="password" type="password" placeholder="Password" />
                     )}
                 </Form.Item>
-                <Form.Item>
-                    <Captcha captchaStyleName="reactFormCaptcha" ref={(captcha) => { this.captcha = captcha; }} />
-                </Form.Item>
-                <Form.Item>
-                    {getFieldDecorator('userCaptchaInput', {
-                        rules: [{ required: true, message: 'Please input characters from the picture!' }],
-                    })(
-                        <Input prefix={<Icon type="robot" />} size="large" name="userCaptchaInput" id="userCaptchaInput" placeholder="Retype the chars long from the picture" />
-                    )}
-                </Form.Item>
+                {captchaNeeded &&
+                    <Form.Item>
+                        <Captcha captchaStyleName="reactFormCaptcha" ref={(captcha) => { this.captcha = captcha; }} />
+                    </Form.Item>
+                }
+                {captchaNeeded &&
+                    <Form.Item>
+                        {getFieldDecorator('userCaptchaInput', {
+                            rules: [{ required: true, message: 'Please input characters from the picture!' }],
+                        })(
+                            <Input prefix={<Icon type="robot" />} size="large" name="userCaptchaInput" id="userCaptchaInput" placeholder="Retype the chars long from the picture" />
+                        )}
+                    </Form.Item>
+                }
                 <Form.Item>
                     <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
-                </Form.Item>
+                    </Form.Item>
+                    
             </Form>
         );
     }

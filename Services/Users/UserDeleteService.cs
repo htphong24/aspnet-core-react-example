@@ -20,7 +20,7 @@ namespace Services
         /// <returns>Response</returns>
         protected override async Task<UserDeleteResponse> DoRunAsync(UserDeleteRequest rq)
         {
-            UserDeleteResponse rs = new UserDeleteResponse();
+            var rs = new UserDeleteResponse();
             await _userModRepo.DeleteAsync(rq);
             return rs;
         }

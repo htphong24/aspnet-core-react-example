@@ -20,7 +20,7 @@ namespace Services
         /// <returns>Response</returns>
         protected override async Task<ContactDeleteResponse> DoRunAsync(ContactDeleteRequest rq)
         {
-            ContactDeleteResponse rs = new ContactDeleteResponse();
+            var rs = new ContactDeleteResponse();
             await _contactModRepo.DeleteAsync(rq);
             return rs;
         }

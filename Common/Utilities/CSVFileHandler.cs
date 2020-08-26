@@ -14,14 +14,14 @@ namespace Common.Utilities
 
         public async Task<string> LoadFileAsync()
         {
-            using StreamReader reader = new StreamReader(path: _filePath);
+            using var reader = new StreamReader(path: _filePath);
 
             return await reader.ReadToEndAsync();
         }
 
         public async Task AddLineAsync(string value)
         {
-            using StreamWriter writer = new StreamWriter(path: _filePath, append: true);
+            await using var writer = new StreamWriter(path: _filePath, append: true);
 
             await writer.WriteLineAsync(value: value);
         }

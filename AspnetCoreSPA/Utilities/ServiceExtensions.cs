@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using AutoMapper;
 using Common.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -74,6 +75,9 @@ namespace AspnetCoreSPATemplate
                     options.Password.RequireNonAlphanumeric = false;
                     options.Password.RequireUppercase = false;
                     options.Password.RequireLowercase = false;
+
+                    options.Lockout.MaxFailedAccessAttempts = 4;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // for testing
                 })
                 .AddEntityFrameworkStores<ContactsMgmtIdentityContext>()
                 .AddDefaultTokenProviders();

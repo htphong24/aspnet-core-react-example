@@ -11,6 +11,8 @@ namespace Services
         {
         }
 
+        public bool CaptchaNeeded { get; set; }
+
         public string CaptchaId { get; set; }
 
         public string UserEnteredCaptchaCode { get; set; }

@@ -20,7 +20,7 @@ namespace Services
         /// <returns>Response</returns>
         protected override async Task<ContactUpdateResponse> DoRunAsync(ContactUpdateRequest rq)
         {
-            ContactUpdateResponse rs = new ContactUpdateResponse
+            var rs = new ContactUpdateResponse
             {
                 Contact = rq.Contact
             };
