@@ -70,6 +70,13 @@ export function reloadContacts() {
     });
 }
 
+export function getAuth() {
+    return request({
+        url: API_BASE_URL + "/auth",
+        method: 'GET'
+    });
+}
+
 export function login(data) {
     return request({
         url: API_BASE_URL + "/auth/login",

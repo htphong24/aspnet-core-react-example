@@ -34,8 +34,8 @@ namespace AspnetCoreSPATemplate
                 .ConfigureIdentity()
                 .ConfigureApplicationCookie(options => options.LoginPath = "/auth/login")
                 .ConfigureAuthorization()
+                .ConfigureSession()
                 .ConfigureOtherServices();
-
 
             // In production, the SPA files will be served from this directory
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "app/dist");
@@ -57,6 +57,7 @@ namespace AspnetCoreSPATemplate
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession();
             app.UseSpaStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

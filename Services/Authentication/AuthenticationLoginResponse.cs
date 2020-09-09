@@ -12,5 +12,7 @@ namespace Services
         public string AccessToken { get; set; }
 
         //public ApplicationUser User { get; set; }
+
+        public bool CaptchaNeeded { get; set; }
     }
 }

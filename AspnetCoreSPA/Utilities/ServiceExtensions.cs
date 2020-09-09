@@ -112,5 +112,15 @@ namespace AspnetCoreSPATemplate
 
             return services;
         }
+
+        public static IServiceCollection ConfigureSession(this IServiceCollection services)
+        {
+            services.AddSession(options =>
+            {
+                //options.IdleTimeout = TimeSpan.FromMinutes(1);
+            });
+
+            return services;
+        }
     }
 }

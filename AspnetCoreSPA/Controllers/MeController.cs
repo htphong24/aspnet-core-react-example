@@ -24,12 +24,13 @@ namespace AspnetCoreSPATemplate.Controllers
 
         // http://localhost:5000/api/v1/me/
         [HttpGet]
-        public async Task<ActionResult> Get([FromRoute]MeGetRequest rq)
+        public async Task<ActionResult> Get([FromRoute] MeGetRequest rq)
         {
             try
             {
                 rq.Id = Context.User.GetUserId();
                 MeGetResponse rs = await (new MeGetService(Context, _meRepo)).RunAsync(rq);
+
                 return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)

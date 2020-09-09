@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using AspnetCoreSPATemplate.Utilities;
 using BotDetect.Web;
+using Microsoft.AspNetCore.Http;
 
 namespace AspnetCoreSPATemplate.Controllers
 {
@@ -19,19 +20,46 @@ namespace AspnetCoreSPATemplate.Controllers
             _authRepo = authRepo;
         }
 
-        // http://localhost:5000/api/v1/auth/login
+        // http://localhost:5000/api/v1/auth
         [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<ActionResult> Login([FromBody] AuthenticationLoginRequest rq)
+        [HttpGet]
+        public async Task<ActionResult> Get([FromRoute] AuthenticationLoginGetRequest rq)
         {
             try
             {
-                AuthenticationLoginResponse rs = await new AuthenticationLoginService(Context, _authRepo).RunAsync(rq);
+                //AuthenticationLoginGetResponse rs = await new AuthenticationLoginGetService(Context, _authRepo).RunAsync(rq);
+                var rs = new AuthenticationLoginGetResponse
+                {
+                    CaptchaNeeded = HttpContext.Session.GetInt32("LoginFailedCount") > 0
+                };
 
                 return new ApiActionResult(Context.Request, rs);
             }
             catch (Exception ex)
             {
+                return new ApiActionResult(Context.Request, ex);
+            }
+        }
+
+        // http://localhost:5000/api/v1/auth/login
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<ActionResult> Login([FromBody] AuthenticationLoginRequest rq)
+        {
+            var loginCount = HttpContext.Session.GetInt32("LoginFailedCount");
+            loginCount ??= 0;
+
+            try
+            {
+                AuthenticationLoginResponse rs = await new AuthenticationLoginService(Context, _authRepo).RunAsync(rq);
+                HttpContext.Session.SetInt32("LoginFailedCount", 0);
+
+                return new ApiActionResult(Context.Request, rs);
+            }
+            catch (Exception ex)
+            {
+                HttpContext.Session.SetInt32("LoginFailedCount", loginCount.Value + 1);
+
                 return new ApiActionResult(Context.Request, ex);
             }
         }
@@ -43,7 +71,7 @@ namespace AspnetCoreSPATemplate.Controllers
         {
             try
             {
-                AuthenticationLogoutResponse rs = await (new AuthenticationLogoutService(Context, _authRepo)).RunAsync(rq);
+                AuthenticationLogoutResponse rs = await new AuthenticationLogoutService(Context, _authRepo).RunAsync(rq);
 
                 return new ApiActionResult(Context.Request, rs);
             }

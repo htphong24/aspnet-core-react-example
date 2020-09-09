@@ -22,7 +22,7 @@ class Home extends Component {
         };
 
         this.handlePageChanged = this.handlePageChanged.bind(this);
-        this.handleSearchChange = this.handleSearchChange.bind(this);
+        this.handleSearchChanged = this.handleSearchChanged.bind(this);
         this.handleAdded = this.handleAdded.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
         this.handleUpdated = this.handleUpdated.bind(this);
@@ -44,7 +44,7 @@ class Home extends Component {
         }, () => this.loadContacts());
     }
 
-    handleSearchChange = evt => {
+    handleSearchChanged = evt => {
         // Prevent the browser's default action of submitting the form.
         //console.log("Home.js handleSearchChange");
         evt.preventDefault();
@@ -234,7 +234,8 @@ class Home extends Component {
             getContacts(
                 this.state.filter,
                 this.state.currentPage
-            ).then(response => {
+            )
+                .then(response => {
                 //console.log("Home.js loadContacts then getContacts");
                 this.setState({
                     recordCount: response.RecordCount,
@@ -276,7 +277,7 @@ class Home extends Component {
                     <Content>
                         <div className="container">
                             <div className="home-container">
-                                <Input.Search id="txtSearch" placeholder="Search" onChange={this.handleSearchChange} value={this.state.filter} />
+                                <Input.Search id="txtSearch" placeholder="Search" onChange={this.handleSearchChanged} value={this.state.filter} />
                                 <Row>
                                     <MyContactAddForm onAdded={this.handleAdded} onReloaded={this.handleReloaded} />
                                 </Row>

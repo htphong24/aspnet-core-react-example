@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Form, Input, Button, Icon, notification } from 'antd';
-import { login } from '../utils/APIUtils';
+import { getAuth, login } from '../utils/APIUtils';
 import { Captcha, captchaSettings } from 'reactjs-captcha';
 
 class Login extends Component {
@@ -38,6 +38,33 @@ class LoginForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    initData = () => {
+        console.log("Login.js initData");
+        //if (this._isMounted) {
+        getAuth()
+            .then(response => {
+                console.log("getAuth response: ", response);
+                this.setState({
+                    captchaNeeded: response.CaptchaNeeded,
+                });
+            })
+            .catch(error => {
+                console.log("getAuth error: ", error);
+                this.setState({
+                    captchaNeeded: true
+                });
+            });
+        //}
+    }
+
+    // LIFECYCLE METHODS
+
+    componentDidMount = () => {
+        //console.log("Login.js componentDidMount");
+        //this._isMounted = true;
+        this.initData();
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         this.props.form.validateFields((err, values) => {
@@ -48,18 +75,17 @@ class LoginForm extends Component {
                 let submitRequest = {
                     Email: values.email,
                     Password: values.password,
-                    CaptchaId: values.captchaInput,
                     CaptchaNeeded: this.state.captchaNeeded,
                     UserEnteredCaptchaCode: this.state.captchaNeeded ? this.captcha.getUserEnteredCaptchaCode() : null,
                     CaptchaId: this.state.captchaNeeded ? this.captcha.getCaptchaId() : null
                 };
+                let aaa = this.captcha;
                 login(submitRequest)
                     .then(response => {
                         localStorage.setItem("accessToken", response.AccessToken);
                         this.props.onLogin();
                     }).catch(error => {
-                        //console.log("Login Form - handleSubmit - error");
-                        //console.log(error);
+                        //console.log("Login Form - handleSubmit - error", error);
                         if (error.ErrorCode === 401) {
                             notification.error({
                                 message: 'Contacts Management',
@@ -70,8 +96,6 @@ class LoginForm extends Component {
                                 message: 'Contacts Management',
                                 description: error.ErrorMessage || 'Sorry! Something went wrong. Please try again!'
                             });
-                            if (this.state.captchaNeeded)
-                                this.captcha.reloadImage();
                         }
                         this.setState({
                             captchaNeeded: true,
