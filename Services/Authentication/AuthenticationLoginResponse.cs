@@ -9,10 +9,14 @@ namespace Services
         {
         }
 
-        public string AccessToken { get; set; }
-
-        //public ApplicationUser User { get; set; }
+        public AuthenticationLoginModel AuthLogin { get; set; }
 
         public bool CaptchaNeeded { get; set; }
+
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+        //public ApplicationUser User { get; set; }
     }
 }

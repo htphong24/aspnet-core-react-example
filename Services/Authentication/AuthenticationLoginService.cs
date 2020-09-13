@@ -24,7 +24,9 @@ namespace Services
         {
             var rs = new AuthenticationLoginResponse
             {
-                AccessToken = await _authRepo.LoginAsync(rq)
+                AuthLogin = await _authRepo.LoginAsync(rq),
+                Email = rq.Email,
+                Password = rq.Password
             };
 
             return rs;

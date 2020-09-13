@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using AutoMapper;
+using Common.Configuration;
 using Common.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -18,8 +19,9 @@ namespace AspnetCoreSPATemplate
     {
         public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration config)
         {
-            var jwtConfig = config.GetSection("JwtConfiguration").Get<JwtConfiguration>();
-            services.Configure<JwtConfiguration>(config.GetSection("JwtConfiguration"));
+            var jwtConfig = config.GetSection("Jwt").Get<JwtConfiguration>();
+            services.Configure<JwtConfiguration>(config.GetSection("Jwt"));
+            services.Configure<AuthenticationConfiguration>(config.GetSection("Authentication"));
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters

@@ -1,5 +1,5 @@
 ﻿// ReSharper disable CheckNamespace
-namespace Services
+namespace Common.Configuration
 {
     public class RecaptchaConfiguration
     {

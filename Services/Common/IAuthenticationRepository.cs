@@ -9,7 +9,7 @@ namespace Services
         /// Logs in, if successfully then returns a token
         /// </summary>
         /// <returns></returns>
-        Task<string> LoginAsync(AuthenticationLoginRequest rq);
+        Task<AuthenticationLoginModel> LoginAsync(AuthenticationLoginRequest rq);
 
         /// <summary>
         /// Logs out

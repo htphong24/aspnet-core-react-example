@@ -1,5 +1,7 @@
 ﻿// ReSharper disable CheckNamespace
 
+using Common.Configuration;
+
 namespace Services
 {
     public class ConfigurationOptions

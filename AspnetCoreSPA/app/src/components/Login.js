@@ -39,17 +39,17 @@ class LoginForm extends Component {
     }
 
     initData = () => {
-        console.log("Login.js initData");
+        //console.log("Login.js initData");
         //if (this._isMounted) {
         getAuth()
             .then(response => {
-                console.log("getAuth response: ", response);
+                //console.log("getAuth response: ", response);
                 this.setState({
                     captchaNeeded: response.CaptchaNeeded,
                 });
             })
             .catch(error => {
-                console.log("getAuth error: ", error);
+                //console.log("getAuth error: ", error);
                 this.setState({
                     captchaNeeded: true
                 });
@@ -70,7 +70,6 @@ class LoginForm extends Component {
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 //const submit houstRequest = Object.assign({}, values); // clone target values
-
                 // build submit request
                 let submitRequest = {
                     Email: values.email,
@@ -79,27 +78,48 @@ class LoginForm extends Component {
                     UserEnteredCaptchaCode: this.state.captchaNeeded ? this.captcha.getUserEnteredCaptchaCode() : null,
                     CaptchaId: this.state.captchaNeeded ? this.captcha.getCaptchaId() : null
                 };
-                let aaa = this.captcha;
                 login(submitRequest)
                     .then(response => {
-                        localStorage.setItem("accessToken", response.AccessToken);
-                        this.props.onLogin();
+                        if (response.AuthLogin.Successful) {
+                            localStorage.setItem("accessToken", response.AuthLogin.AccessToken);
+                            this.props.onLogin();
+                        }
+                        else {
+                            //console.log("response", response);
+                            notification.error({
+                                message: 'Login failed.',
+                                description: response.AuthLogin.Message
+                            });
+
+                            // if captcha already exists, reload its image
+                            if (this.state.captchaNeeded)
+                                this.captcha.reloadImage();
+
+                            // captcha not existed yet? then show it if needed
+                            if (response.CaptchaNeeded)
+                                this.setState({
+                                    captchaNeeded: true,
+                                });
+
+                            this.props.form.resetFields("userCaptchaInput");
+                        }
                     }).catch(error => {
                         //console.log("Login Form - handleSubmit - error", error);
-                        if (error.ErrorCode === 401) {
-                            notification.error({
-                                message: 'Contacts Management',
-                                description: 'Your Username or Password is incorrect. Please try again!'
-                            });
-                        } else {
-                            notification.error({
-                                message: 'Contacts Management',
-                                description: error.ErrorMessage || 'Sorry! Something went wrong. Please try again!'
-                            });
-                        }
+                        notification.error({
+                            message: 'Contacts Management',
+                            description: error.ErrorMessage || 'Sorry! Something went wrong. Please try again!'
+                        });
+
+                        // if captcha already exists, reload its image
+                        if (this.state.captchaNeeded)
+                            this.captcha.reloadImage();
+
+                        // captcha not existed yet? set captchaNeeded to true (always shows captcha in case of exception)
                         this.setState({
                             captchaNeeded: true,
                         });
+
+                        this.props.form.resetFields("userCaptchaInput");
                     });
             }
         });

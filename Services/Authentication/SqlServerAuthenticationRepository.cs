@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using BotDetect.Web;
+using Common.Configuration;
 
 // ReSharper disable CheckNamespace
 
@@ -40,30 +41,37 @@ namespace Services
             _signInMgr = signInMgr;
         }
 
-        public async Task<string> LoginAsync(AuthenticationLoginRequest rq)
+        public async Task<AuthenticationLoginModel> LoginAsync(AuthenticationLoginRequest rq)
         {
             if (rq.CaptchaNeeded)
-                ValidateCaptcha(rq.UserEnteredCaptchaCode, rq.CaptchaId);
+            {
+                var captcha = new SimpleCaptcha();
+                bool isHuman = captcha.Validate(rq.UserEnteredCaptchaCode, rq.CaptchaId);
+
+                if (!isHuman)
+                    return new AuthenticationLoginModel { Successful = false, Message = "Incorrect Captcha characters!" };
+            }
+            //ValidateCaptcha(rq.UserEnteredCaptchaCode, rq.CaptchaId);
 
             // Handle user
             ApplicationUser user = await _userMgr.FindByNameAsync(rq.Email);
 
             if (user == null)
-                throw new InvalidOperationException("User not found");
+                return new AuthenticationLoginModel { Successful = false, Message = "User not found" };
 
             if (await _userMgr.IsLockedOutAsync(user))
-                throw new InvalidOperationException("User is locked out");
+                return new AuthenticationLoginModel { Successful = false, Message = "User is locked out" };
 
             // Handle signin
             SignInResult result = await _signInMgr.PasswordSignInAsync(rq.Email, rq.Password, true, true);
 
             if (!result.Succeeded)
-                throw new InvalidOperationException("Password is incorrect");
+                return new AuthenticationLoginModel { Successful = false, Message = "Password is incorrect" };
 
             // Handle roles
             IList<string> roles = await _userMgr.GetRolesAsync(user);
 
-            return GenerateJwt(user, roles);
+            return new AuthenticationLoginModel { Successful = true, Message = "Logged in successfully", AccessToken = GenerateJwt(user, roles) };
         }
 
         public async Task LogoutAsync(AuthenticationLogoutRequest rq)

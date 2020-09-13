@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Common.Configuration;
 using Common.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
