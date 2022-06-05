@@ -24,7 +24,7 @@ namespace AspnetCoreSPATemplate.Controllers
             _contactModRepo = contactModRepo;
         }
 
-        // http://localhost:5000/api/v1/contacts
+        // http://localhost:7101/api/v1/contacts
         [HttpGet]
         public async Task<ActionResult> List([FromQuery] ContactListRequest rq)
         {
@@ -40,7 +40,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts/{id}
+        // http://localhost:7101/api/v1/contacts/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult> Get([FromRoute] ContactGetRequest rq)
         {
@@ -56,7 +56,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts/search?q=abc
+        // http://localhost:7101/api/v1/contacts/search?q=abc
         [HttpGet("search")]
         public async Task<ActionResult> Search([FromQuery] ContactSearchRequest rq)
         {
@@ -72,7 +72,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts
+        // http://localhost:7101/api/v1/contacts
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] ContactCreateRequest rq)
         {
@@ -88,7 +88,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts/{id}
+        // http://localhost:7101/api/v1/contacts/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(string id, [FromBody] ContactUpdateRequest rq)
         {
@@ -104,7 +104,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts/{id}
+        // http://localhost:7101/api/v1/contacts/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id, [FromBody] ContactDeleteRequest rq)
         {
@@ -120,7 +120,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/contacts/reload
+        // http://localhost:7101/api/v1/contacts/reload
         [HttpPost("reload")]
         public async Task<ActionResult> Reload([FromBody] ContactReloadRequest rq)
         {

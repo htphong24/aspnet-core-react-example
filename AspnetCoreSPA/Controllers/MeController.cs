@@ -22,7 +22,7 @@ namespace AspnetCoreSPATemplate.Controllers
             _meRepo = userRepo;
         }
 
-        // http://localhost:5000/api/v1/me/
+        // http://localhost:7101/api/v1/me/
         [HttpGet]
         public async Task<ActionResult> Get([FromRoute] MeGetRequest rq)
         {
@@ -39,7 +39,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/me/
+        // http://localhost:7101/api/v1/me/
         //[HttpPatch]
         //public async Task<ActionResult> Update([FromBody]MeUpdateRequest rq)
         //{

@@ -24,7 +24,7 @@ namespace AspnetCoreSPATemplate.Controllers
             _userModRepo = userModRepo;
         }
 
-        // http://localhost:5000/api/v1/users
+        // http://localhost:7101/api/v1/users
         [HttpGet]
         public async Task<ActionResult> List([FromQuery]UserListRequest rq)
         {
@@ -39,7 +39,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/users/{id}
+        // http://localhost:7101/api/v1/users/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult> Get([FromRoute]UserGetRequest rq)
         {
@@ -54,7 +54,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/users/create
+        // http://localhost:7101/api/v1/users/create
         [HttpPost("create")]
         public async Task<ActionResult> Create([FromBody]UserCreateRequest rq)
         {
@@ -69,7 +69,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/users/{id}
+        // http://localhost:7101/api/v1/users/{id}
         [HttpPatch("{id}")]
         public async Task<ActionResult> Update(string id, [FromBody]UserUpdateRequest rq)
         {
@@ -85,7 +85,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/users/{id}
+        // http://localhost:7101/api/v1/users/{id}
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id, [FromBody]UserDeleteRequest rq)
         {

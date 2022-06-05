@@ -23,7 +23,7 @@ namespace AspnetCoreSPATemplate.Controllers
             _authRepo = authRepo;
         }
 
-        // http://localhost:5000/api/v1/auth
+        // http://localhost:7101/api/v1/auth
         [AllowAnonymous]
         [HttpGet]
         public ActionResult Get([FromRoute] AuthenticationLoginGetRequest rq)
@@ -44,7 +44,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/auth/login
+        // http://localhost:7101/api/v1/auth/login
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult> Login([FromBody] AuthenticationLoginRequest rq)
@@ -69,7 +69,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:5000/api/v1/auth/logout
+        // http://localhost:7101/api/v1/auth/logout
         [AllowAnonymous]
         [HttpPost("logout")]
         public async Task<ActionResult> Logout([FromBody] AuthenticationLogoutRequest rq)
