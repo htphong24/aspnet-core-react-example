@@ -4,7 +4,7 @@
     {
         public string Key { get; set; }
 
-        public double DaysToExpiration { get; set; }
+        public double MinutesToExpiration { get; set; }
 
         public string Issuer { get; set; }
 

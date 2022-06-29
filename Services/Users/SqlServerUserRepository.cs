@@ -1,18 +1,14 @@
 ﻿using AutoMapper;
 using Common.Identity;
+using Common.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using SqlServerDataAccess.EF;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using Common.Configuration;
 
 // ReSharper disable CheckNamespace
 
@@ -20,35 +16,31 @@ namespace Services
 {
     public class SqlServerUserRepository : RepositoryBase, IUserRepository, IUserModificationRepository
     {
-        private readonly JwtConfiguration _jwtConfig;
         private readonly UserManager<ApplicationUser> _userMgr;
         private readonly RoleManager<ApplicationRole> _roleMgr;
-        private readonly SignInManager<ApplicationUser> _signInMgr;
 
         public SqlServerUserRepository(
             ContactsMgmtContext db,
             ContactsMgmtIdentityContext idDb,
             IMapper mapper,
-            IOptions<JwtConfiguration> options,
             UserManager<ApplicationUser> userMgr,
-            RoleManager<ApplicationRole> roleMgr,
-            SignInManager<ApplicationUser> signInMgr)
-            : base(db, idDb, mapper)
+            RoleManager<ApplicationRole> roleMgr
+        ) : base(db, idDb, mapper)
         {
-            _jwtConfig = options.Value;
             _userMgr = userMgr;
             _roleMgr = roleMgr;
-            _signInMgr = signInMgr;
         }
 
         public async Task<List<UserModel>> ListAsync(UserListRequest rq)
         {
             // Create query
-            IQueryable<ApplicationUser> query = _userMgr.Users;
+            var query = _userMgr.Users;
+
             // Retrieve data
-            List<ApplicationUser> users = await query.ToListAsync();
+            var users = await query.ToListAsync();
+
             // Map to model
-            List<UserModel> dtoList = Mapper.Map<List<UserModel>>(users);
+            var dtoList = Mapper.Map<List<UserModel>>(users);
 
             return dtoList;
         }
@@ -56,7 +48,8 @@ namespace Services
         public async Task<int> ListRecordCountAsync()
         {
             // Create query
-            IQueryable<ApplicationUser> query = _userMgr.Users;
+            var query = _userMgr.Users;
+
             // Retrieve data
             int recordCount = await query.CountAsync();
 
@@ -66,25 +59,26 @@ namespace Services
         public async Task<UserModel> GetAsync(UserGetRequest rq)
         {
             // Retrieve data
-            ApplicationUser user = await _userMgr.FindByIdAsync(rq.Id);
+            var user = await _userMgr.FindByIdAsync(rq.Id);
+
             // Map to model
-            UserModel dto = Mapper.Map<UserModel>(user);
+            var dto = Mapper.Map<UserModel>(user);
 
             return dto;
         }
 
         public async Task CreateAsync(UserCreateRequest rq)
         {
-            UserCreateModel dto = rq.User;
+            var dto = rq.User;
 
             // Handle user
-            ApplicationUser user = Mapper.Map<ApplicationUser>(dto);
+            var user = Mapper.Map<ApplicationUser>(dto);
 
             // Handle creation
-            IdentityResult result = await _userMgr.CreateAsync(user, dto.Password);
+            var result = await _userMgr.CreateAsync(user, dto.Password);
 
             if (!result.Succeeded)
-                throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+                throw new InvalidOperationException(Utilities.GetIdentityErrors(result.Errors));
 
             // Handle roles
             result = await _userMgr.AddToRoleAsync(user, ApplicationConstants.ROLE_STANDARD);
@@ -93,77 +87,51 @@ namespace Services
             {
                 await _userMgr.DeleteAsync(user);
 
-                throw new InvalidOperationException(string.Join('\n', result.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+                throw new InvalidOperationException(Utilities.GetIdentityErrors(result.Errors));
             }
         }
 
         public async Task UpdateAsync(UserUpdateRequest rq)
         {
-            UserUpdateModel dto = rq.User;
-            ApplicationUser user = await _userMgr.FindByIdAsync(dto.Id);
+            var dto = rq.User;
+            var user = await _userMgr.FindByIdAsync(dto.Id);
 
             // Map to model
             //ApplicationUser user2 = _mapper.Map<ApplicationUser>(dto);
-            // Don't allow to change email as it's used as username
+            // Don't allow user to change email as it's used as username
             user.FirstName = dto.FirstName;
             user.LastName = dto.LastName;
             user.UpdatedTime = DateTime.UtcNow;
 
             // Update user
-            IdentityResult updateResult = await _userMgr.UpdateAsync(user);
+            var updateResult = await _userMgr.UpdateAsync(user);
 
             if (!updateResult.Succeeded)
-                throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+                throw new InvalidOperationException(Utilities.GetIdentityErrors(updateResult.Errors));
 
             //IList<string> roles = await _userMgr.GetRolesAsync(user);
             //IdentityResult removeResult = await _userMgr.RemoveFromRolesAsync(user, roles);
-            //if (!removeResult.Succeeded)
+            //if (!removeResult.Success)
             //{
-            //    throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+            //    throw new InvalidOperationException(Utilities.GetIdentityErrors(removeResult.Errors));
             //}
 
             //IdentityResult addResult = await _userMgr.AddToRoleAsync(user, rq.MainRole);
-            //if (!addResult.Succeeded)
+            //if (!addResult.Success)
             //{
-            //    throw new InvalidOperationException(string.Join('\n', updateResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+            //    throw new InvalidOperationException(Utilities.GetIdentityErrors(removeResult.Errors));
             //}
         }
 
         public async Task DeleteAsync(UserDeleteRequest rq)
         {
-            UserDeleteModel dto = rq.User;
-            ApplicationUser user = await _userMgr.FindByIdAsync(dto.Id);
-            IdentityResult deleteResult = await _userMgr.DeleteAsync(user);
+            var dto = rq.User;
+            var user = await _userMgr.FindByIdAsync(dto.Id);
+            var deleteResult = await _userMgr.DeleteAsync(user);
 
             if (!deleteResult.Succeeded)
-                throw new InvalidOperationException(string.Join('\n', deleteResult.Errors.Select(e => $"Error code: {e.Code}. Message: {e.Description}")));
+                throw new InvalidOperationException(Utilities.GetIdentityErrors(deleteResult.Errors));
         }
 
-        private string GenerateJwt(ApplicationUser user, IList<string> roles)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                //new Claim(ClaimTypes.Role, ServerRole.NormalUser.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.NormalizedUserName)
-            };
-            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtConfig.Issuer,
-                audience: _jwtConfig.Audience,
-                claims: claims,
-                expires: DateTime.Now.AddDays(_jwtConfig.DaysToExpiration),
-                signingCredentials: credentials);
-
-            var serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return serializedToken;
-        }
     }
 }

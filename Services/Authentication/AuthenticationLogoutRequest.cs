@@ -12,5 +12,9 @@ namespace Services
         }
 
         public string Email { get; set; }
+
+        public string RefreshToken { get; set; } = null;
+
+        public string IpAddress { get; set; } = null;
     }
 }

@@ -10,27 +10,31 @@ GO
 USE ContactsMgmt;
 GO
 
-/******************************
- * IDENTITY TABLES
- ******************************/
+/***************************************************
+ **********       IDENTITY TABLES        ***********
+ ***************************************************/
+
+/*****************
+ * AspNetUsers
+ *****************/
 CREATE TABLE [AspNetUsers] (
-    [Id]                   NVARCHAR (450)     NOT NULL,
+    [Id]                   NVARCHAR (127)     NOT NULL,
     [AccessFailedCount]    INT                NOT NULL,
     [ConcurrencyStamp]     NVARCHAR (4000),
-    [Email]                NVARCHAR (256),
+    [Email]                NVARCHAR (255),
     [EmailConfirmed]       BIT                NOT NULL,
     [LockoutEnabled]       BIT                NOT NULL,
     [LockoutEnd]           DATETIME NULL,
-    [NormalizedEmail]      NVARCHAR (256),
-    [NormalizedUserName]   NVARCHAR (256),
+    [NormalizedEmail]      NVARCHAR (255),
+    [NormalizedUserName]   NVARCHAR (255),
     [PasswordHash]         NVARCHAR (4000),
-    [PhoneNumber]          NVARCHAR (4000),
+    [PhoneNumber]          NVARCHAR (4000), 
     [PhoneNumberConfirmed] BIT                NOT NULL,
     [SecurityStamp]        NVARCHAR (4000),
     [TwoFactorEnabled]     BIT                NOT NULL,
-    [UserName]             NVARCHAR (256) ,
-    [FirstName]            NVARCHAR (256)     NOT NULL,
-    [LastName]             NVARCHAR (256)     NOT NULL,
+    [UserName]             NVARCHAR (255) ,
+    [FirstName]            NVARCHAR (255)     NOT NULL,
+    [LastName]             NVARCHAR (255)     NOT NULL,
     [CreatedTime]          DATETIME DEFAULT(GETDATE()) NOT NULL,
     [UpdatedTime]          DATETIME DEFAULT(GETDATE()) NOT NULL
 );
@@ -44,10 +48,12 @@ GO
 CREATE UNIQUE NONCLUSTERED INDEX [UserNameIndex] ON [AspNetUsers]([NormalizedUserName] ASC);
 GO
 
-
+/********************
+ * AspNetUserTokens
+ ********************/
 CREATE TABLE [AspNetUserTokens] (
-    [UserId]        NVARCHAR (450)  NOT NULL,
-    [LoginProvider] NVARCHAR (450)  NOT NULL,
+    [UserId]        NVARCHAR (127)  NOT NULL,
+    [LoginProvider] NVARCHAR (127)  NOT NULL,
     [Name]          NVARCHAR (450)  NOT NULL,
     [Value]         NVARCHAR (4000)
 );
@@ -56,11 +62,38 @@ GO
 ALTER TABLE [AspNetUserTokens] ADD CONSTRAINT [PK_AspNetUserTokens] PRIMARY KEY ([UserId], [LoginProvider], [Name]);
 GO
 
+/********************
+ * RefreshTokens
+ ********************/
+CREATE TABLE [RefreshTokens] (
+    [Id]               INT IDENTITY (1, 1)         NOT NULL,
+    [Token]            NVARCHAR(4000)              NOT NULL,
+    [ExpiresTime]      DATETIME                    NOT NULL,
+    [CreatedTime]      DATETIME DEFAULT(GETDATE()) NOT NULL,
+    [CreatedByIp]      NVARCHAR(255),
+    [RevokedTime]      DATETIME,
+    [RevokedByIp]      NVARCHAR(255),
+    [ReplacedByToken]  NVARCHAR(4000),
+    [UserId]           NVARCHAR(127)               NOT NULL
+);
+GO
+
+ALTER TABLE [RefreshTokens] ADD CONSTRAINT [PK_RefreshTokens] PRIMARY KEY ([Id]);
+GO
+ALTER TABLE [RefreshTokens] ADD CONSTRAINT [FK_RefreshTokens_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [AspNetUsers] ([Id]) ON DELETE CASCADE;
+GO
+
+CREATE NONCLUSTERED INDEX [IX_RefreshTokens_UserId] ON [RefreshTokens]([UserId]);
+GO
+
+/********************
+ * AspNetRoles
+ ********************/
 CREATE TABLE [AspNetRoles] (
-    [Id]               NVARCHAR (450)  NOT NULL,
+    [Id]               NVARCHAR (127)  NOT NULL,
     [ConcurrencyStamp] NVARCHAR (4000),
-    [Name]             NVARCHAR (256),
-    [NormalizedName]   NVARCHAR (256) 
+    [Name]             NVARCHAR (255),
+    [NormalizedName]   NVARCHAR (255) 
 );
 GO
 
@@ -77,9 +110,12 @@ SELECT '-3', NEWID(), 'Manager',  LOWER('Manager')  UNION ALL
 SELECT '-4', NEWID(), 'HR',       LOWER('HR');
 GO
 
+/********************
+ * AspNetUserRoles
+ ********************/
 CREATE TABLE [AspNetUserRoles] (
-    [UserId] NVARCHAR (450) NOT NULL,
-    [RoleId] NVARCHAR (450) NOT NULL
+    [UserId] NVARCHAR (127) NOT NULL,
+    [RoleId] NVARCHAR (127) NOT NULL
 );
 GO
 
@@ -95,12 +131,14 @@ GO
 CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_UserId] ON [AspNetUserRoles]([UserId] ASC);
 GO
 
-
+/********************
+ * AspNetUserLogins
+ ********************/
 CREATE TABLE [AspNetUserLogins] (
-    [LoginProvider]       NVARCHAR (450)  NOT NULL,
-    [ProviderKey]         NVARCHAR (450)  NOT NULL,
+    [LoginProvider]       NVARCHAR (127)  NOT NULL,
+    [ProviderKey]         NVARCHAR (127)  NOT NULL,
     [ProviderDisplayName] NVARCHAR (4000),
-    [UserId]              NVARCHAR (450)  NOT NULL
+    [UserId]              NVARCHAR (127)  NOT NULL
 );
 GO
 
@@ -112,12 +150,14 @@ GO
 CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId] ON [AspNetUserLogins]([UserId]);
 GO
 
-
+/********************
+ * AspNetUserClaims
+ ********************/
 CREATE TABLE [AspNetUserClaims] (
     [Id]         INT IDENTITY (1, 1)  NOT NULL,
     [ClaimType]  NVARCHAR (4000),
     [ClaimValue] NVARCHAR (4000),
-    [UserId]     NVARCHAR (450)       NOT NULL
+    [UserId]     NVARCHAR (127)       NOT NULL
 );
 GO
 
@@ -129,11 +169,14 @@ GO
 CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId] ON [AspNetUserClaims]([UserId]);
 GO
 
+/********************
+ * AspNetRoleClaims
+ ********************/
 CREATE TABLE [AspNetRoleClaims] (
     [Id]         INT IDENTITY (1, 1)  NOT NULL,
     [ClaimType]  NVARCHAR (4000),
     [ClaimValue] NVARCHAR (4000),
-    [RoleId]     NVARCHAR (450)		  NOT NULL
+    [RoleId]     NVARCHAR (127)		  NOT NULL
 );
 GO
 
@@ -146,7 +189,7 @@ CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId] ON [AspNetRoleClaims]([Ro
 GO
 
 /******************************
- * CONTACTS TABLE
+ * Contacts
  ******************************/
 CREATE TABLE [Contacts] (
   ContactId   INT IDENTITY(1, 1) NOT NULL,

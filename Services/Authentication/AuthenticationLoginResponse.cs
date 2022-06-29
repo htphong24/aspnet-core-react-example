@@ -1,5 +1,7 @@
 ﻿// ReSharper disable CheckNamespace
 
+using System.Text.Json.Serialization;
+
 namespace Services
 {
     public class AuthenticationLoginResponse : ResponseBase

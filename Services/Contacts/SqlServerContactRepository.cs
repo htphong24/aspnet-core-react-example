@@ -123,9 +123,15 @@ namespace Services
 
         public async Task DeleteAsync(ContactDeleteRequest rq)
         {
-            ContactModel dto = rq.Contact;
-            Contact result = Mapper.Map<Contact>(dto);
-            Db.Remove(result);
+            // Find contact
+            var contact = Db.Contacts.SingleOrDefault(c => c.ContactId == rq.Id);
+
+            if (contact == null)
+                throw new InvalidOperationException($"Contact with Id {rq.Id} not found");
+
+            // Remove it
+            Db.Remove(contact);
+
             // Save data
             await Db.SaveChangesAsync();
         }

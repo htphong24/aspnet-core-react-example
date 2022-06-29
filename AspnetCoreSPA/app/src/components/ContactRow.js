@@ -1,17 +1,17 @@
-﻿import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import 'antd/dist/antd.css';
-import { Row, Col, Tooltip, Form, Popconfirm } from 'antd';
-import { DATA_SOURCE } from '../constants';
-import ContactUpdateForm from './ContactUpdateForm';
-import { deleteContact } from '../utils/APIUtils';
+﻿import React, { Component } from "react";
+import PropTypes from "prop-types";
+import "antd/dist/antd.css";
+import { Row, Col, Tooltip, Form, Popconfirm } from "antd";
+import { DATA_SOURCE } from "../constants";
+import ContactUpdateForm from "./ContactUpdateForm";
+import { deleteContact } from "../services/contactsApi";
 
 class ContactRow extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      contact: props.contact
+      contact: props.contact,
     };
 
     this.handleEdit = this.handleEdit.bind(this);
@@ -20,69 +20,73 @@ class ContactRow extends Component {
 
   handleEdit = (evt, id) => {
     this.props.onEdit(id);
-  }
+  };
 
   handleUpdated = (evt) => {
     this.setState({
-      contact: evt
+      contact: evt,
     });
     this.props.onUpdated(evt);
-  }
+  };
 
   handleCanceled = (evt, id) => {
     this.props.onCanceled(id);
-  }
+  };
 
-  handleDelete = (evt, id) => {
-    let submitRequest = {
-      Contact: this.state.contact
-    };
-    //console.log("submitRequest");
-    //console.log(submitRequest);
-    deleteContact(submitRequest)
-      .then(response => {
-        this.props.onDeleted();
-      })
-      .catch(error => {
-      });
-  }
+  handleDelete = async (evt, id) => {
+    try {
+      let submitRequest = {
+        Contact: this.state.contact,
+      };
+      await deleteContact(submitRequest);
+      this.props.onDeleted();
+    } catch (error) {}
+  };
 
   render() {
+    //console.log("ContactRow > render > this.props:\n", this.props);
     const { contact } = this.state;
     const MyContactUpdateForm = Form.create()(ContactUpdateForm);
     const { editingContact } = this.props;
 
-    return (
-      editingContact === contact.Id
-        ? <MyContactUpdateForm contact={contact} onUpdated={this.handleUpdated} onCanceled={(evt) => this.handleCanceled(evt, contact.Id)}/>
-        : <Row>
-            <Col span={2}>
-              {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
-                <span>
-                  <Tooltip placement="top" title="Edit contact">
-                    <i className="fas fa-edit" onClick={(evt) => this.handleEdit(evt, contact.Id)} />
-                  </Tooltip>
-                  <Popconfirm
-                    title="Are you sure you want to delete this contact?"
-                    onConfirm={(evt) => this.handleDelete(evt, contact.Id)}
-                    okText="Yes"
-                    cancelText="No"
-                  >
-                    <Tooltip placement="top" title="Delete contact">
-                      <i className="fas fa-trash" />
-                    </Tooltip>
-                  </Popconfirm>
-                </span>
-              ) : (
-                  <span>N/A</span>
-                )}
-            </Col>
-            <Col span={2}>{contact.Id}</Col>
-            <Col span={4}>{contact.FirstName}</Col>
-            <Col span={4}>{contact.LastName}</Col>
-            <Col span={8}>{contact.Email}</Col>
-            <Col span={4}>{contact.Phone1}</Col>
-          </Row>
+    return editingContact === contact.Id ? (
+      <MyContactUpdateForm
+        contact={contact}
+        onUpdated={this.handleUpdated}
+        onCanceled={(evt) => this.handleCanceled(evt, contact.Id)}
+      />
+    ) : (
+      <Row>
+        <Col span={2}>
+          {DATA_SOURCE === "sqlserver" || DATA_SOURCE === "mongodb" ? (
+            <span>
+              <Tooltip placement="top" title="Edit contact">
+                <i
+                  className="fas fa-edit"
+                  onClick={(evt) => this.handleEdit(evt, contact.Id)}
+                />
+              </Tooltip>
+              <Popconfirm
+                title="Are you sure you want to delete this contact?"
+                onConfirm={(evt) => this.handleDelete(evt, contact.Id)}
+                okText="Yes"
+                cancelText="No"
+              >
+                <Tooltip placement="top" title="Delete contact">
+                  <i className="fas fa-trash" />
+                </Tooltip>
+              </Popconfirm>
+            </span>
+          ) : (
+            <span>N/A</span>
+          )}
+        </Col>
+        <Col span={2}>{contact.Id}</Col>
+        <Col span={4}>{contact.FirstName}</Col>
+        <Col span={4}>{contact.LastName}</Col>
+        <Col span={8}>{contact.Email}</Col>
+        <Col span={4}>{contact.Phone1}</Col>
+      </Row>
     );
   }
 }
@@ -130,8 +134,8 @@ ContactRow.propTypes = {
     FirstName: PropTypes.string,
     LastName: PropTypes.string,
     Email: PropTypes.string,
-    Phone1: PropTypes.string
-  }).isRequired
+    Phone1: PropTypes.string,
+  }).isRequired,
 };
 
 export default ContactRow;

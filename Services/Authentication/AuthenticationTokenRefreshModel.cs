@@ -2,9 +2,9 @@
 
 namespace Services
 {
-    public class AuthenticationLoginModel
+    public class AuthenticationTokenRefreshModel
     {
-        public AuthenticationLoginModel(bool success, string message)
+        public AuthenticationTokenRefreshModel(bool success, string message)
         {
             Success = success;
             Message = message;
@@ -14,11 +14,8 @@ namespace Services
 
         public string Message { get; set; }
 
-        public string Email { get; set; }
-
         public string AccessToken { get; set; }
 
         public string RefreshToken { get; set; }
-
     }
 }

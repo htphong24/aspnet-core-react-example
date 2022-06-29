@@ -1,69 +1,111 @@
-import React, { Component } from 'react';
-import { Route, withRouter, Switch } from 'react-router-dom';
-import Home from './components/Home';
-import Login from './components/Login';
-import 'antd/dist/antd.css';
-import './App.css';
-import { getCurrentUser } from './utils/APIUtils';
+import React, { Component } from "react";
+import { Route, withRouter, Switch } from "react-router-dom";
+import Home from "./components/Home";
+import Login from "./components/Login";
+import "antd/dist/antd.css";
+import "./App.css";
+import { notification } from "antd";
+import { getMe } from "./services/meApi";
+import { logout } from "./services/authenticationApi";
 
 class App extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            isAuthenticated: false,
-            currentUser: null
-        };
+    this.state = {
+      me: null,
+    };
 
-        this.handleLogin = this.handleLogin.bind(this);
-        this.loadCurrentUser = this.loadCurrentUser.bind(this);
-        this.handleLogout = this.handleLogout.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.loadMe = this.loadMe.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  _isMounted = false;
+
+  handleLogin = async () => {
+    //console.log("App > handleLogin");
+    await this.loadMe();
+    this.props.history.push("/");
+  };
+
+  loadMe = async () => {
+    //console.log("App > loadMe");
+    if (this._isMounted) {
+      if (this.props.me === undefined || this.props.me == null) {
+        try {
+          let response = await getMe();
+          //console.log("App > loadMe > getMe response:\n", response);
+          this.setState(
+            {
+              me: response.data.User,
+            },
+            () => {
+              if (["/auth/login"].includes(window.location.pathname))
+                this.props.history.push("/");
+            }
+          );
+        } catch (error) {
+          //console.log("App > loadMe > error:\n", error);
+          notification.error({
+            message: "Load current user",
+            description: error || "Sorry! Something went wrong.",
+          });
+        }
+      }
     }
+  };
 
-    handleLogin() {
-        this.loadCurrentUser();
-        this.props.history.push("/");
+  handleLogout = async () => {
+    //console.log("App > handleLogout > this.state:\n", this.state);
+    try {
+      const logoutRequest = {
+        Email: this.state.me.Email,
+      };
+      await logout(logoutRequest);
+      this.setState(
+        {
+          me: null,
+        },
+        () => {
+          this.props.history.push("/auth/login");
+        }
+      );
+    } catch (error) {
+      //console.log("App > handleLogout > error (catch):\n", error);
+      notification.error({
+        message: "Log Out",
+        description: error || "Sorry! Something went wrong.",
+      });
     }
+  };
 
-    loadCurrentUser() {
-        getCurrentUser()
-            .then(response => {
-                //console.log("App.js loadCurrentUser getCurrentUser");
-                this.setState({
-                    currentUser: response,
-                    isAuthenticated: true
-                });
-            }).catch(error => {
-                // blah
-            });
-    }
+  componentDidMount = () => {
+    this._isMounted = true;
+    if (this.state.me == null) this.loadMe();
+  };
 
-    handleLogout() {
-        localStorage.removeItem("accessToken");
+  componentWillUnmount = () => {
+    // console.log("App > componentWillUnmount");
+    this._isMounted = false;
+  };
 
-        this.setState({
-            currentUser: null,
-            isAuthenticated: false
-        }, () => this.props.history.push("/auth/login"));
-    }
-
-    componentDidMount() {
-    }
-
-    componentWillMount() {
-        this.loadCurrentUser();
-    }
-
-    render() {
-        return (
-            <Switch>
-                <Route exact path="/" render={(props) =>
-                    <Home isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props} onLogout={this.handleLogout} />}>
-                </Route>
-                <Route path="/auth/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />}></Route>
-            </Switch>
-        );
-    }
+  render() {
+    console.log("App.js > render");
+    return (
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={(props) => <Home {...props} onLogout={this.handleLogout} />}
+        ></Route>
+        <Route
+          path="/auth/login"
+          render={(props) => <Login {...props} onLogin={this.handleLogin} />}
+        ></Route>
+      </Switch>
+    );
+  }
 }
 
 export default withRouter(App);

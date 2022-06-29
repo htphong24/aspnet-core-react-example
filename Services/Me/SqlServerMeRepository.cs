@@ -68,7 +68,7 @@ namespace Services
                 issuer: _jwtConfig.Issuer,
                 audience: _jwtConfig.Audience,
                 claims: claims,
-                expires: DateTime.Now.AddDays(_jwtConfig.DaysToExpiration),
+                expires: DateTime.Now.AddDays(_jwtConfig.MinutesToExpiration),
                 signingCredentials: credentials);
 
             string serializedToken = new JwtSecurityTokenHandler().WriteToken(token);

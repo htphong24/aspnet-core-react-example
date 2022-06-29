@@ -12,6 +12,13 @@ namespace Services
         Task<AuthenticationLoginModel> LoginAsync(AuthenticationLoginRequest rq);
 
         /// <summary>
+        /// Refreshes token
+        /// </summary>
+        /// <param name="rq"></param>
+        /// <returns></returns>
+        Task<AuthenticationTokenRefreshModel> RefreshTokenAsync(AuthenticationTokenRefreshRequest rq);
+
+        /// <summary>
         /// Logs out
         /// </summary>
         /// <param name="rq"></param>

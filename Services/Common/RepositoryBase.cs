@@ -11,7 +11,6 @@ namespace Services
         protected readonly IMapper Mapper;
 
         public RepositoryBase(ContactsMgmtContext db, ContactsMgmtIdentityContext idDb, IMapper mapper)
-        //public RepositoryBase(ContactsMgmtContext db, ContactsMgmtIdentityContext idDb)
         {
             Db = db;
             IdDb = idDb;

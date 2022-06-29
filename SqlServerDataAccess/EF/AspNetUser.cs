@@ -5,13 +5,6 @@ namespace SqlServerDataAccess.EF
 {
     public partial class AspNetUser
     {
-        public AspNetUser()
-        {
-            AspNetUserClaims = new HashSet<AspNetUserClaim>();
-            AspNetUserLogins = new HashSet<AspNetUserLogin>();
-            AspNetUserRoles = new HashSet<AspNetUserRole>();
-        }
-
         public string Id { get; set; }
         public int AccessFailedCount { get; set; }
         public string ConcurrencyStamp { get; set; }
@@ -28,8 +21,9 @@ namespace SqlServerDataAccess.EF
         public bool TwoFactorEnabled { get; set; }
         public string UserName { get; set; }
 
-        public ICollection<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public ICollection<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public ICollection<AspNetUserRole> AspNetUserRoles { get; set; }
+        //public ICollection<RefreshToken> RefreshTokens { get; set; } = new HashSet<RefreshToken>();
+        public ICollection<AspNetUserClaim> AspNetUserClaims { get; set; } = new HashSet<AspNetUserClaim>();
+        public ICollection<AspNetUserLogin> AspNetUserLogins { get; set; } = new HashSet<AspNetUserLogin>();
+        public ICollection<AspNetUserRole> AspNetUserRoles { get; set; } = new HashSet<AspNetUserRole>();
     }
 }

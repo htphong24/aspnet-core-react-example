@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using Common.Configuration;
 using Common.Identity;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
+using Microsoft.OpenApi.Models;
 using Services;
 using SqlServerDataAccess.EF;
 // ReSharper disable CheckNamespace
@@ -24,15 +28,32 @@ namespace AspnetCoreSPATemplate
             services.Configure<AuthenticationConfiguration>(config.GetSection("Authentication"));
             services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+                .AddJwtBearer(options =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtConfig.Issuer,
-                    ValidAudience = jwtConfig.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key))
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            // Automatically add Bearer token to each coming request
+                            // So we don't need to store the access token on client side (e.g. localStorage)
+                            // Do this either in JwtBearerEvent.OnMessageReceive or app.Use (under Startup > Configure)
+                            context.Token = context.Request.Cookies["accessToken"];
+                            return Task.CompletedTask;
+                        }
+                    };
+                    //options.RequireHttpsMetadata = false; // disabled in development
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtConfig.Issuer,
+                        ValidAudience = jwtConfig.Audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key)),
+                        ClockSkew = TimeSpan.Zero // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    };
                 });
 
             return services;
@@ -70,8 +91,9 @@ namespace AspnetCoreSPATemplate
         public static IServiceCollection ConfigureIdentity(this IServiceCollection services)
         {
             services
-                .AddIdentity<ApplicationUser, ApplicationRole>(options =>
+                .AddIdentityCore<ApplicationUser>(options =>
                 {
+                    options.User.RequireUniqueEmail = true;
                     options.Password.RequireDigit = false;
                     options.Password.RequiredLength = 6;
                     options.Password.RequireNonAlphanumeric = false;
@@ -80,7 +102,12 @@ namespace AspnetCoreSPATemplate
 
                     options.Lockout.MaxFailedAccessAttempts = 4;
                     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5); // for testing
+                    //options.SignIn.RequireConfirmedAccount = true;
                 })
+                .AddRoles<ApplicationRole>()
+                .AddUserManager<UserManager<ApplicationUser>>()
+                .AddRoleManager<RoleManager<ApplicationRole>>()
+                .AddSignInManager<SignInManager<ApplicationUser>>()
                 .AddEntityFrameworkStores<ContactsMgmtIdentityContext>()
                 .AddDefaultTokenProviders();
 
@@ -124,5 +151,65 @@ namespace AspnetCoreSPATemplate
 
             return services;
         }
+
+        public static IServiceCollection ConfigureSwag(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "TodoApp", Version = "v1" });
+                c.AddSecurityDefinition("BearerAuth", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme.ToLowerInvariant(),
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    BearerFormat = "JWT",
+                    Description = "JWT Authorization header using the Bearer scheme."
+                });
+
+                //c.OperationFilter<AuthResponsesOperationFilter>();
+            });
+
+            return services;
+        }
+
+        public static IServiceCollection ConfigureCors(this IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowedCorsOrigins",
+                    builder =>
+                    {
+                        builder
+                            //.SetIsOriginAllowed(IsOriginAllowed)
+                            .AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
+            return services;
+        }
+
+        #region Private Methods
+
+        private static bool IsOriginAllowed(string origin)
+        {
+            //var uri = new Uri(origin);
+            //var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "n/a";
+
+            //var isAllowed = uri.Host.Equals("example.com", StringComparison.OrdinalIgnoreCase)
+            //                || uri.Host.Equals("another-example.com", StringComparison.OrdinalIgnoreCase)
+            //                || uri.Host.EndsWith(".example.com", StringComparison.OrdinalIgnoreCase)
+            //                || uri.Host.EndsWith(".another-example.com", StringComparison.OrdinalIgnoreCase);
+
+            //if (!isAllowed && env.Contains("DEV", StringComparison.OrdinalIgnoreCase))
+            //    isAllowed = uri.Host.StartsWith("localhost", StringComparison.OrdinalIgnoreCase);
+
+            //return isAllowed;
+            return true;
+        }
+
+        #endregion Private Methods
     }
 }

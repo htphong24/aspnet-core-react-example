@@ -14,7 +14,7 @@ namespace Services
         }
 
         /// <summary>
-        /// Inserts a new contact.
+        /// Delete contact.
         /// </summary>
         /// <param name="rq">Request</param>
         /// <returns>Response</returns>

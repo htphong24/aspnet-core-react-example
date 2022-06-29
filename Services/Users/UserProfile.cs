@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Common.Identity;
+using SqlServerDataAccess.EF;
 // ReSharper disable CheckNamespace
 
 namespace Services

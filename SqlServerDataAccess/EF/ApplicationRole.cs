@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 
-namespace Common.Identity
+namespace SqlServerDataAccess.EF
 {
     public partial class ApplicationRole : IdentityRole
     {

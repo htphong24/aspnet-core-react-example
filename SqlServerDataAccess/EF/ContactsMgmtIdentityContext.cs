@@ -15,9 +15,29 @@ namespace SqlServerDataAccess.EF
         {
         }
 
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(token => new { token.UserId });
+            });
+
+            modelBuilder.Entity<RefreshToken>(entity =>
+            {
+                entity.HasKey(token => new { token.Id });
+
+                entity.HasIndex(token => token.UserId);
+
+                entity.Property(token => token.UserId).IsRequired();
+
+                entity.HasOne(token => token.User)
+                    .WithMany(user => user.RefreshTokens)
+                    .HasForeignKey(token => token.UserId);
+            });
 
             //modelBuilder.Entity<AspNetRoleClaim>(entity =>
             //{
@@ -37,9 +57,9 @@ namespace SqlServerDataAccess.EF
 
             //    entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //    entity.Property(e => e.Name).HasMaxLength(256);
+            //    entity.Property(e => e.Name).HasMaxLength(255);
 
-            //    entity.Property(e => e.NormalizedName).HasMaxLength(256);
+            //    entity.Property(e => e.NormalizedName).HasMaxLength(255);
             //});
 
             //modelBuilder.Entity<AspNetUserClaim>(entity =>
@@ -94,13 +114,13 @@ namespace SqlServerDataAccess.EF
 
             //    entity.Property(e => e.Id).ValueGeneratedNever();
 
-            //    entity.Property(e => e.Email).HasMaxLength(256);
+            //    entity.Property(e => e.Email).HasMaxLength(255);
 
-            //    entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+            //    entity.Property(e => e.NormalizedEmail).HasMaxLength(255);
 
-            //    entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+            //    entity.Property(e => e.NormalizedUserName).HasMaxLength(255);
 
-            //    entity.Property(e => e.UserName).HasMaxLength(256);
+            //    entity.Property(e => e.UserName).HasMaxLength(255);
             //});
 
             //modelBuilder.Entity<AspNetUserToken>(entity =>

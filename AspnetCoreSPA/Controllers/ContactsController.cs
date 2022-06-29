@@ -24,7 +24,7 @@ namespace AspnetCoreSPATemplate.Controllers
             _contactModRepo = contactModRepo;
         }
 
-        // http://localhost:7101/api/v1/contacts
+        // http://localhost:xxxx/api/v1/contacts
         [HttpGet]
         public async Task<ActionResult> List([FromQuery] ContactListRequest rq)
         {
@@ -40,7 +40,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:7101/api/v1/contacts/{id}
+        // http://localhost:xxxx/api/v1/contacts/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult> Get([FromRoute] ContactGetRequest rq)
         {
@@ -56,7 +56,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:7101/api/v1/contacts/search?q=abc
+        // http://localhost:xxxx/api/v1/contacts/search?q=abc
         [HttpGet("search")]
         public async Task<ActionResult> Search([FromQuery] ContactSearchRequest rq)
         {
@@ -72,7 +72,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:7101/api/v1/contacts
+        // http://localhost:xxxx/api/v1/contacts
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] ContactCreateRequest rq)
         {
@@ -88,7 +88,7 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:7101/api/v1/contacts/{id}
+        // http://localhost:xxxx/api/v1/contacts/{id}
         [HttpPut("{id}")]
         public async Task<ActionResult> Update(string id, [FromBody] ContactUpdateRequest rq)
         {
@@ -104,12 +104,16 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:7101/api/v1/contacts/{id}
+        // http://localhost:xxxx/api/v1/contacts/{id}
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(string id, [FromBody] ContactDeleteRequest rq)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
+                var rq = new ContactDeleteRequest()
+                {
+                    Id = id
+                };
                 ContactDeleteResponse rs = await (new ContactDeleteService(Context, _contactModRepo)).RunAsync(rq);
 
                 return new ApiActionResult(Context.Request, rs);
@@ -120,12 +124,13 @@ namespace AspnetCoreSPATemplate.Controllers
             }
         }
 
-        // http://localhost:7101/api/v1/contacts/reload
+        // http://localhost:xxxx/api/v1/contacts/reload
         [HttpPost("reload")]
-        public async Task<ActionResult> Reload([FromBody] ContactReloadRequest rq)
+        public async Task<ActionResult> Reload()
         {
             try
             {
+                var rq = new ContactReloadRequest();
                 ContactReloadResponse rs = await (new ContactReloadService(Context, _contactModRepo)).RunAsync(rq);
 
                 return new ApiActionResult(Context.Request, rs);

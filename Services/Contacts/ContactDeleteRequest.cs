@@ -4,6 +4,6 @@ namespace Services
 {
     public class ContactDeleteRequest : RequestBase
     {
-        public ContactModel Contact { get; set; }
+        public int Id { get; set; }
     }
 }

@@ -32,9 +32,12 @@ namespace AspnetCoreSPATemplate
                 .ConfigureDatabase(Configuration)
                 .ConfigureDependencyInjection()
                 .ConfigureIdentity()
-                .ConfigureApplicationCookie(options => options.LoginPath = "/auth/login")
+                .ConfigureApplicationCookie(options => options.LoginPath = "http://localhost:3000/auth/login")
                 .ConfigureAuthorization()
                 .ConfigureSession()
+                .ConfigureSwag()
+                //.ConfigureCors()
+                .AddCors()
                 .ConfigureOtherServices();
 
             // In production, the SPA files will be served from this directory
@@ -47,6 +50,16 @@ namespace AspnetCoreSPATemplate
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "APIApplication v1"));
+                app.UseCors(x => x
+                    .WithOrigins("http://localhost:3000", "http://localhost:7101")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+                //app.UseCors("AllowedCorsOrigins");
+
             }
             else
             {
@@ -62,6 +75,13 @@ namespace AspnetCoreSPATemplate
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.Use(async (context, next) =>
+            //{
+            //    var token = context.Request.Cookies["accessToken"];
+            //    if (!string.IsNullOrEmpty(token))
+            //        context.Request.Headers.Add("Authorization", "Bearer " + token);
+            //    await next();
+            //});
 
             // for .netcoreapp3.1
             app.UseEndpoints(endpoints => endpoints.MapControllers());

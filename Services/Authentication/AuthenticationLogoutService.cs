@@ -20,9 +20,9 @@ namespace Services
         /// <returns>Response</returns>
         protected override async Task<AuthenticationLogoutResponse> DoRunAsync(AuthenticationLogoutRequest rq)
         {
-            var rs = new AuthenticationLogoutResponse();
             await _authRepo.LogoutAsync(rq);
-            return rs;
+
+            return new AuthenticationLogoutResponse();
         }
     }
 }
