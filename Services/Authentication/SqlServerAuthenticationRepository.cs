@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,6 +24,8 @@ namespace Services
         private readonly UserManager<ApplicationUser> _userMgr;
         private readonly RoleManager<ApplicationRole> _roleMgr;
         private readonly SignInManager<ApplicationUser> _signInMgr;
+        private readonly IJwtFactory _jwtFactory;
+        private readonly IRefreshTokenFactory _refreshTokenFactory;
 
         public SqlServerAuthenticationRepository(
             ContactsMgmtContext db,
@@ -33,13 +34,17 @@ namespace Services
             IOptions<JwtConfiguration> jwtOptions,
             UserManager<ApplicationUser> userMgr,
             RoleManager<ApplicationRole> roleMgr,
-            SignInManager<ApplicationUser> signInMgr)
-            : base(db, idDb, mapper)
+            SignInManager<ApplicationUser> signInMgr,
+            IJwtFactory jwtFactory,
+            IRefreshTokenFactory refreshTokenFactory
+        ) : base(db, idDb, mapper)
         {
             _jwtConfig = jwtOptions.Value;
             _userMgr = userMgr;
             _roleMgr = roleMgr;
             _signInMgr = signInMgr;
+            _jwtFactory = jwtFactory;
+            _refreshTokenFactory = refreshTokenFactory;
         }
 
         public async Task<AuthenticationLoginModel> LoginAsync(AuthenticationLoginRequest rq)
@@ -67,8 +72,8 @@ namespace Services
             var roles = await _userMgr.GetRolesAsync(user);
 
             // Authentication successful so generate jwt and refresh tokens
-            var jwt = GenerateJwt(user, roles);
-            var refreshToken = GenerateRefreshToken(rq.IpAddress);
+            var jwt = _jwtFactory.GenerateJwt(user, roles);
+            var refreshToken = _refreshTokenFactory.GenerateRefreshToken(rq.IpAddress);
 
             // Save refresh token
             user.RefreshTokens.Add(refreshToken);
@@ -101,7 +106,7 @@ namespace Services
                 return new AuthenticationTokenRefreshModel(false, "Refresh token is no longer active"); ;
 
             // Replace old refresh token with a new one
-            var newRefreshToken = GenerateRefreshToken(rq.IpAddress);
+            var newRefreshToken = _refreshTokenFactory.GenerateRefreshToken(rq.IpAddress);
             refreshToken.RevokedTime = DateTime.UtcNow;
             refreshToken.RevokedByIp = rq.IpAddress;
             refreshToken.ReplacedByToken = newRefreshToken.Token;
@@ -110,7 +115,7 @@ namespace Services
             var roles = await _userMgr.GetRolesAsync(user);
 
             // Generate new jwt
-            var jwt = GenerateJwt(user, roles);
+            var jwt = _jwtFactory.GenerateJwt(user, roles);
 
             // Then save...
             user.RefreshTokens.Add(newRefreshToken);
@@ -131,50 +136,6 @@ namespace Services
         private bool IsCaptchaValid(string userEnteredCaptchaCode, string captchaId)
         {
             return new SimpleCaptcha().Validate(userEnteredCaptchaCode, captchaId);
-        }
-
-        private string GenerateJwt(ApplicationUser user, IList<string> roles)
-        {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.Key));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                //new Claim(ClaimTypes.Role, ServerRole.NormalUser.ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id),
-                new Claim(ClaimTypes.Name, user.NormalizedUserName)
-            };
-            claims.AddRange(roles.Select(r => new Claim(ClaimTypes.Role, r)));
-
-            var token = new JwtSecurityToken(
-                issuer: _jwtConfig.Issuer,
-                audience: _jwtConfig.Audience,
-                claims: claims,
-                expires: DateTime.Now.AddMinutes(_jwtConfig.MinutesToExpiration),
-                signingCredentials: credentials
-            );
-
-            string serializedToken = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return serializedToken;
-        }
-
-        private RefreshToken GenerateRefreshToken(string ipAddress)
-        {
-            using (var rngCryptoServiceProvider = new RNGCryptoServiceProvider())
-            {
-                var randomBytes = new byte[64];
-                rngCryptoServiceProvider.GetBytes(randomBytes);
-                return new RefreshToken
-                {
-                    Token = Convert.ToBase64String(randomBytes),
-                    ExpiresTime = DateTime.UtcNow.AddDays(7),
-                    CreatedTime = DateTime.UtcNow,
-                    CreatedByIp = ipAddress
-                };
-            }
         }
 
         private async Task RevokeToken(string refreshToken, string ipAddress)

@@ -77,6 +77,9 @@ namespace AspnetCoreSPATemplate
             app.UseAuthorization();
             //app.Use(async (context, next) =>
             //{
+            // Automatically add Bearer token to each coming request
+            // So we don't need to store the access token on client side (e.g. localStorage)
+            // Do this either in JwtBearerEvent.OnMessageReceive or app.Use (under Startup > Configure)
             //    var token = context.Request.Cookies["accessToken"];
             //    if (!string.IsNullOrEmpty(token))
             //        context.Request.Headers.Add("Authorization", "Bearer " + token);

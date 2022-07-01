@@ -116,15 +116,17 @@ namespace AspnetCoreSPATemplate
 
         public static IServiceCollection ConfigureDependencyInjection(this IServiceCollection services)
         {
-            //services.AddTransient<IContactRepository, TestContactRepository>();
-            //services.AddTransient<IContactRepository, CsvContactRepository>();
-            //services.AddTransient<IContactRepository, CsvHelperContactRepository>();
+            //services.AddTransient<IContactRepository, TestContactRepository>(); // for testing
+            //services.AddTransient<IContactRepository, CsvContactRepository>(); // for testing
+            //services.AddTransient<IContactRepository, CsvHelperContactRepository>(); // for testing
             services.AddTransient<IContactRepository, SqlServerContactRepository>();
             services.AddTransient<IContactModificationRepository, SqlServerContactRepository>();
             services.AddTransient<IAuthenticationRepository, SqlServerAuthenticationRepository>();
             services.AddTransient<IUserRepository, SqlServerUserRepository>();
             services.AddTransient<IUserModificationRepository, SqlServerUserRepository>();
             services.AddTransient<IMeRepository, SqlServerMeRepository>();
+            services.AddTransient<IJwtFactory, JwtFactory>();
+            services.AddTransient<IRefreshTokenFactory, RefreshTokenFactory>();
 
             return services;
         }
