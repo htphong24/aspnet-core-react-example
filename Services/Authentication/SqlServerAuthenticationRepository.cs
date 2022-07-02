@@ -30,9 +30,8 @@ namespace Services
             ContactsMgmtContext db,
             ContactsMgmtIdentityContext idDb,
             IMapper mapper,
-            IOptions<JwtConfiguration> jwtOptions,
             UserManager<ApplicationUser> userMgr,
-            RoleManager<ApplicationRole> roleMgr,
+            //RoleManager<ApplicationRole> roleMgr,
             SignInManager<ApplicationUser> signInMgr,
             IJwtFactory jwtFactory,
             IRefreshTokenFactory refreshTokenFactory
