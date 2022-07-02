@@ -20,9 +20,8 @@ namespace Services
 {
     public class SqlServerAuthenticationRepository : RepositoryBase, IAuthenticationRepository
     {
-        private readonly JwtConfiguration _jwtConfig;
         private readonly UserManager<ApplicationUser> _userMgr;
-        private readonly RoleManager<ApplicationRole> _roleMgr;
+        //private readonly RoleManager<ApplicationRole> _roleMgr;
         private readonly SignInManager<ApplicationUser> _signInMgr;
         private readonly IJwtFactory _jwtFactory;
         private readonly IRefreshTokenFactory _refreshTokenFactory;
@@ -39,9 +38,8 @@ namespace Services
             IRefreshTokenFactory refreshTokenFactory
         ) : base(db, idDb, mapper)
         {
-            _jwtConfig = jwtOptions.Value;
             _userMgr = userMgr;
-            _roleMgr = roleMgr;
+            //_roleMgr = roleMgr;
             _signInMgr = signInMgr;
             _jwtFactory = jwtFactory;
             _refreshTokenFactory = refreshTokenFactory;

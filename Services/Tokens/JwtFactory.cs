@@ -15,9 +15,7 @@ namespace Services
     {
         private readonly JwtConfiguration _jwtConfig;
 
-        public JwtFactory(
-            IOptions<JwtConfiguration> jwtOptions
-            )
+        public JwtFactory(IOptions<JwtConfiguration> jwtOptions)
         {
             _jwtConfig = jwtOptions.Value;
         }
