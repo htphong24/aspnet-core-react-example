@@ -52,7 +52,7 @@
     "reactstrap": "^6.3.0",
     "rimraf": "^2.6.2",
     "style-loader": "^0.23.1",
-    "webpack-cli": "3.2.1"
+    "webpack-cli": "3.3.12"
   },
   "eslintConfig": {
     "extends": "react-app"
